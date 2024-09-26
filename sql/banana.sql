@@ -26,13 +26,11 @@ CREATE TABLE Alunos (
     UNIQUE (RG, Usuario, EmailInstitucional)
 ) DEFAULT CHARSET=utf8;
 
-CREATE TABLE Materias (
-    ID_Materia INT PRIMARY KEY,
+CREATE TABLE Instituicao (
+    ID_Instituicao INT PRIMARY KEY,
     Nome VARCHAR(50) NOT NULL,
-    CargaHR VARCHAR(50) NOT NULL,
-    Professor INT,
-    ID_Curso INT,
-    FOREIGN KEY (ID_Curso) REFERENCES Curso (ID_Curso)
+    Endereco VARCHAR(50) NOT NULL,
+    Complemento VARCHAR(50)
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE Curso (
@@ -46,11 +44,13 @@ CREATE TABLE Curso (
     FOREIGN KEY (ID_Instituicao) REFERENCES Instituicao (ID_Instituicao)
 ) DEFAULT CHARSET=utf8;
 
-CREATE TABLE Instituicao (
-    ID_Instituicao INT PRIMARY KEY,
+CREATE TABLE Materias (
+    ID_Materia INT PRIMARY KEY,
     Nome VARCHAR(50) NOT NULL,
-    Endereco VARCHAR(50) NOT NULL,
-    Complemento VARCHAR(50)
+    CargaHR VARCHAR(50) NOT NULL,
+    Professor INT,
+    ID_Curso INT,
+    FOREIGN KEY (ID_Curso) REFERENCES Curso (ID_Curso)
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE CursoAtivo (
@@ -130,24 +130,3 @@ CREATE TABLE Coordenadores (
     Telefone VARCHAR(50),
     UNIQUE (Usuario)
 ) DEFAULT CHARSET=utf8mb4;
-
-
-
-
-ALTER TABLE Materias ADD FOREIGN KEY(ID-Curso) REFERENCES Curso (ID-Curso)
-ALTER TABLE Curso ADD FOREIGN KEY(ID-Instituicao) REFERENCES Instituicao (ID-Instituicao)
-ALTER TABLE CursoAtivo ADD FOREIGN KEY(ID-Curso) REFERENCES Curso (ID-Curso)
-ALTER TABLE CursoAtivo ADD FOREIGN KEY(Alunos) REFERENCES Professores (Alunos)
-ALTER TABLE Presenca ADD FOREIGN KEY(ID-CursoA) REFERENCES CursoAtivo (ID-CursoA)
-ALTER TABLE Presenca ADD FOREIGN KEY(MatriculaAL) REFERENCES Alunos (MatriculaAL)
-ALTER TABLE Presenca ADD FOREIGN KEY(ID-Materia) REFERENCES Materias (ID-Materia)
-ALTER TABLE Presenca ADD FOREIGN KEY(MatriculaPR) REFERENCES Professores (MatriculaPR)
-ALTER TABLE Professores_Cursos ADD FOREIGN KEY(ID-Professor) REFERENCES Professores (ID-Professor)
-ALTER TABLE Professores_Cursos ADD FOREIGN KEY(ID-Curso) REFERENCES Curso (ID-Curso)
-ALTER TABLE Atestado ADD FOREIGN KEY(ID-Auno) REFERENCES Alunos (ID-Auno)
-ALTER TABLE Atestado ADD FOREIGN KEY(ID-Professor) REFERENCES Professores (ID-Professor)
-ALTER TABLE Reposicao ADD FOREIGN KEY(ID-AulaPerdida) REFERENCES AulaPerdida (ID-AulaPerdida)
-ALTER TABLE Aula ADD FOREIGN KEY(ID-Materia) REFERENCES Materias (ID-Materia)
-ALTER TABLE Aula ADD FOREIGN KEY(ID-Curso) REFERENCES Curso (ID-Curso)
-ALTER TABLE AulaPerdida ADD FOREIGN KEY(ID-Aula) REFERENCES Aula (ID-Aula)
-ALTER TABLE Coordenadores ADD FOREIGN KEY(Curso) REFERENCES Curso (Curso)
