@@ -63,6 +63,7 @@ CREATE TABLE Atestado (
     Descricao VARCHAR(50) NOT NULL,
     DataEmissao DATE NOT NULL,
     Docs VARCHAR(255) NOT NULL,
+    Status VARCHAR(50) NOT NULL DEFAULT 'Pendente',
     UNIQUE (ID_Aluno, ID_Professor),
     FOREIGN KEY (ID_Aluno) REFERENCES Alunos (MatriculaAL),
     FOREIGN KEY (ID_Professor) REFERENCES Professores (Matricula)

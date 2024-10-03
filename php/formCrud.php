@@ -57,18 +57,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         case 'update':
             $inputIdentifierName = $data['inputIdentifier'];
-            $inputIdentifier = $data[$inputIdentifierName]; // ID do registro para ser atualizado
-            unset($data['inputIdentifier'], $data['operation'], $data['tabela']); // Remove chaves desnecessárias
+$inputIdentifier = $data[$inputIdentifierName]; // ID do registro para ser atualizado
 
-            // Cria dinamicamente a query de atualização baseada nos dados enviados
-            $setPart = implode(', ', array_map(function($key) { return "$key = ?"; }, array_keys($data)));
-            $stmt = $pdo->prepare("UPDATE $tabela SET $setPart WHERE $inputIdentifier = ?");
+// Remove o identificador e os outros campos desnecessários dos dados a serem atualizados
+unset($data['inputIdentifier'], $data['operation'], $data['tabela'], $data[$inputIdentifierName]); 
 
-            if ($stmt->execute([...array_values($data), $inputIdentifier])) {
-                echo "Registro atualizado com sucesso!";
-            } else {
-                echo "Erro ao atualizar o registro.";
-            }
+// Verifica se ainda há campos para atualizar
+if (empty($data)) {
+    echo "Nenhum campo para atualizar.";
+    exit;
+}
+
+// Cria dinamicamente a query de atualização baseada nos dados restantes
+$setPart = implode(', ', array_map(function($key) { return "$key = ?"; }, array_keys($data)));
+
+// Debug para verificar o SQL e os valores que serão passados
+echo "<pre>";
+echo "SQL: UPDATE $tabela SET $setPart WHERE $inputIdentifierName = $inputIdentifier\n";
+print_r(array_values($data));
+echo "</pre>";
+
+// Prepara a query de UPDATE
+$stmt = $pdo->prepare("UPDATE $tabela SET $setPart WHERE $inputIdentifierName = ?");
+
+// Executa a query
+if ($stmt->execute([...array_values($data), $inputIdentifier])) {
+    // Verifica quantas linhas foram afetadas
+    $affectedRows = $stmt->rowCount(); 
+    if ($affectedRows > 0) {
+        echo "Registro atualizado com sucesso! Linhas afetadas: $affectedRows";
+    } else {
+        echo "Nenhuma alteração foi feita no registro.";
+    }
+} else {
+    echo "Erro ao atualizar o registro.";
+}
+
             break;
 
         case 'delete':

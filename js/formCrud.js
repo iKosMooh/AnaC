@@ -33,6 +33,7 @@ function submitForm(operation, tabela, formID = null, inputIdentifier = null) {
             success: function(response) {
                 $('#response').html(response);  // Exibe a resposta do PHP na página
                 console.log(response);
+                console.log(formData);
                 resolve(response); // Resolve a Promise com a resposta
             },
             error: function(xhr, status, error) {
@@ -42,6 +43,69 @@ function submitForm(operation, tabela, formID = null, inputIdentifier = null) {
             }
         });
     });
+}
+
+function generateTable(data,tableID) /*ESTE TABLE ID NÃO É O NOME DA TABELA NO BANCO SIM NO HTML*/{
+    
+        const $thead = $('#headerRow'); // tr ou cabeçalho
+        const $tbody = $("#"+tableID+ " tbody");
+        $tbody.empty(); // Limpa o conteúdo atual da tabela
+
+        // Verifica se data é uma string e tenta parseá-la
+        if (typeof data === 'string') {
+            try {
+                data = JSON.parse(data); // Converte a string JSON para um objeto
+            } catch (e) {
+                console.error('Erro ao parsear JSON:', e);
+                $tbody.append('<tr><td colspan="7" class="no-docs">Erro ao carregar dados.</td></tr>');
+                return; // Sai da função se ocorrer um erro
+            }
+        }
+
+        // Verifica se data é um array
+        if (Array.isArray(data) && data.length > 0) {
+            // Gera os cabeçalhos dinamicamente com base nas chaves do primeiro objeto
+            const firstItem = data[0];
+            const keys = Object.keys(firstItem);
+
+            // Adiciona os cabeçalhos à tabela com base nas colunas // MDS VOU CHORAR AKI JÁ NÃO AGUENTO MAIS KKKK Lamentos a quem leu isso
+            keys.forEach(key => {
+                $thead.append(`<th>${key.replace(/_/g, ' ')}</th>`);
+            });
+            
+            //$thead.append('<th>Ações</th>'); // ADICIONA A COLUNA EXTRA
+
+            // Preenche os dados da tabela
+            data.forEach(atestado => {
+                const $row = $('<tr></tr>');
+
+                // Gera as células dinamicamente com base nas chaves
+                keys.forEach(key => {
+                    let cellContent = atestado[key];
+                    if (key === 'Docs') {
+                        cellContent = `<a href="${cellContent}" target="_blank">Ver Documento</a>`;
+                    }
+                    $row.append(`<td>${cellContent}</td>`);
+                });
+
+                // Adiciona as ações de Aprovar/Negar /// AKI NESTA BOSTA É CRIADO O FORM COM OS INPUTS HIDDEN PQ O HTML NÃOOOO QUER GERAR O FORM NA ROW INTEIRA APENAS DENTRO DO TD NÃO SEI POR QUE, CORINGANDO AKI JÁ 👿 
+                // DEVE SER PERSONALIZADO PARA CADA TABELA GERADA INFELIZMENTE
+                /*$row.append(`
+                    <td>
+                        <form id='${atestado.ID_Atestado}'>
+                            <input type='hidden' id='ID_Atestado' name='ID_Atestado' value='${atestado.ID_Atestado}'>
+                            <input type='hidden' id='Status' name='Status' value=''>
+                            <button type="button" class="btn btn-approve" onclick="setStatusAndSubmit('${atestado.ID_Atestado}', 'Aprovado')">Aprovar</button>
+                            <button type="button" class="btn btn-deny" onclick="setStatusAndSubmit('${atestado.ID_Atestado}', 'Negado')">Negar</button>
+                        </form>
+                    </td>
+                `);*/
+
+                $tbody.append($row);
+            });
+        } else {
+            $tbody.append('<tr><td colspan="7" class="no-docs">Nenhum dado para a tabela encontrado.</td></tr>');
+        }
 }
 
 function addRequiredAsterisksToAllForms() {
@@ -57,3 +121,19 @@ function addRequiredAsterisksToAllForms() {
 $(document).ready(function() {
     addRequiredAsterisksToAllForms(); // Adiciona asteriscos aos campos obrigatórios
 });
+
+
+/* MONTE ESSE CARA ASSIM COM THEN E CATCH P N DAR ERRO INFELIZ DE DE JS ASYNC
+
+submitForm("read", "atestado", null, null)
+                .then(data => {
+                    processResponse(data);
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar atestados:', error);
+                    const $tbody = $('#atestadoTable tbody');
+                    $tbody.empty(); // Limpa o conteúdo atual da tabela
+                    $tbody.append('<tr><td colspan="7" class="no-docs">Erro ao carregar dados.</td></tr>');
+                });
+
+*/
