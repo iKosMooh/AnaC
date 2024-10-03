@@ -3,7 +3,8 @@
 require_once 'connect.php';
 
 // Função para gerar variáveis dinamicamente com base nos dados do formulário
-function generateVariables($postData) {
+function generateVariables($postData)
+{
     $data = [];
     foreach ($postData as $key => $value) {
         $data[$key] = $value;  // Associa os campos dinamicamente
@@ -17,11 +18,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = generateVariables($_POST);
     // Faz um array_map em todos os campos do data, usando htmlspecialchars
     //$data = array_map('htmlspecialchars', $data);
-    
+
     $operation = $data['operation']; // Operação CRUD (insert, read, update, delete)
     $tabela = $data['tabela']; // Nome da tabela (enviado pelo jQuery)
     //faz um array map em todos os campos do data, usando htmlspecialchars nesta linha crie isto
-    
+
     // Função de conexão ao banco
     global $pdo;
 
@@ -57,41 +58,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         case 'update':
             $inputIdentifierName = $data['inputIdentifier'];
-$inputIdentifier = $data[$inputIdentifierName]; // ID do registro para ser atualizado
+            $inputIdentifier = $data[$inputIdentifierName]; // ID do registro para ser atualizado
 
-// Remove o identificador e os outros campos desnecessários dos dados a serem atualizados
-unset($data['inputIdentifier'], $data['operation'], $data['tabela'], $data[$inputIdentifierName]); 
+            // Remove o identificador e os outros campos desnecessários dos dados a serem atualizados
+            unset($data['inputIdentifier'], $data['operation'], $data['tabela'], $data[$inputIdentifierName]);
 
-// Verifica se ainda há campos para atualizar
-if (empty($data)) {
-    echo "Nenhum campo para atualizar.";
-    exit;
-}
+            // Verifica se ainda há campos para atualizar
+            if (empty($data)) {
+                echo "Nenhum campo para atualizar.";
+                exit;
+            }
 
-// Cria dinamicamente a query de atualização baseada nos dados restantes
-$setPart = implode(', ', array_map(function($key) { return "$key = ?"; }, array_keys($data)));
+            // Cria dinamicamente a query de atualização baseada nos dados restantes
+            $setPart = implode(', ', array_map(function ($key) {
+                return "$key = ?";
+            }, array_keys($data)));
 
-// Debug para verificar o SQL e os valores que serão passados
-echo "<pre>";
-echo "SQL: UPDATE $tabela SET $setPart WHERE $inputIdentifierName = $inputIdentifier\n";
-print_r(array_values($data));
-echo "</pre>";
+            // Debug para verificar o SQL e os valores que serão passados
+            echo "<pre>";
+            echo "SQL: UPDATE $tabela SET $setPart WHERE $inputIdentifierName = $inputIdentifier\n";
+            print_r(array_values($data));
+            echo "</pre>";
 
-// Prepara a query de UPDATE
-$stmt = $pdo->prepare("UPDATE $tabela SET $setPart WHERE $inputIdentifierName = ?");
+            // Prepara a query de UPDATE
+            $stmt = $pdo->prepare("UPDATE $tabela SET $setPart WHERE $inputIdentifierName = ?");
 
-// Executa a query
-if ($stmt->execute([...array_values($data), $inputIdentifier])) {
-    // Verifica quantas linhas foram afetadas
-    $affectedRows = $stmt->rowCount(); 
-    if ($affectedRows > 0) {
-        echo "Registro atualizado com sucesso! Linhas afetadas: $affectedRows";
-    } else {
-        echo "Nenhuma alteração foi feita no registro.";
-    }
-} else {
-    echo "Erro ao atualizar o registro.";
-}
+            // Executa a query
+            if ($stmt->execute([...array_values($data), $inputIdentifier])) {
+                // Verifica quantas linhas foram afetadas
+                $affectedRows = $stmt->rowCount();
+                if ($affectedRows > 0) {
+                    echo "Registro atualizado com sucesso! Linhas afetadas: $affectedRows";
+                } else {
+                    echo "Nenhuma alteração foi feita no registro.";
+                }
+            } else {
+                echo "Erro ao atualizar o registro.";
+            }
 
             break;
 

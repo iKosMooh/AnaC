@@ -5,10 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/form.css">
-    <link rel="stylesheet" href="../css/footer.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/modal.css">
+
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -60,7 +58,8 @@
 
         /* Estilo do Modal */
         .modal {
-            display: none; /* Ocultar o modal por padrão */
+            display: none;
+            /* Ocultar o modal por padrão */
             position: fixed;
             z-index: 1;
             left: 0;
@@ -68,8 +67,8 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgb(0,0,0);
-            background-color: rgba(0,0,0,0.4);
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
             padding-top: 60px;
         }
 
@@ -96,6 +95,7 @@
             text-decoration: none;
             cursor: pointer;
         }
+
         .status-green {
             color: green;
             /* Cor verde para status aprovado */
@@ -110,6 +110,11 @@
             /* Opção de negrito */
         }
 
+        .status-orange {
+            color: orange;
+            font-weight: bold;
+        }
+
         .no-docs {
             color: gray;
             /* Cor para mensagens de erro ou sem dados */
@@ -121,7 +126,7 @@
 </head>
 
 <body>
-<div class="container">
+    <div class="container">
         <h1>Lista de Atestados</h1>
         <table id="atestadoTable">
             <thead>
@@ -143,12 +148,7 @@
             <span class="close">&times;</span>
             <form id="statusForm">
                 <input type="hidden" id="ID_Atestado" name="ID_Atestado" value="">
-                <label for="Status">Status:</label>
-                <select id="Status" name="Status">
-                    <option value="Aprovado">Aprovado</option>
-                    <option value="Negado">Negado</option>
-                </select>
-                <button type="submit" onclick="submitForm('update', 'atestado', 'statusForm', 'ID_Atestado')">Confirmar</button>
+                <!-- Cabeçalhos serão gerados dinamicamente -->
             </form>
         </div>
     </div>
@@ -156,17 +156,53 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../js/formCrud.js"></script>
     <script>
-
         // Função para abrir o modal e definir o ID do atestado
-        function openModal(atestadoId) {
-            $('#ID_Atestado').val(atestadoId);
-            $('#myModal').show();
+        function openModal(id, button, inputIdentifier) {
+            const data = JSON.parse($(button).attr('data-atestado')); // Pega os dados armazenados no botão
+
+            // Define o campo correto baseado no inputIdentifier
+            $(`#${inputIdentifier}`).val(id); // Define o valor do ID no input correto
+
+            const $form = $('#statusForm');
+            $form.find('input, select, label').not(`#${inputIdentifier}`)
+                .remove(); // Remove todos os inputs antigos, exceto o ID principal
+
+            // Gera os inputs dinamicamente com base nas chaves da tabela
+            tableKeys.forEach(key => {
+                if (key !== inputIdentifier) { // Exclui o ID principal baseado no identificador
+                    const label = `<label for="${key}">${key.replace(/_/g, ' ')}:</label>`;
+                    let input;
+
+                    if (key === 'Status') {
+                        input = `
+                                <select id="${key}" name="${key}">
+                                    <option value="Aprovado" ${data[key] === 'Aprovado' ? 'selected' : ''}>Aprovado</option>
+                                    <option value="Pendente" ${data[key] === 'Pendente' ? 'selected' : ''}>Pendente</option>
+                                    <option value="Negado" ${data[key] === 'Negado' ? 'selected' : ''}>Negado</option>
+                                </select>`;
+                    } else if (typeof data[key] === 'string' && !isNaN(Date.parse(data[key]))) {
+                        // Verifica se o valor é uma string que pode ser convertida para uma data válida
+                        input = `<input type="date" id="${key}" name="${key}" value="${data[key]}">`;
+                    } else {
+                        input = `<input type="text" id="${key}" name="${key}" value="${data[key] || ''}">`;
+                    }
+
+
+                    $form.append(label + input); // Adiciona o label e o input ao formulário
+                }
+            });
+            $form.append(
+                `<button id='sendButton' type="submit" onclick="submitForm('update', 'atestado', 'statusForm', 'ID_Atestado')">Confirmar</button>`
+            )
+            $('#myModal').show(); // Exibe o modal
         }
 
-        // Evento de fechamento do modal
+        // Evento para fechar o modal
         $('.close').on('click', function() {
             $('#myModal').hide();
+            $('#sendButton').remove();
         });
+
 
         $(document).ready(function() {
             submitForm("read", "atestado", null, null)
@@ -180,11 +216,11 @@
                     $tbody.append('<tr><td colspan="7" class="no-docs">Erro ao carregar dados.</td></tr>');
                 });
 
-            function VerDocsTable(data, tableID) /*ESTE TABLE ID NÃO É O NOME DA TABELA NO BANCO SIM NO HTML*/ {
-
-                const $thead = $('#headerRow'); // tr ou cabeçalho
+            function VerDocsTable(data, tableID) {
+                const $thead = $('#headerRow'); // Cabeçalho da tabela
                 const $tbody = $("#" + tableID + " tbody");
                 $tbody.empty(); // Limpa o conteúdo atual da tabela
+                $thead.empty(); // Limpa o cabeçalho
 
                 // Verifica se data é uma string e tenta parseá-la
                 if (typeof data === 'string') {
@@ -199,57 +235,52 @@
 
                 // Verifica se data é um array
                 if (Array.isArray(data) && data.length > 0) {
-                    // Gera os cabeçalhos dinamicamente com base nas chaves do primeiro objeto
                     const firstItem = data[0];
-                    const keys = Object.keys(firstItem);
+                    tableKeys = Object.keys(firstItem); // Armazena as chaves das colunas
 
-                    // Adiciona os cabeçalhos à tabela com base nas colunas // MDS VOU CHORAR AKI JÁ NÃO AGUENTO MAIS KKKK Lamentos a quem leu isso
-                    keys.forEach(key => {
+                    // Gera os cabeçalhos dinamicamente
+                    tableKeys.forEach(key => {
                         $thead.append(`<th>${key.replace(/_/g, ' ')}</th>`);
                     });
 
-                    $thead.append('<th>Ações</th>'); // ADICIONA A COLUNA EXTRA
+                    $thead.append('<th>Ações</th>'); // Adiciona coluna de ações
 
                     // Preenche os dados da tabela
                     data.forEach(atestado => {
                         const $row = $('<tr></tr>');
 
                         // Gera as células dinamicamente com base nas chaves
-                        keys.forEach(key => {
+                        tableKeys.forEach(key => {
                             let cellContent = atestado[key];
                             if (key === 'Docs') {
-                                cellContent = `<a href="${cellContent}" target="_blank">Ver Documento</a>`;
+                                cellContent =
+                                    `<a href="${cellContent}" target="_blank">Ver Documento</a>`;
                             }
                             if (key === 'Status') {
-                                // Aplique cores com base no status
-                                const statusClass = cellContent === 'Aprovado' ? 'status-green' : cellContent === 'Negado' ? 'status-red' : '';
-                                cellContent = `<span class="${statusClass}">${cellContent}</span>`; // Envolve o conteúdo em um <span> com a classe correspondente
+                                const statusClass = cellContent === 'Aprovado' ? 'status-green' :
+                                    cellContent === 'Negado' ? 'status-red' : 'status-orange';
+                                cellContent = `<span class="${statusClass}">${cellContent}</span>`;
                             }
                             $row.append(`<td>${cellContent}</td>`);
                         });
 
-                        // Adiciona as ações de Aprovar/Negar /// AKI NESTA BOSTA É CRIADO O FORM COM OS INPUTS HIDDEN PQ O HTML NÃOOOO QUER GERAR O FORM NA ROW INTEIRA APENAS DENTRO DO TD NÃO SEI POR QUE, CORINGANDO AKI JÁ 👿 
-                        // DEVE SER PERSONALIZADO PARA CADA TABELA GERADA INFELIZMENTE
+                        // Adiciona botão de ação para abrir o modal
                         $row.append(`
-                            <td>
-                                <button type="button" class="btn btn-approve" onclick="openModal('${atestado.ID_Atestado}')">Editar</button>
-                            </td>
-                        `);
+                <td>
+                    <button type="button" class="btn btn-approve" data-atestado='${JSON.stringify(atestado)}' onclick="openModal('${atestado.ID_Atestado}', this, 'ID_Atestado')">Editar</button>
+                </td>
+            `);
 
                         $tbody.append($row);
                     });
                 } else {
-                    $tbody.append('<tr><td colspan="7" class="no-docs">Nenhum dado para a tabela encontrado.</td></tr>');
+                    $tbody.append(
+                        '<tr><td colspan="7" class="no-docs">Nenhum dado para a tabela encontrado.</td></tr>');
                 }
             }
 
-        });
 
-        function setStatusAndSubmit(id, status) {
-            $('#Status-'+id).val(status); // Define o valor do campo input
-            submitForm('update', 'atestado', id, 'ID_Atestado'); // Chama a função com o status atualizado
-        }
-    
+        });
     </script>
 </body>
 

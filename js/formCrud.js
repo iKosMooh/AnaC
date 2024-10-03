@@ -1,3 +1,5 @@
+let tableKeys = []; // Array para armazenar as chaves das colunas
+
 // Função para enviar o formulário via AJAX
 function submitForm(operation, tabela, formID = null, inputIdentifier = null) {
     // Verifica se todos os campos obrigatórios estão preenchidos
