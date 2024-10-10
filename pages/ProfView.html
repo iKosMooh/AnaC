@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/footer.css">
+    <title>Visualização de Reposições/Substituições de Aulas - Professor</title>
+    <style>
+        /* Estilos para a página */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Visualização de Reposições/Substituições de Aulas</h1>
+        <table id="replacementsTable">
+            <thead>
+                <tr>
+                    <th>Semestre</th>
+                    <th>Reposições Mês</th>
+                    <th>Curso</th>
+                    <th>Turno</th>
+                    <th>Reposição em Virtude de</th>
+                    <th>Aulas Não Ministradas</th>
+                    <th>Aulas de Reposição</th>
+                    <th>Entregue na Coordenação</th>
+                    <th>Parecer do Coordenador</th>
+                    <th>Motivo da Reprovação</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Linhas serão geradas dinamicamente pelo JavaScript -->
+            </tbody>
+        </table>
+    </div>
+    <script src="professor.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+        const tableBody = document.querySelector("#replacementsTable tbody");
+
+        // Simulação de dados do backend (JSON)
+        const data = [
+            {
+                "numero": "2º",
+                "reposicoesMes": "Fevereiro/2024",
+                "curso": ["GE"],
+                "turno": ["Tarde"],
+                "reposicaoVirtude": ["Conferência"],
+                "aulasNaoMinistradas": [
+                    { "ordem": 1, "data": "18/02/2024", "numero": 2, "disciplina": "Contabilidade" },
+                    { "ordem": 2, "data": "19/02/2024", "numero": 1, "disciplina": "Admin. Geral" }
+                ],
+                "aulasReposicao": [
+                    { "ordem": 1, "data": "26/02/2024", "horario": "13:00 - 14:30", "disciplina": "Contabilidade", "assinatura": "J. da Silva" }
+                ],
+                "entregueCoordenacao": "21/02/2024",
+                "parecerCoordenador": "Aguardando",
+                "motivoReprovacao": ""
+            },
+            {
+                "numero": "5º",
+                "reposicoesMes": "Março/2024",
+                "curso": ["DSM"],
+                "turno": ["Noite"],
+                "reposicaoVirtude": ["Doença"],
+                "aulasNaoMinistradas": [
+                    { "ordem": 1, "data": "02/03/2024", "numero": 2, "disciplina": "Desenv. Web" },
+                    { "ordem": 2, "data": "03/03/2024", "numero": 1, "disciplina": "Lóg. de Programação" }
+                ],
+                "aulasReposicao": [
+                    { "ordem": 1, "data": "10/03/2024", "horario": "19:00 - 20:30", "disciplina": "Desenv. Web", "assinatura": "J. da Silva" }
+                ],
+                "entregueCoordenacao": "05/03/2024",
+                "parecerCoordenador": "Aprovado",
+                "motivoReprovacao": ""
+            },
+            {
+                "numero": "1º",
+                "reposicoesMes": "Março/2024",
+                "curso": ["DSM"],
+                "turno": ["Manhã"],
+                "reposicaoVirtude": ["Treinamento"],
+                "aulasNaoMinistradas": [
+                    { "ordem": 1, "data": "18/03/2024", "numero": 2, "disciplina": "Sist. Operacionais" },
+                    { "ordem": 2, "data": "19/03/2024", "numero": 1, "disciplina": "Eng. de Software" }
+                ],
+                "aulasReposicao": [
+                    { "ordem": 1, "data": "26/03/2024", "horario": "09:30 - 11:00", "disciplina": "Sist. Operacionais", "assinatura": "J. da Silva" }
+                ],
+                "entregueCoordenacao": "21/03/2024",
+                "parecerCoordenador": "Reprovado",
+                "motivoReprovacao": "Falta de documentação comprobatória"
+            },
+            {
+                "numero": "3º",
+                "reposicoesMes": "Abril/2024",
+                "curso": ["GE"],
+                "turno": ["Tarde"],
+                "reposicaoVirtude": ["Evento Externo"],
+                "aulasNaoMinistradas": [
+                    { "ordem": 1, "data": "08/04/2024", "numero": 2, "disciplina": "Matemática" },
+                    { "ordem": 2, "data": "09/04/2024", "numero": 1, "disciplina": "Comunicação e Expressão" }
+                ],
+                "aulasReposicao": [
+                    { "ordem": 1, "data": "16/04/2024", "horario": "13:00 - 14:30", "disciplina": "Matemática", "assinatura": "J. da Silva" }
+                ],
+                "entregueCoordenacao": "11/04/2024",
+                "parecerCoordenador": "Aguardando",
+                "motivoReprovacao": ""
+            }
+        ];
+
+        // Função para renderizar os dados na tabela
+        function renderTable(data) {
+            tableBody.innerHTML = "";
+
+            data.forEach(item => {
+                const row = document.createElement("tr");
+
+                row.innerHTML = `
+                    <td>${item.numero}</td>
+                    <td>${item.reposicoesMes}</td>
+                    <td>${item.curso.join(", ")}</td>
+                    <td>${item.turno.join(", ")}</td>
+                    <td>${item.reposicaoVirtude.join(", ")}</td>
+                    <td>${item.aulasNaoMinistradas.map(aula => `${aula.ordem}: ${aula.data} (${aula.numero} aulas, ${aula.disciplina})`).join("<br>")}</td>
+                    <td>${item.aulasReposicao.map(aula => `${aula.ordem}: ${aula.data} (${aula.horario}, ${aula.disciplina}, ${aula.assinatura})`).join("<br>")}</td>
+                    <td>${item.entregueCoordenacao}</td>
+                    <td>${item.parecerCoordenador}</td>
+                    <td>${item.motivoReprovacao}</td>
+                `;
+
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Inicialização
+        renderTable(data);
+    });
+
+    </script>
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2024 projetoproject.rf.gd. Todos os direitos reservados.</p>
+            <ul class="footer-links">
+                <li><a href="/index.html">Inicio</a></li>
+                <li><a href="#">Termos de Serviço</a></li>
+                <li><a href="#">Política de Privacidade</a></li>
+                <li><a href="#">Contato</a></li>
+            </ul>
+        </div>
+    </footer>
+</body>
+</html>
