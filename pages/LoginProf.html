@@ -5,32 +5,73 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/footer.css">
     <title>Login de Professor</title>
 </head>
 
 <body>
-    <div class="container">
-        <div id="tituloLogin">
-            <figure><img src="../img/Logo-Fatec-1200x800-1-removebg-preview.png" alt="Logo Fatec"></figure>
-            <h1>Login</h1>
-            <figure><img src="../img/cps-removebg-preview.png" alt="Logo CPS"></figure>
+    <div class="flex-container"> <!-- Contêiner pai -->
+        <div class="imagem">
+            <img src="../img/fatec.jpg" alt="Fatec">
         </div>
-        <form id="loginFormProfessor">
-            <div class="inputlabel">
-                <label for="usuarioProfessor">E-mail:</label>
-                <input type="text" name="usuarioProfessor" id="usuarioProfessor" required placeholder="Digite seu e-mail" />
+        <div class="container">
+            <div id="tituloLogin">
+                <h1>LOGIN</h1>
             </div>
-            <br>
-            <div class="inputlabel">
-                <label for="senhaProfessor">Senha:</label>
-                <input type="password" name="senhaProfessor" id="senhaProfessor" required placeholder="Digite sua senha" />
-            </div>
-            <br>
-            <button type="submit">Entrar</button>
-        </form>
+            <form id="loginFormProfessor">
+                <div class="inputlabel">
+                    <label for="usuarioProfessor">E-mail:</label>
+                    <input type="text" name="usuarioProfessor" id="usuarioProfessor" required placeholder="Digite seu e-mail" />
+                </div>
+                <br>
+                <div class="inputlabel">
+                    <label for="senhaProfessor">Senha:</label>
+                    <input type="password" name="senhaProfessor" id="senhaProfessor" required placeholder="Digite sua senha" />
+                </div>
+                <br>
+                <div class="lembrar">
+                    <label>
+                        <input type="checkbox"> Lembrar-me <br>
+                    </label>
+                    <a href="#" class="esquecisenha">Esqueceu a senha?</a> <br>
+                </div>
+                <br>
+                <button type="submit">Entrar</button>
+            </form>
+        </div>
     </div>
 
     <script src="../js/LoginProf.js" defer></script>
+
+    <footer style="width: 100%;">
+        <div id="footer_content">
+            <div id="footer_contacts">
+                <p>
+                    Faculdade de Tecnologia de São Paulo - Educação profissional pública<br>
+                    superior e de excelência!
+                </p>
+            </div>
+            <div id="footer_social_media">
+                <ul>
+                    <li><a href="https://wa.me/551938635210" class="footer_link" id="whatsapp" target="_blank"><i class="fa-brands fa-whatsapp"></i></a></li>
+                    <li><a href="https://www.facebook.com/fatecitapira?locale=pt_BR" class="footer_link" id="facebook" target="_blank"><i class="fa-brands fa-facebook"></i></a></li>
+                    <li><a href="https://www.instagram.com/fatecdeitapira/" class="footer_link" id="instagram" target="_blank"><i class="fa-brands fa-instagram"></i></a></li>
+                    <li><a href="https://www.linkedin.com/company/fatec-de-itapira/?originalSubdomain=br" class="footer_link" id="linkedin" target="_blank"><i class="fa-brands fa-linkedin"></i></a></li>
+                </ul>
+            </div>
+        </div>
+        <div id="footer_logos">
+            <a href="https://www.cps.sp.gov.br/"> 
+                <img src="../img/cps-removebg-preview.png" alt="Logo do Centro Paula Souza" class="footer-logo">
+            </a>
+            <a href="https://www.saopaulo.sp.gov.br/"> 
+                <img src="../img/logo-footer-governo-do-estado-sp.png" alt="Logo do Governo do Estado de São Paulo" class="footer-logo middle">
+            </a>
+        </div>
+        <p class="footer-rights">© Todos os direitos reservados</p>
+    </footer>
+
 </body>
+
 
 </html>
