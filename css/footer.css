@@ -18,16 +18,17 @@ footer {
     background-color: var(--color-neutral-0);
     padding: 2rem 3.5rem;
     text-align: left;
+    padding-top: 40px;
+    transform: translateY(50px); /* Ajuste este valor para mover o footer */
+
 }
-
-
 
 #footer_content {
     display: flex;
     justify-content: space-between; /* Espaça os conteúdos entre os lados */
     align-items: flex-start; /* Alinha itens ao topo */
     height: auto;
-    margin-top: -120px; /* Este valor pode ser ajustado */
+    margin-top: -240px; /* Este valor pode ser ajustado */
 }
 
 #footer_contacts {
@@ -40,20 +41,22 @@ footer {
     line-height: 1.2; /* Melhor espaçamento entre linhas */
     margin-left: 0; /* Remove a margem esquerda */
     max-width: 300px; /* Limita a largura do texto */
-    transform: translateY(150px);
+    margin-bottom: 3rem; /* Adiciona margem inferior para espaçamento */
+    transform: translateY(220px);
 }
 
 #footer_social_media {
     display: flex;
     flex-direction: column; /* Alinha os itens em coluna */
     align-items: flex-end; /* Alinha à direita */
-    transform: translateY(130px);
+    transform: translateY(165px);
 }
 
 #footer_social_media ul {
     list-style: none; /* Remove o estilo padrão de lista */
     padding-left: 0; /* Remove o padding padrão */
     margin-left: 0; /* Remove a margem padrão */
+    padding-top: 40px;
 }
 
 #footer_social_media li {
@@ -64,7 +67,7 @@ footer {
 
 .footer_link i {
     font-size: 1.5rem; /* Tamanho dos ícones das redes sociais */
-    color: white; /* Cor dos ícones */
+    color: white;    
     margin-right: 0.5rem; /* Espaçamento entre o ícone e a bolinha */
 }
 
@@ -77,34 +80,23 @@ footer {
 
 #footer_logos {
     display: flex;
-    padding-left: 35%; /* Alinha as logos à direita */
-    margin: 1rem 0;
+    justify-content: flex-end; /* Alinha as logos à direita */
+    padding: 0; /* Remove o padding */
+    margin: 1rem 0; /* Espaço vertical */
     width: 100%; /* Garante que as logos ocupem toda a largura disponível */
-    max-width: 1300px; /* Limita a largura máxima */
-
+    max-width: 1000px; /* Limita a largura máxima */
+    align-items: center; /* Alinha as logos verticalmente ao centro */
+    transform: translateY(25px);
 }
 
-.footer-logo1 {
-    width: 100px; /* Tamanho padrão para as imagens */
+.footer-logo {
+    width: 80px; /* Tamanho padrão para as imagens */
     height: auto; /* Mantém a proporção da imagem */
-    margin: 0 5rem; /* Aumenta o espaço entre as logos */
-    
+    margin: 0 10rem; /* Aumenta o espaço entre as logos */
 }
 
-.footer-logo2 {
-    width: 160px; /* Tamanho padrão para as imagens */
-    height: auto; /* Mantém a proporção da imagem */
-    margin: 0 5rem; /* Aumenta o espaço entre as logos */
-    transform: translate(-20px);
-    
-}
-
-.footer-logo3 {
-    width: 100px; /* Tamanho padrão para as imagens */
-    height: auto; /* Mantém a proporção da imagem */
-    margin: 0 5rem; /* Aumenta o espaço entre as logos */
-    transform: translate(-60px);
-    
+.footer-logo.middle {
+    width: 120px; /* Tamanho padrão para a logo do governo */
 }
 
 .footer-rights {
@@ -112,25 +104,35 @@ footer {
     font-size: 0.875rem; /* Tamanho menor para o texto de direitos reservados */
     color: white; /* Cor do texto */
     transform: translateY(32px);
-margin-bottom: 0%;}
+    margin-bottom: 0%;
+    padding-top: 1px;
+}
 
 /* Responsivo */
 @media screen and (max-width: 768px) {
     #footer_content {
-        padding: 2rem; /* Menos padding em telas pequenas */
-    }
-
-    #footer_logos {
-        flex-direction: column; /* Imagens em coluna */
-        align-items: center; /* Centraliza as logos */
-    }
-
-    #footer_logos a {
-        margin-bottom: 1rem; /* Espaço entre as logos */
+        flex-direction: column; /* Muda a direção para coluna */
+        align-items: center; /* Centraliza o conteúdo */
+        margin-top: 0; /* Remove margem negativa */
+        padding: 1rem; /* Menos padding em telas pequenas */
     }
 
     #footer_social_media {
-        align-items: flex-end; /* Alinha à direita para mobile */
-        margin-top: 0.5rem; /* Ajusta o espaço entre texto e ícones */
+        padding-left: 100%;
     }
+
+    #footer_logos {
+        flex-direction: row; /* Muda para linha */
+        align-items: center; /* Centraliza as logos */
+        justify-content: flex-end; /* Alinha à direita */
+        margin-top: 1rem; /* Espaço entre o texto e as logos */
+    }
+
+    .footer-logo {
+        margin: 0 4rem; /* Aumenta o espaço entre as logos no celular */
+    }
+}
+
+p {
+    transform: translateY(200px);
 }
