@@ -1,136 +1,135 @@
--- Criar Tabelas
-CREATE TABLE Instituicao 
-( 
- ID_Instituicao INT PRIMARY KEY AUTO_INCREMENT,  
- Nome VARCHAR(100) NOT NULL,  
- Endereco VARCHAR(255) NOT NULL,  
- Complemento VARCHAR(50)  
-); 
-
-CREATE TABLE Coordenadores 
-( 
- ID_Coordenador INT PRIMARY KEY AUTO_INCREMENT,  
- Nome VARCHAR(100) NOT NULL,  
- DataN DATE NOT NULL,  
- EmailInstitucional VARCHAR(100) NOT NULL,  
- Curso VARCHAR(100) NOT NULL,  
- Email VARCHAR(100),  
- Usuario VARCHAR(50) NOT NULL,  
- Senha VARCHAR(50) NOT NULL,  
- Telefone VARCHAR(15),  
- UNIQUE (Usuario)
-); 
-
-CREATE TABLE Professores 
-( 
- ID_Professor INT PRIMARY KEY AUTO_INCREMENT,  
- RG VARCHAR(20),  
- Nome VARCHAR(100) NOT NULL,  
- DataN DATE NOT NULL,  
- Telefone VARCHAR(15),  
- Email VARCHAR(100) NOT NULL,  
- Usuario VARCHAR(50) NOT NULL,  
- Senha VARCHAR(50) NOT NULL,  
- Endereco VARCHAR(255) NOT NULL,  
- Complemento VARCHAR(50),  
- EmailInstitucional VARCHAR(100),  
- Curso VARCHAR(100) NOT NULL,  
- Turno VARCHAR(20) NOT NULL,  
- UNIQUE (RG, Usuario, EmailInstitucional)
-); 
-
-CREATE TABLE Curso 
-( 
- ID_Curso INT PRIMARY KEY AUTO_INCREMENT,  
- Nome VARCHAR(100) NOT NULL,  
- Turno VARCHAR(20) NOT NULL,  
- CargaHR INT NOT NULL,  
- Grade VARCHAR(100) NOT NULL,  
- ID_Coordenador INT NOT NULL,  
- ID_Instituicao INT NOT NULL,  
- FOREIGN KEY(ID_Coordenador) REFERENCES Coordenadores(ID_Coordenador),
- FOREIGN KEY(ID_Instituicao) REFERENCES Instituicao(ID_Instituicao)
-); 
-
-CREATE TABLE Materias 
-( 
- ID_Materia INT PRIMARY KEY AUTO_INCREMENT,  
- Nome VARCHAR(100) NOT NULL,  
- CargaHR INT NOT NULL,  
- ID_Curso INT NOT NULL,  
- ID_Professor INT NOT NULL,  
- FOREIGN KEY(ID_Curso) REFERENCES Curso(ID_Curso),
- FOREIGN KEY(ID_Professor) REFERENCES Professores(ID_Professor)
-); 
-
-CREATE TABLE CursoAtivo 
-( 
- ID_CursoA INT PRIMARY KEY AUTO_INCREMENT,  
- ID_Curso INT NOT NULL,  
- Nome VARCHAR(100) NOT NULL,  
- DataInicio DATE NOT NULL,  
- DataFim DATE NOT NULL,  
- FOREIGN KEY(ID_Curso) REFERENCES Curso(ID_Curso)
-); 
-
-CREATE TABLE Aula 
-( 
- ID_Aula INT PRIMARY KEY AUTO_INCREMENT,  
- ID_Materia INT NOT NULL,  
- Horario_Inicio TIME NOT NULL,  
- ID_Curso INT NOT NULL,  
- Horario_Termino TIME NOT NULL,  
- FOREIGN KEY(ID_Materia) REFERENCES Materias(ID_Materia),
- FOREIGN KEY(ID_Curso) REFERENCES Curso(ID_Curso)
-); 
-
-CREATE TABLE Aula_Nao_Ministrada 
-( 
- ID_Aula INT PRIMARY KEY,  
- Data_Time DATE NOT NULL,  
- observacao VARCHAR(255),  
- ID_Aula_Nao_Ministrada INT NOT NULL,  
- FOREIGN KEY(ID_Aula) REFERENCES Aula(ID_Aula),
- FOREIGN KEY(ID_Aula_Nao_Ministrada) REFERENCES Reposicao(ID_Aula_Nao_Ministrada)
-); 
-
-CREATE TABLE Presenca 
-( 
- ID_Materia INT NOT NULL,  
- Data DATE NOT NULL,  
- Status VARCHAR(20) NOT NULL,  
- ID_Professor INT NOT NULL,  
- ID_CursoA INT NOT NULL,  
- FOREIGN KEY(ID_Materia) REFERENCES Materias(ID_Materia),
- FOREIGN KEY(ID_Professor) REFERENCES Professores(ID_Professor),
- FOREIGN KEY(ID_CursoA) REFERENCES CursoAtivo(ID_CursoA)
-); 
-
-CREATE TABLE Reposicao 
-( 
- ID_Aula_Nao_Ministrada INT NOT NULL,  
- DataReposicao DATE,  
- ID_Reposicao INT PRIMARY KEY AUTO_INCREMENT,  
- Status VARCHAR(20) NOT NULL,  
- Status_Pedido VARCHAR(20) NOT NULL  
-); 
-
-CREATE TABLE Professores_Cursos 
-( 
- ID_Professor INT,  
- ID_Curso INT NOT NULL,  
- FOREIGN KEY(ID_Professor) REFERENCES Professores(ID_Professor),
- FOREIGN KEY(ID_Curso) REFERENCES Curso(ID_Curso)
-); 
-
-CREATE TABLE Atestado 
-( 
- ID_Atestado INT PRIMARY KEY AUTO_INCREMENT,  
- ID_Professor INT NOT NULL,  
- Descricao VARCHAR(255) NOT NULL,  
- DataEmissao DATE NOT NULL,  
- FOREIGN KEY(ID_Professor) REFERENCES Professores(ID_Professor)
+-- Create Instituicao Table
+CREATE TABLE Instituicao (
+    ID_Instituicao INT PRIMARY KEY AUTO_INCREMENT,  
+    Nome VARCHAR(100) NOT NULL UNIQUE,  
+    Endereco VARCHAR(255) NOT NULL,  
+    Complemento VARCHAR(50)  
 );
+
+-- Create Coordenadores Table
+CREATE TABLE Coordenadores (
+    ID_Coordenador INT PRIMARY KEY AUTO_INCREMENT,  
+    Nome VARCHAR(100) NOT NULL,  
+    DataN DATE NOT NULL,  
+    EmailInstitucional VARCHAR(100) NOT NULL,  
+    Curso VARCHAR(100) NOT NULL,  
+    Email VARCHAR(100),  
+    Usuario VARCHAR(50) NOT NULL UNIQUE,  
+    Senha VARCHAR(50) NOT NULL,  
+    Telefone VARCHAR(15)  
+); 
+
+-- Create Curso Table
+CREATE TABLE Curso (
+    ID_Curso INT PRIMARY KEY AUTO_INCREMENT,  
+    Nome VARCHAR(100) NOT NULL,  
+    Turno VARCHAR(20) NOT NULL,  
+    CargaHR INT NOT NULL,  
+    Grade VARCHAR(100) NOT NULL,  
+    ID_Coordenador INT NOT NULL,  
+    ID_Instituicao INT NOT NULL,  
+    FOREIGN KEY (ID_Coordenador) REFERENCES Coordenadores(ID_Coordenador),
+    FOREIGN KEY (ID_Instituicao) REFERENCES Instituicao(ID_Instituicao)
+); 
+
+-- Create Professores Table
+CREATE TABLE Professores (
+    ID_Professor INT PRIMARY KEY AUTO_INCREMENT,  
+    RG VARCHAR(20),  
+    Nome VARCHAR(100) NOT NULL,  
+    DataN DATE NOT NULL,  
+    Telefone VARCHAR(15),  
+    Email VARCHAR(100) NOT NULL,  
+    Usuario VARCHAR(50) NOT NULL UNIQUE,  
+    Senha VARCHAR(50) NOT NULL,  
+    Endereco VARCHAR(255) NOT NULL,  
+    Complemento VARCHAR(50),  
+    EmailInstitucional VARCHAR(100),  
+    Curso VARCHAR(100) NOT NULL,  
+    Turno VARCHAR(20) NOT NULL,  
+    UNIQUE (RG, Usuario, EmailInstitucional)
+); 
+
+-- Create Materias Table
+CREATE TABLE Materias (
+    ID_Materia INT PRIMARY KEY AUTO_INCREMENT,  
+    Nome_Materia VARCHAR(100) NOT NULL,  
+    CargaHR INT NOT NULL,  
+    ID_Curso INT NOT NULL,  
+    ID_Professor INT NOT NULL,  
+    FOREIGN KEY (ID_Curso) REFERENCES Curso(ID_Curso),
+    FOREIGN KEY (ID_Professor) REFERENCES Professores(ID_Professor)
+); 
+
+-- Create CursoAtivo Table
+CREATE TABLE CursoAtivo (
+    ID_CursoA INT PRIMARY KEY AUTO_INCREMENT,  
+    ID_Curso INT NOT NULL,  
+    Nome VARCHAR(100) NOT NULL,  
+    DataInicio DATE NOT NULL,  
+    DataFim DATE NOT NULL,  
+    FOREIGN KEY (ID_Curso) REFERENCES Curso(ID_Curso)
+); 
+
+-- Create Aula Table
+CREATE TABLE Aula (
+    ID_Aula INT PRIMARY KEY AUTO_INCREMENT,  
+    ID_Materia INT NOT NULL,  
+    Horario_Inicio TIME NOT NULL,  
+    ID_Curso INT NOT NULL,  
+    Horario_Termino TIME NOT NULL,  
+    FOREIGN KEY (ID_Materia) REFERENCES Materias(ID_Materia),
+    FOREIGN KEY (ID_Curso) REFERENCES Curso(ID_Curso)
+); 
+
+-- Create Reposicao Table
+CREATE TABLE Reposicao (
+    ID_Reposicao INT PRIMARY KEY AUTO_INCREMENT,  
+    ID_Aula_Nao_Ministrada INT NOT NULL,  
+    DataReposicao DATE,  
+    Status VARCHAR(20) NOT NULL,  
+    Status_Pedido VARCHAR(20) NOT NULL  
+); 
+
+-- Create Aula_Nao_Ministrada Table
+CREATE TABLE Aula_Nao_Ministrada (
+    ID_Aula INT PRIMARY KEY,  
+    Data_Time DATE NOT NULL,  
+    observacao VARCHAR(255),  
+    ID_Aula_Nao_Ministrada INT NOT NULL,  
+    FOREIGN KEY (ID_Aula) REFERENCES Aula(ID_Aula),
+    FOREIGN KEY (ID_Aula_Nao_Ministrada) REFERENCES Reposicao(ID_Reposicao)
+);
+
+-- Create Presenca Table
+CREATE TABLE Presenca (
+    ID_Materia INT NOT NULL,  
+    Data DATE NOT NULL,  
+    Status VARCHAR(20) NOT NULL,  
+    ID_Professor INT NOT NULL,  
+    ID_CursoA INT NOT NULL,  
+    FOREIGN KEY (ID_Materia) REFERENCES Materias(ID_Materia),
+    FOREIGN KEY (ID_Professor) REFERENCES Professores(ID_Professor),
+    FOREIGN KEY (ID_CursoA) REFERENCES CursoAtivo(ID_CursoA)
+); 
+
+-- Create Professores_Cursos Table
+CREATE TABLE Professores_Cursos (
+    ID_Professor INT,  
+    ID_Curso INT NOT NULL,  
+    FOREIGN KEY (ID_Professor) REFERENCES Professores(ID_Professor),
+    FOREIGN KEY (ID_Curso) REFERENCES Curso(ID_Curso)
+); 
+
+-- Create Atestado Table
+CREATE TABLE Atestado (
+    ID_Atestado INT PRIMARY KEY AUTO_INCREMENT,  
+    ID_Professor INT NOT NULL,  
+    Descricao VARCHAR(255) NOT NULL,  
+    DataEmissao DATE NOT NULL,  
+    FOREIGN KEY (ID_Professor) REFERENCES Professores(ID_Professor)
+);
+
 
 -- Inserir Dados
 -- Inserir Instituições
