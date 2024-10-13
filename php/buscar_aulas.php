@@ -8,7 +8,7 @@ try {
         $idProfessor = $_GET['id'];
 
         // Preparar a consulta SQL com junção
-        $sql = "SELECT A.ID_Aula, A.Data_Time, M.Nome AS Nome_Materia, Au.Horario_Inicio, Au.Horario_Termino, C.Nome AS Nome_Curso
+        $sql = "SELECT A.ID_Aula, A.Date_Time, M.Nome AS Nome_Materia, Au.Horario_Inicio, Au.Horario_Termino, C.Nome AS Nome_Curso
                 FROM Aula_Nao_Ministrada A
                 JOIN Materias M ON A.ID_Materia = M.ID_Materia
                 JOIN CursoAtivo C ON M.ID_Curso = C.ID_Curso

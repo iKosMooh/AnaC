@@ -62,7 +62,7 @@
                         } else {
                             // Adicionar as aulas ao select
                             $.each(data, function(index, aula) {
-                                $('#aulas').append('<option value="' + aula.ID_Aula + '">' + aula.Data_Time + ' - ' + aula.Nome_Materia + ' - ' + aula.Nome_Curso + '</option>');
+                                $('#aulas').append('<option value="' + aula.ID_Aula + '">' + aula.Date_Time + ' - ' + aula.Nome_Materia + ' - ' + aula.Nome_Curso + '</option>');
                             });
                         }
                     },

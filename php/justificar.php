@@ -10,13 +10,12 @@ if (!isset($_SESSION['tipo'])) {
 
 // Recupera os dados do formulário
 $id_professor = $_POST['id_professor'];
-$descricao = $_POST['justificativaPersonalizada']; // ou outra descrição necessária
 $data_emissao = date('Y-m-d'); // Data de emissão, você pode modificar se necessário
 $docs = ''; // Inicializa a variável de documento
 
 // Processamento do upload do arquivo
 if (isset($_FILES['documentoAula']) && $_FILES['documentoAula']['error'] == UPLOAD_ERR_OK) {
-    $uploads_dir = 'uploads'; // Diretório para salvar o upload
+    $uploads_dir = '../docs/uploads'; // Diretório para salvar o upload
     $tmp_name = $_FILES['documentoAula']['tmp_name'];
     $name = basename($_FILES['documentoAula']['name']);
     
@@ -30,12 +29,11 @@ if (isset($_FILES['documentoAula']) && $_FILES['documentoAula']['error'] == UPLO
         $docs = "$uploads_dir/$name"; // Caminho do documento salvo
     } else {
         echo json_encode(['status' => 'error', 'message' => 'Erro ao mover o arquivo enviado.']);
-        exit; // Para a execução se o upload falhar
+        exit(); // Para a execução se o upload falhar
     }
 }
 
 // Variável para rastrear se houve algum erro durante a inserção
-$allValid = true;
 $messages = [];
 
 // Prepara a consulta para inserir os dados
@@ -43,14 +41,21 @@ try {
     $sql = "INSERT INTO justificado (ID_Professor, Descricao, Docs, DateEmissao, Status) VALUES (?, ?, ?, ?, 'Pendente')";
     $stmt = $pdo->prepare($sql);
 
+    // Prepara a consulta para atualizar o campo Justificado
+    $updateSql = "UPDATE Aula_Nao_Ministrada SET Justificado = 'Justificado' WHERE ID_Aula_Nao_Ministrada = ?";
+    $updateStmt = $pdo->prepare($updateSql);
+
+    // Usar um loop para inserir cada aula
     foreach ($_POST['id_aula'] as $index => $id_aula) {
-        $justificativa = $_POST['justificativa'][$index];
+        // Combinar os dois selects com um hífen
+        $justificativa = $_POST['justificativa'][$index]; // Primeiro select
 
-        // Verifique se a data da aula está definida
-        if (isset($_POST['date-aula'][$index]) && !empty($_POST['date-aula'][$index])) {
-            $date_aula = $_POST['date-aula'][$index];
+        // Obtém a data da aula, ou usa null se não estiver definida
+        $date_aula = $_POST['date-aula'][$index] ?? null;
 
-            // Bind dos parâmetros
+        // Verifica se a data da aula está definida
+        if ($date_aula) {
+            // Bind dos parâmetros para inserção
             $stmt->bindParam(1, $id_professor);
             $stmt->bindParam(2, $justificativa);
             $stmt->bindParam(3, $docs);
@@ -58,21 +63,25 @@ try {
             
             // Executa a inserção
             if (!$stmt->execute()) {
-                $messages[] = "Erro ao inserir dados para o índice $index: " . implode(", ", $stmt->errorInfo());
-                $allValid = false; // Indica que houve um erro
+                $messages[] = "Erro ao inserir dados para a aula com ID $id_aula: " . implode(", ", $stmt->errorInfo());
+            } else {
+                // Atualiza o campo Justificado para "Justificado" na tabela Aula_Nao_Ministrada
+                $updateStmt->bindParam(1, $id_aula, PDO::PARAM_INT);
+                if (!$updateStmt->execute()) {
+                    $messages[] = "Erro ao atualizar o status de justificação para a aula com ID $id_aula: " . implode(", ", $updateStmt->errorInfo());
+                }
             }
         } else {
-            // Adiciona mensagem de erro apenas se a data não estiver definida
-            $messages[] = "A data da aula não está definida para a aula de índice $index. A inserção não será realizada.";
-            $allValid = false; // Indica que houve um erro
+            // Adiciona mensagem de erro utilizando o ID da aula
+            $messages[] = "A data da aula com ID $id_aula não está definida. A inserção não será realizada.";
         }
     }
 
-    // Retorno de sucesso ou erro
-    if ($allValid) {
-        echo json_encode(['status' => 'success', 'message' => 'Dados enviados com sucesso!']);
-    } else {
+    // Verificar se houve mensagens de erro
+    if (!empty($messages)) {
         echo json_encode(['status' => 'error', 'message' => implode("<br>", $messages)]);
+    } else {
+        echo json_encode(['status' => 'success', 'message' => 'Dados enviados com sucesso!']);
     }
 } catch (PDOException $e) {
     echo json_encode(['status' => 'error', 'message' => 'Erro na conexão ou execução: ' . $e->getMessage()]);

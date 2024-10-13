@@ -1,7 +1,7 @@
 <?php
 session_start();
 include '../php/connect.php';
-
+if (!isset($_SESSION['tipo'])){
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $usuario = $_POST['usuario'];
     $senha = $_POST['senha'];
@@ -42,6 +42,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Caso não encontre
     $error = "Usuário ou senha inválidos.";
+}
+} else{
+    header('Location: dashboard.php'); // Redireciona para a página do dashboard
 }
 ?>
 
