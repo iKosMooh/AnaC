@@ -3,7 +3,7 @@ session_start();
 require '../PHP/connect.php'; // Inclua sua conexão com o banco de dados
 
 // Verificar se o usuário está logado e é um professor
-if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] != 'professor') {
+if (!isset($_SESSION['tipo'])) {
     echo json_encode(['status' => 'error', 'message' => 'Acesso negado.']);
     exit();
 }
