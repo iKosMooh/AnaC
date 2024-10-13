@@ -49,12 +49,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             break;
 
         case 'read':
+            $whereValue = $data['whereValue'];
+
+            // Verifica se as variáveis identificadoras existem e procede
+            $inputIdentifier = null; // Inicializa como null
+            if (isset($data['inputIdentifier']) && isset($data[$data['inputIdentifier']])) {
+                $inputIdentifierName = $data['inputIdentifier'];
+                $inputIdentifier = $data[$inputIdentifierName]; // ID do registro para ser atualizado
+            }
+
             // Leitura de todos os registros da tabela
-            $stmt = $pdo->prepare("SELECT * FROM $tabela");
+            if (!empty($whereValue) && $whereValue !== 'undefined' && $whereValue !== 'null' && $inputIdentifier !== null) {
+                // Prepara a query com placeholders
+                $stmt = $pdo->prepare("SELECT * FROM $tabela WHERE $inputIdentifier = :whereValue");
+                $stmt->bindParam(':whereValue', $whereValue); // Vincula o parâmetro
+            } else {
+                $stmt = $pdo->prepare("SELECT * FROM $tabela");
+            }
+
+            // Execute a consulta
             $stmt->execute();
+
+            // Busque todos os resultados
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            echo json_encode($results); // Retorna os resultados em formato JSON
+
+            // Retorna os resultados em formato JSON
+            echo json_encode($results);
             break;
+
 
         case 'update':
             $inputIdentifierName = $data['inputIdentifier'];

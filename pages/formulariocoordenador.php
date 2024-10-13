@@ -1,243 +1,146 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Faltas de Professores</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-        }
-
-        form {
-            background: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        label {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        input[type="text"],
-        input[type="date"],
-        input[type="time"],
-        select,
-        textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        button {
-            background-color: #5cb85c;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            display: block;
-            margin: 0 auto;
-            transition: background-color 0.3s;
-        }
-
-        button:hover {
-            background-color: #4cae4c;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            background: #fff;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-
-        th, td {
-            padding: 12px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #4CAF50;
-            color: white;
-            text-transform: uppercase;
-            font-size: 14px;
-        }
-
-        td {
-            background-color: #f9f9f9;
-        }
-
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-
-        .search-container {
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .search-container input {
-            width: 200px; /* Largura da caixa de busca */
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-    </style>
-    <script>
-        function toggleProposta(select) {
-            const propostaField = document.getElementById('proposta_reposicao');
-            propostaField.style.display = select.value === "Fazer Nova Proposta" ? 'block' : 'none';
-        }
-
-        function showProfessorId(select) {
-            const idField = document.getElementById('id_professor');
-            const idFieldContainer = document.getElementById('id_professor_field');
-            const dataFaltaField = document.getElementById('data_falta_field');
-            const propostaField = document.getElementById('propostasTable');
-            const selectedIndex = select.selectedIndex;
-
-            if (selectedIndex > 0) {
-                idField.value = select.options[selectedIndex].getAttribute('data-id');
-                idFieldContainer.classList.remove('hidden');
-                dataFaltaField.classList.remove('hidden');
-                propostaField.classList.remove('hidden');
-            } else {
-                idField.value = '';
-                idFieldContainer.classList.add('hidden');
-                dataFaltaField.classList.add('hidden');
-                propostaField.classList.add('hidden');
-            }
-        }
-    </script>
+    <title>Seleção de Professor e Aulas</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 
-    <form id="faltaForm" method="POST">
-        <label for="professor_id">Professor:</label>
-        <select id="professor_id" name="professor_id" onchange="showProfessorId(this)" required>
-            <option value="">Selecione um Professor</option>
-            <option value="1" data-id="1">Professor A</option>
-            <option value="2" data-id="2">Professor B</option>
-            <option value="3" data-id="3">Professor C</option>
-        </select>
+    <label for="professores">Selecione um Professor:</label>
+    <select name="professores" id="professores">
+        <option value="disabled" disabled selected>Selecione um Professor</option>
+        <!-- As opções do professor serão geradas aqui -->
+        <?php
+        // Incluindo o arquivo de conexão
+        require '../PHP/connect.php';
 
-        <div id="id_professor_field" class="hidden">
-            <label for="id_professor">ID Professor:</label>
-            <input type="text" id="id_professor" name="id_professor" class="hidden" readonly>
-        </div>
+        // Preparar a consulta para obter professores
+        $sql = "SELECT ID_Professor, Nome FROM Professores";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
 
-        <div id="data_falta_field" class="hidden">
-            <div>
-                <label>Data da Falta:</label>
-                <input type="text" id="data_falta" name="data_falta" value="29/02/24" readonly>
-            </div>
-            <div>
-                <label>Quantidade de Aulas Perdidas:</label>
-                <input type="text" id="quantidade_aulas" name="quantidade_aulas" value="2" readonly>
-            </div>
-        </div>
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            echo '<option value="' . $row['ID_Professor'] . '">' . $row['Nome'] . '</option>';
+        }
+        ?>
+    </select>
 
-        <div class="hidden" id="propostasTable">
-            <h3>Proposta do Professor</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Data da Proposta</th>
-                        <th>Hora de Início</th>
-                        <th>Hora de Fim</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>30/02/24</td>
-                        <td>14:00</td>
-                        <td>16:00</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+    <br><br>
 
-        <label for="status_proposta">Status da Proposta:</label>
-        <select id="status_proposta" name="status_proposta" onchange="toggleProposta(this)">
-            <option value="">Selecione</option>
-            <option value="Fazer Nova Proposta">Fazer Nova Proposta</option>
-            <option value="Aula Reposta">Aula Reposta</option>
-            <option value="Aula Não Reposta">Aula Não Reposta</option>
-        </select>
-        
-        <div id="proposta_reposicao" class="hidden">
-            <label for="nova_proposta_data">Nova Proposta de Reposição (Data):</label>
-            <input type="date" id="nova_proposta_data" name="nova_proposta_data">
+    <label for="aulas">Aulas Não Ministradas:</label>
+    <select name="aulas" id="aulas">
+        <option value="">Selecione uma aula</option>
+        <!-- As opções de aula serão geradas aqui -->
+    </select>
 
-            <div>
-                <label for="nova_proposta_hora_inicio">Hora de Início:</label>
-                <input type="time" id="nova_proposta_hora_inicio" name="nova_proposta_hora_inicio">
-            </div>
-            <div>
-                <label for="nova_proposta_hora_fim">Hora de Fim:</label>
-                <input type="time" id="nova_proposta_hora_fim" name="nova_proposta_hora_fim">
-            </div>
+    <br><br>
 
-            <label for="motivo_proposta">Motivo da Proposta:</label>
-            <textarea id="motivo_proposta" name="motivo_proposta" placeholder="Digite o motivo aqui..." required></textarea>
-        </div>
+    <!-- Os campos de horário e formulário serão inseridos aqui -->
+    <div id="formulario_reposicao"></div>
 
-        <button type="submit">Enviar</button>
-    </form>
+    <script>
+    $(document).ready(function() {
+        // Quando selecionar o professor, buscar as aulas
+        $('#professores').change(function() {
+            var idProfessor = $(this).val();
 
-    <h2>Faltas Registradas</h2>
+            // Limpar as aulas anteriores e formulário
+            $('#aulas').empty().append('<option value="">Selecione uma aula</option>');
+            $('#formulario_reposicao').empty();
 
-    <div class="search-container">
-        <input type="text" placeholder="Buscar por ID do Professor" />
-    </div>
+            if (idProfessor) {
+                // Fazer a requisição AJAX para buscar aulas
+                $.ajax({
+                    url: '../php/buscar_aulas.php',
+                    type: 'GET',
+                    data: { id: idProfessor },
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.error) {
+                            alert(data.error); // Mostrar erro se houver
+                        } else {
+                            // Adicionar as aulas ao select
+                            $.each(data, function(index, aula) {
+                                $('#aulas').append('<option value="' + aula.ID_Aula + '">' + aula.Data_Time + ' - ' + aula.Nome_Materia + ' - ' + aula.Nome_Curso + '</option>');
+                            });
+                        }
+                    },
+                    error: function() {
+                        alert('Erro ao buscar as aulas.');
+                    }
+                });
+            }
+        });
 
-    <table>
-        <thead>
-            <tr>
-                <th>Professor</th>
-                <th>ID Professor</th>
-                <th>Data da Falta</th>
-                <th>Quantidade de Aulas Perdidas</th>
-                <th>Proposta do Professor</th>
-                <th>Status da Reposição</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Exemplo de linha de faltas registradas -->
-            <tr>
-                <td>Professor A</td>
-                <td>1</td>
-                <td>29/02/24</td>
-                <td>2</td>
-                <td>Data: 30/02/24, Hora: 14:00 - 16:00</td>
-                <td>Aguardando Confirmação</td>
-            </tr>
-            <!-- Mais linhas podem ser adicionadas aqui a partir do banco de dados -->
-        </tbody>
-    </table>
+        // Quando selecionar a aula, buscar os horários e exibir o formulário
+        $('#aulas').change(function() {
+            var idAula = $(this).val();
+
+            // Limpar o formulário anterior
+            $('#formulario_reposicao').empty();
+
+            if (idAula) {
+                // Fazer a requisição AJAX para buscar horários e gerar o formulário
+                $.ajax({
+                    url: '../php/buscar_horarios.php',
+                    type: 'GET',
+                    data: { id_aula: idAula },
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.error) {
+                            alert(data.error); // Mostrar erro se houver
+                        } else {
+                            // Gerar o formulário com os horários e campos para reposição
+                            var formulario = `
+                                <label for="horario_inicio">Horário de Início:</label>
+                                <input type="text" id="horario_inicio" value="${data.Horario_Inicio}" disabled><br><br>
+
+                                <label for="horario_final">Horário Final:</label>
+                                <input type="text" id="horario_final" value="${data.Horario_Termino}" disabled><br><br>
+
+                                <label for="data_reposicao">Escolha uma Data de Reposição:</label>
+                                <input type="date" id="data_reposicao" required><br><br>
+
+                                <label for="mensagem">Mensagem:</label>
+                                <textarea id="mensagem" rows="4" cols="50" required></textarea><br><br>
+
+                                <button id="enviar_reposicao">Solicitar Reposição</button>
+                            `;
+                            $('#formulario_reposicao').html(formulario);
+
+                            // Adicionar evento para envio do formulário
+                            $('#enviar_reposicao').click(function() {
+                                var dataReposicao = $('#data_reposicao').val();
+                                var mensagem = $('#mensagem').val();
+
+                                // Fazer a requisição AJAX para enviar a reposição
+                                $.ajax({
+                                    url: '../php/enviar_reposicao.php',
+                                    type: 'POST',
+                                    data: {
+                                        id_aula_nao_ministrada: idAula,
+                                        data_reposicao: dataReposicao,
+                                        mensagem: mensagem
+                                    },
+                                    success: function(response) {
+                                        alert('Reposição enviada com sucesso!');
+                                    },
+                                    error: function() {
+                                        alert('Erro ao enviar a reposição.');
+                                    }
+                                });
+                            });
+                        }
+                    },
+                    error: function() {
+                        alert('Erro ao buscar os horários.');
+                    }
+                });
+            }
+        });
+    });
+    </script>
 
 </body>
 </html>
