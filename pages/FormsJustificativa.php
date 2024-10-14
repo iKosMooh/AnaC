@@ -59,6 +59,7 @@ $aulas = buscarAulas($pdo, $id_professor);
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="styles.css"> <!-- Link para o arquivo CSS -->
     <style>
         .upload-documento {
             display: none;
@@ -157,8 +158,6 @@ $aulas = buscarAulas($pdo, $id_professor);
 
                                             <option value="Outra">Outra</option>
                                         </select>
-
-
                                     </td>
                                 </tr>
                             </tbody>
@@ -182,24 +181,24 @@ $aulas = buscarAulas($pdo, $id_professor);
 
         $('#adicionarAulaBtn').click(function() {
             ordem++;
-            const novaLinha = `
+            let novaRow = `
             <tr class="aulaRow">
-                <td class="ordem">` + ordem + `</td>
+                <td class="ordem">${ordem}</td>
                 <td>
                     <select name="id_aula[]" class="select-aula" required>
                         <option value="">Selecione a aula</option>
                         <?php foreach ($aulas as $aula): ?>
-                            <option value="<?php echo $aula['ID_Aula_Nao_Ministrada']; ?>" 
-                                    data-nome-disciplina="<?php echo $aula['Nome_Materia']; ?>"
-                                    data-nome-curso="<?php echo $aula['Nome_Curso']; ?>"
-                                    data-date-aula="<?php echo $aula['Date_Aula_Nao_Ministrada']; ?>">
+                            <option value="<?php echo $aula['ID_Aula_Nao_Ministrada']; ?>"
+                                data-nome-disciplina="<?php echo $aula['Nome_Materia']; ?>"
+                                data-nome-curso="<?php echo $aula['Nome_Curso']; ?>"
+                                data-date-aula="<?php echo $aula['Date_Aula_Nao_Ministrada']; ?>">
                                 <?php echo $aula['Date_Aula_Nao_Ministrada'] . ' - ' . $aula['Nome_Curso'] . ' - ' . $aula['Nome_Materia']; ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
                 </td>
                 <td>
-                    <input type="date" name="date-aula[]" required>
+                    <input type="date" name="date-aula[]" required readonly>
                 </td>
                 <td>
                     <input type="text" class="nome-disciplina" disabled>
@@ -210,14 +209,12 @@ $aulas = buscarAulas($pdo, $id_professor);
                 <td>
                     <select class="justificativa" name="justificativa[]" required>
                         <option value="">Selecione a justificativa</option>
-                        
                         <optgroup label="Licença Médica">
                             <option value="Licença Médica - Falta Médica">Falta Médica</option>
                             <option value="Licença Médica - Comparecimento ao Médico">Comparecimento ao Médico</option>
                             <option value="Licença Médica - Licença para Tratamento de Saúde">Licença para Tratamento de Saúde</option>
                             <option value="Licença Médica - Licença Maternidade">Licença Maternidade</option>
                         </optgroup>
-                        
                         <optgroup label="Falta Justificada">
                             <option value="Falta Justificada - Falecimento de Cônjuge, Pai, Mãe, Filho">Falecimento de Cônjuge, Pai, Mãe, Filho</option>
                             <option value="Falta Justificada - Falecimento de Ascendentes ou Descendentes">Falecimento de Ascendente ou Descendente</option>
@@ -227,11 +224,9 @@ $aulas = buscarAulas($pdo, $id_professor);
                             <option value="Falta Justificada - Acompanhamento de Filho em Consulta Médica">Acompanhamento de Filho menor de 6 anos em consulta médica</option>
                             <option value="Falta Justificada - Doação de Sangue">Doação Voluntária de Sangue</option>
                         </optgroup>
-
                         <optgroup label="Falta Injustificada">
                             <option value="Falta Injustificada - Saída Antecipada">Saída Antecipada</option>
                         </optgroup>
-                        
                         <optgroup label="Faltas Previstas na Legislação">
                             <option value="Faltas Previstas na Legislação - Alistamento Eleitoral">Alistamento Eleitoral</option>
                             <option value="Faltas Previstas na Legislação - Convocação para Depoimento Judicial">Convocação para Depoimento Judicial</option>
@@ -239,75 +234,58 @@ $aulas = buscarAulas($pdo, $id_professor);
                             <option value="Faltas Previstas na Legislação - Convocação para Serviço Eleitoral">Convocação para Serviço Eleitoral</option>
                             <option value="Faltas Previstas na Legislação - Dispensa para Composição de Mesas Eleitorais">Dispensa por Composição de Mesas Eleitorais</option>
                         </optgroup>
-
                         <optgroup label="Motivos Educacionais">
                             <option value="Motivos Educacionais - Realização de Prova de Vestibular">Realização de Prova de Vestibular</option>
                         </optgroup>
-                        
                         <optgroup label="Outros Motivos">
                             <option value="Outros Motivos - Comparecimento na Justiça do Trabalho">Comparecimento na Justiça do Trabalho</option>
                             <option value="Outros Motivos - Atraso devido a Acidente de Transporte">Atraso Decorrente de Acidente de Transporte (com atestado da empresa)</option>
                         </optgroup>
-
                         <option value="Outra">Outra</option>
                     </select>
-
                 </td>
             </tr>`;
-            $('tbody').append(novaLinha);
+            $('tbody').append(novaRow);
         });
 
         $(document).on('change', '.select-aula', function() {
-            const selectedOption = $(this).find('option:selected');
-            const row = $(this).closest('tr'); // Referência à linha correspondente
+            const selectedOption = $(this).find(':selected');
+            const dateAula = selectedOption.data('date-aula');
+            const nomeDisciplina = selectedOption.data('nome-disciplina');
+            const nomeCurso = selectedOption.data('nome-curso');
 
-            // Preencher o campo de data automaticamente
-            const dataAula = selectedOption.data('date-aula');
-            row.find('input[name="date-aula[]"]').val(dataAula); // Atualiza o campo de data
-
-            row.find('.nome-disciplina').val(selectedOption.data('nome-disciplina'));
-            row.find('.nome-curso').val(selectedOption.data('nome-curso'));
+            $(this).closest('tr').find('input[name="date-aula[]"]').val(dateAula);
+            $(this).closest('tr').find('.nome-disciplina').val(nomeDisciplina);
+            $(this).closest('tr').find('.nome-curso').val(nomeCurso);
         });
 
-        $(document).on('change', '.justificativa', function() {
-            const selectedJustificativa = $(this).val();
-            const row = $(this).closest('tr'); // Referência à linha correspondente
-
-            // Verificar se alguma das opções de Licença Médica está selecionada
-            const hasLicencaMedica = $('.justificativa').toArray().some(function(select) {
-                return $(select).val().includes('Licença Médica');
-            });
-
-            // Habilitar ou desabilitar o campo de upload de acordo com a seleção
-            if (hasLicencaMedica) {
-                $('.upload-documento').show(); // Mostrar campo de upload se Licença Médica estiver selecionada
-                $('.upload-documento').prop('required', true); // Tornar o upload obrigatório
-            } else {
-                $('.upload-documento').hide().val(''); // Ocultar e limpar se Licença Médica não estiver selecionada
-                $('.upload-documento').prop('required', false); // Remover obrigatoriedade do upload
-            }
-        });
-
-        // Função para validar o formulário no envio
-        $('#reposicaoForm').on('submit', function(event) {
-            event.preventDefault(); // Previne o envio padrão do formulário
-
-            const rows = $('.aulaRow');
+        $('#reposicaoForm').submit(function(e) {
+            e.preventDefault(); // Impede o envio padrão do formulário
+            const formData = new FormData(this);
+            const documentoAula = $('#documentoAula').get(0).files.length;
             let allValid = true;
 
-            // Criação de um objeto FormData para enviar dados do formulário
-            let formData = new FormData(this);
-
-            rows.each(function() {
-                const inputs = $(this).find('input, select');
-                inputs.each(function() {
-                    if (!$(this).val()) {
-                        alert('Por favor, preencha todos os campos obrigatórios.');
-                        allValid = false; // Sair do loop
-                        return false; // Para a iteração atual
-                    }
-                });
+            // Verifique se todos os campos necessários estão preenchidos
+            $('select[name="id_aula[]"]').each(function() {
+                if ($(this).val() === "") {
+                    allValid = false;
+                    alert('Por favor, selecione todas as aulas.');
+                    return false; // Sai do loop
+                }
             });
+
+            $('select[name="justificativa[]"]').each(function() {
+                if ($(this).val() === "") {
+                    allValid = false;
+                    alert('Por favor, selecione a justificativa para todas as aulas.');
+                    return false; // Sai do loop
+                }
+            });
+
+            if (documentoAula === 0) {
+                allValid = false;
+                alert('Por favor, faça o upload do documento para todas as aulas.');
+            }
 
             if (allValid) {
                 $.ajax({
@@ -332,3 +310,4 @@ $aulas = buscarAulas($pdo, $id_professor);
 </body>
 
 </html>
+
