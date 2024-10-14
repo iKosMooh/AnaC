@@ -10,6 +10,7 @@ if (!isset($_SESSION['tipo'])) {
 // Pegar o ID do professor da sessão
 $id_professor = $_SESSION['id'];
 $is_coordenador = ($_SESSION['tipo'] == 'coordenador');
+
 // Conexão ao banco de dados
 require '../PHP/connect.php';
 
@@ -34,7 +35,9 @@ function buscarAulas($pdo, $id_professor)
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-$aulas = buscarAulas($pdo, '0');
+
+$aulas = buscarAulas($pdo, $id_professor); // Corrigido para usar $id_professor corretamente
+
 // Consulta para buscar todos os professores, se o usuário for coordenador
 if ($is_coordenador) {
     $sql_professores = "SELECT ID_Professor, Nome FROM Professores";
@@ -44,19 +47,17 @@ if ($is_coordenador) {
 } else {
     $aulas = buscarAulas($pdo, $id_professor);
 }
-
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Aula Não Ministrada</title>
+    <link rel="stylesheet" href="../css/naoministrada.css"> <!-- CSS para estilização -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-
 <body>
     <div class="container">
         <div class="formContainer">
@@ -130,28 +131,28 @@ if ($is_coordenador) {
         $('#adicionarAulaBtn').click(function() {
             ordem++;
             const novaLinha = `
-            <tr class="aulaRow">
-                <td class="ordem">` + ordem + `</td>
-                <td><input type="date" name="dataAula[]"></td>
-                <td>
-                    <select name="id_aula[]" class="select-aula">
-                        <option value="">Selecione a aula</option>
-                        <?php foreach ($aulas as $aula): ?>
-                            <option value="<?php echo $aula['ID_Aula']; ?>" 
-                                    data-horario-inicio="<?php echo $aula['Horario_Inicio']; ?>"
-                                    data-horario-termino="<?php echo $aula['Horario_Termino']; ?>"
-                                    data-nome-disciplina="<?php echo $aula['Nome_Materia']; ?>"
-                                    data-id-materia="<?php echo $aula['ID_Materia']; ?>">
-                                <?php echo $aula['Nome_Curso'] . ' - ' . $aula['Nome_Materia']; ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                </td>
-                <td><input type="text" class="horario-inicio" disabled></td>
-                <td><input type="text" class="horario-termino" disabled></td>
-                <td><input type="text" class="nome-disciplina" disabled></td>
-                <td><input type="text" name="observacaoAula[]" placeholder="Motivo da aula não ministrada"></td>
-            </tr>`;
+                <tr class="aulaRow">
+                    <td class="ordem">${ordem}</td>
+                    <td><input type="date" name="dataAula[]"></td>
+                    <td>
+                        <select name="id_aula[]" class="select-aula">
+                            <option value="">Selecione a aula</option>
+                            <?php foreach ($aulas as $aula): ?>
+                                <option value="<?php echo $aula['ID_Aula']; ?>" 
+                                        data-horario-inicio="<?php echo $aula['Horario_Inicio']; ?>"
+                                        data-horario-termino="<?php echo $aula['Horario_Termino']; ?>"
+                                        data-nome-disciplina="<?php echo $aula['Nome_Materia']; ?>"
+                                        data-id-materia="<?php echo $aula['ID_Materia']; ?>">
+                                    <?php echo $aula['Nome_Curso'] . ' - ' . $aula['Nome_Materia']; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </td>
+                    <td><input type="text" class="horario-inicio" disabled></td>
+                    <td><input type="text" class="horario-termino" disabled></td>
+                    <td><input type="text" class="nome-disciplina" disabled></td>
+                    <td><input type="text" name="observacaoAula[]" placeholder="Motivo da aula não ministrada"></td>
+                </tr>`;
             $('tbody').append(novaLinha);
         });
 
@@ -182,61 +183,17 @@ if ($is_coordenador) {
                             $('.select-aula').append('<option value="' + aula.ID_Aula + '" data-horario-inicio="' + aula.Horario_Inicio + '" data-horario-termino="' + aula.Horario_Termino + '" data-nome-disciplina="' + aula.Nome_Materia + '" data-id-materia="' + aula.ID_Materia + '">' + aula.Nome_Curso + ' - ' + aula.Nome_Materia + '</option>');
                         });
                     },
-                    error: function(xhr, status, error) {
-                        alert('Erro ao buscar aulas.');
-                        console.log(error); // Log do erro para depuração
-                        console.log(xhr.responseText); // Exibir a resposta completa para depuração
-                        console.log(error); // Log do erro para depuração
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('Erro ao buscar aulas:', textStatus, errorThrown);
                     }
                 });
-            } else {
-                // Se nenhum professor for selecionado, resetar o select
-                $('.select-aula').empty().append('<option value="">Selecione a aula</option>');
             }
         });
 
+        // Envio do formulário
         $('#enviarAulasBtn').click(function() {
-            $('.aulaRow').each(function() {
-                const row = $(this);
-                const dataAula = row.find('input[name="dataAula[]"]').val();
-                const idAula = row.find('select[name="id_aula[]"]').val();
-                const observacao = row.find('input[name="observacaoAula[]"]').val();
-
-                // Recuperando o select da aula
-                const selectAula = row.find('select[name="id_aula[]"]');
-                const selectedOption = selectAula.find('option:selected');
-                const idMateria = selectedOption.data('id-materia'); // Agora está correto
-
-                if (dataAula && idAula && observacao && idMateria) { // Verifica se idMateria não é undefined
-                    $.ajax({
-                        url: '../php/Nao_Ministrada_Cadastro.php',
-                        type: 'POST',
-                        data: {
-                            id_professor: $('input[name="id_professor"]').val(),
-                            dataAula: dataAula,
-                            id_aula: idAula,
-                            observacaoAula: observacao,
-                            id_materia: idMateria // Enviando o ID_Materia
-                        },
-                        success: function(response) {
-                            console.log(response); // Verifica o que está retornando
-                            const jsonResponse = JSON.parse(response); // Tenta parsear a resposta
-                            alert(jsonResponse.message); // Acessa a mensagem
-                        },
-                        error: function(xhr, status, error) {
-                            console.error(error);
-                        }
-                    });
-                } else {
-                    alert('Por favor, preencha todos os campos obrigatórios.');
-                    console.log(idAula);
-                    console.log(observacao);
-                    console.log(idMateria);
-                }
-            });
+            $('#reposicaoForm').submit();
         });
     </script>
-
 </body>
-
 </html>
