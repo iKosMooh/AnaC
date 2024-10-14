@@ -27,9 +27,12 @@ footer {
     padding: 2rem 3.5rem;
     text-align: left;
     padding-top: 40px;
-    transform: translateY(50px); /* Ajuste este valor para mover o footer */
-
+    position: fixed; /* Fixar o footer na parte inferior */
+    bottom: 0; /* Alinha o footer no fundo */
+    width: 100%; /* Faz o footer ocupar toda a largura da tela */
+    z-index: 1000; /* Garante que o footer fique acima de outros elementos */
 }
+
 
 #footer_content {
     display: flex;
