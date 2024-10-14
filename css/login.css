@@ -20,26 +20,28 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: flex-end; 
-    min-height: 100vh;
+    min-height: 100vh; /* Garantir que o body tenha altura mínima */
     width: 100%;
     background-color: #f5f5f5;
     color: #333;
     margin: 0;
-}
+    position: relative; /* Permite que os elementos absolutos sejam posicionados em relação ao body */
+} 
 
 body::before {
     content: "";
-    position: absolute;
+    position: absolute; /* A imagem ocupa o espaço absoluto do body */
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     background-image: url('https://www.saopaulo.sp.gov.br/wp-content/uploads/2017/03/album-3-8.jpg');
-    background-size: cover;
-    background-position: center;
-    filter: blur(10px);
-    z-index: -1;
+    background-size: cover; /* Garante que a imagem cobre toda a área */
+    background-position: center; /* Centraliza a imagem */
+    filter: blur(10px); /* Aplica um efeito de desfoque */
+    z-index: -1; /* Coloca a imagem atrás de todos os outros elementos */
 }
+
 
 .flex-container {
     flex: 1;
