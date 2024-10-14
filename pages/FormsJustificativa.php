@@ -1,8 +1,8 @@
 <?php
 session_start();
 // Verificar se o usuário está logado
-if (!isset($_SESSION['tipo'])) {
-    header('Location: login.php');
+if (!isset($_SESSION['id'])) {
+    header('Location: login.php'); // Redireciona se não estiver logado
     exit();
 }
 if ($_SESSION['tipo'] != 'professor') {
@@ -36,14 +36,13 @@ function buscarAulas($pdo, $id_professor)
         Professores_Cursos PC ON C.ID_Curso = PC.ID_Curso
     WHERE 
         PC.ID_Professor = :id_professor
-        AND A.Justificado != 'Justificado'";  // Filtra apenas os não justificados
+        AND A.Justificado != 'Justificado'";
 
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':id_professor', $id_professor, PDO::PARAM_INT);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-
 
 $aulas = buscarAulas($pdo, $id_professor);
 ?>
@@ -57,14 +56,199 @@ $aulas = buscarAulas($pdo, $id_professor);
     <title>Formulário de Justificativa</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="styles.css"> <!-- Link para o arquivo CSS -->
+    <link rel="stylesheet" href="styles.css">
     <style>
-        .upload-documento {
-            display: none;
-            /* Ocultar por padrão */
+        /* CSS personalizado integrado */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Roboto", sans-serif;
         }
+        
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f5f5f5;
+            color: #333;
+            background-image: url("../img/formBG.jpg");
+            background-size: auto; /* Ou um valor específico, como 100px 100px */
+            background-repeat: repeat;
+            background-position: center;
+            min-height: 100vh;
+        }
+        
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px; /* Aumentando a largura máxima do container */
+            margin: 20px auto; /* Centralizando o container */
+            padding: 40px; /* Aumentado para melhor conforto */
+            background: rgba(255, 255, 255, 0.9); /* Fundo com leve transparência */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Sombra mais suave */
+            border-radius: 10px; /* Borda mais suave */
+        }
+        
+        
+        .formContainer {
+            text-align: center;
+        }
+        
+        .formContainer h1 {
+            margin-bottom: 20px; /* Reduzido para melhor alinhamento */
+            color: #a31e22;
+            font-size: 28px; /* Aumentado para melhor legibilidade */
+        }
+        
+        .inputlabel {
+            margin-bottom: 25px; /* Espaçamento aumentado */
+            text-align: left;
+        }
+        
+        .inputlabel label {
+            display: block;
+            margin-bottom: 10px; /* Melhor separação */
+            font-weight: bold;
+        }
+        
+        .inputlabel select,
+        .inputlabel input[type="text"],
+        .inputlabel textarea,
+        .inputlabel input[type="file"],
+        .inputlabel input[type="date"],
+        .inputlabel input[type="time"] {
+            width: 100%;
+            padding: 12px; /* Ajustando o padding para uniformidade */
+            margin-top: 0;
+            border: 1px solid #ccc;
+            border-radius: 5px; /* Borda mais suave */
+            font-size: 16px; /* Diminuindo um pouco o tamanho da fonte */
+            transition: border-color 0.3s; /* Transição suave para a borda */
+        }
+        
+        .inputlabel select:focus,
+        .inputlabel input[type="text"]:focus,
+        .inputlabel textarea:focus,
+        .inputlabel input[type="file"]:focus,
+        .inputlabel input[type="date"]:focus,
+        .inputlabel input[type="time"]:focus {
+            border-color: #a31e22; /* Mudança de cor no foco */
+            outline: none; /* Remover contorno padrão */
+        }
+        
+        .justificativa {
+            width: calc(100% - 40px); /* Ajustando a largura */
+            padding: 10px; /* Melhorando o padding */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        
+        .upload-atestado {
+            margin-top: 10px; /* Espaço acima do campo de upload */
+            width: 100%;
+        }
+        
+        button[type="submit"],
+        button[type="button"] {
+            width: 100%;
+            padding: 15px; /* Aumentado para melhor acessibilidade */
+            border: none;
+            border-radius: 5px; /* Borda mais suave */
+            background-color: #a31e22;
+            color: #fff;
+            font-size: 20px; /* Aumentado para melhor legibilidade */
+            cursor: pointer;
+            margin-top: 15px; /* Espaço entre os botões */
+            transition: background-color 0.3s; /* Transição suave para o botão */
+        }
+        
+        button[type="button"] {
+            background-color: #8b1a1d; /* Mudando a cor do botão "Remover" */
+        }
+        
+        button[type="button"]:hover {
+            background-color: #8b1a1d; /* Cor do botão ao passar o mouse */
+        }
+        
+        button[type="submit"]:hover,
+        button[type="button"]:hover {
+            background-color: #8b1a1d; /* Cor de fundo ao passar o mouse */
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0; /* Margem para a tabela */
+            min-height: 200px; /* Aumentando a altura mínima da tabela */
+        }
+        
+        th, td {
+            padding: 15px 20px; /* Aumentado para mais conforto e visibilidade */
+            text-align: left;
+            border-bottom: 1px solid #ddd; /* Linha de separação */
+            line-height: 1.5; /* Aumentando a altura das linhas */
+        }
+        
+        th {
+            background-color: #f2f2f2; /* Cor de fundo para cabeçalho */
+            font-weight: bold; /* Negrito para o cabeçalho */
+        }
+        
+        td {
+            word-wrap: break-word; /* Quebrar palavras longas, se necessário */
+        }
+        
+        .footer {
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            position: relative;
+            bottom: 0; /* Fixar o rodapé */
+        }
+        
+        .footer-links {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .footer-links li {
+            display: inline;
+            margin: 0 15px; /* Aumentado o espaço entre links */
+        }
+        
+        .footer-links a {
+            color: #fff;
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        /* Responsividade */
+        @media (max-width: 600px) {
+            th, td {
+                padding: 10px; /* Menos padding em telas menores */
+                font-size: 14px; /* Ajustando o tamanho da fonte */
+            }
+        }
+        
     </style>
 </head>
 
@@ -87,6 +271,8 @@ $aulas = buscarAulas($pdo, $id_professor);
                                     <th>Disciplina</th>
                                     <th>Curso</th>
                                     <th>Justificativa</th>
+                                    <th>Upload PDF</th> <!-- Nova coluna -->
+                                    <th>Ação</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -117,47 +303,24 @@ $aulas = buscarAulas($pdo, $id_professor);
                                     <td>
                                         <select class="justificativa" name="justificativa[]" required>
                                             <option value="">Selecione a justificativa</option>
-
                                             <optgroup label="Licença Médica">
                                                 <option value="Licença Médica - Falta Médica">Falta Médica</option>
                                                 <option value="Licença Médica - Comparecimento ao Médico">Comparecimento ao Médico</option>
                                                 <option value="Licença Médica - Licença para Tratamento de Saúde">Licença para Tratamento de Saúde</option>
                                                 <option value="Licença Médica - Licença Maternidade">Licença Maternidade</option>
                                             </optgroup>
-
-                                            <optgroup label="Falta Justificada">
-                                                <option value="Falta Justificada - Falecimento de Cônjuge, Pai, Mãe, Filho">Falecimento de Cônjuge, Pai, Mãe, Filho</option>
-                                                <option value="Falta Justificada - Falecimento de Ascendentes ou Descendentes">Falecimento de Ascendente ou Descendente</option>
-                                                <option value="Falta Justificada - Casamento">Casamento</option>
-                                                <option value="Falta Justificada - Nascimento de Filho">Nascimento de Filho (primeira semana)</option>
-                                                <option value="Falta Justificada - Acompanhamento de Esposa ou Companheira Gestante">Acompanhamento de Esposa ou Companheira Gestante</option>
-                                                <option value="Falta Justificada - Acompanhamento de Filho em Consulta Médica">Acompanhamento de Filho menor de 6 anos em consulta médica</option>
-                                                <option value="Falta Justificada - Doação de Sangue">Doação Voluntária de Sangue</option>
+                                            <optgroup label="Outras Justificativas">
+                                                <option value="Falta Justificada">Falta Justificada</option>
+                                                <option value="Problemas Pessoais">Problemas Pessoais</option>
+                                                <option value="Problemas de Transporte">Problemas de Transporte</option>
+                                                <option value="Outros">Outros</option>
                                             </optgroup>
-
-                                            <optgroup label="Falta Injustificada">
-                                                <option value="Falta Injustificada - Saída Antecipada">Saída Antecipada</option>
-                                            </optgroup>
-
-                                            <optgroup label="Faltas Previstas na Legislação">
-                                                <option value="Faltas Previstas na Legislação - Alistamento Eleitoral">Alistamento Eleitoral</option>
-                                                <option value="Faltas Previstas na Legislação - Convocação para Depoimento Judicial">Convocação para Depoimento Judicial</option>
-                                                <option value="Faltas Previstas na Legislação - Comparecimento como Jurado no Tribunal do Júri">Comparecimento como Jurado no Tribunal do Júri</option>
-                                                <option value="Faltas Previstas na Legislação - Convocação para Serviço Eleitoral">Convocação para Serviço Eleitoral</option>
-                                                <option value="Faltas Previstas na Legislação - Dispensa para Composição de Mesas Eleitorais">Dispensa por Composição de Mesas Eleitorais</option>
-                                            </optgroup>
-
-                                            <optgroup label="Motivos Educacionais">
-                                                <option value="Motivos Educacionais - Realização de Prova de Vestibular">Realização de Prova de Vestibular</option>
-                                            </optgroup>
-
-                                            <optgroup label="Outros Motivos">
-                                                <option value="Outros Motivos - Comparecimento na Justiça do Trabalho">Comparecimento na Justiça do Trabalho</option>
-                                                <option value="Outros Motivos - Atraso devido a Acidente de Transporte">Atraso Decorrente de Acidente de Transporte (com atestado da empresa)</option>
-                                            </optgroup>
-
-                                            <option value="Outra">Outra</option>
                                         </select>
+                                    <td>
+                                        <input type="file" name="upload_pdf[]" class="upload-pdf hidden" accept=".pdf, .doc, .docx, .jpg, .png">
+                                    </td>
+                                    <td>
+                                        <button type="button" class="removerAulaBtn">Remover</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -165,15 +328,24 @@ $aulas = buscarAulas($pdo, $id_professor);
                         <button type="button" id="adicionarAulaBtn">Adicionar Aula</button>
                     </div>
 
-                    <div class="upload-container">
-                        <label for="documentoAula">Documento para todas as aulas:</label>
-                        <input type="file" id="documentoAula" name="documentoAula" accept=".pdf, .doc, .docx, .jpg, .png" class="upload-documento">
+                    <div class="inputlabel">
+                        <label for="observacao">Observações</label>
+                        <textarea name="observacao" id="observacao" rows="4"></textarea>
                     </div>
 
-                    <button type="submit" id="enviarAulasBtn">Enviar Aulas</button>
+                    <button type="submit">Enviar Justificativa</button>
                 </form>
             </div>
         </div>
+    </div>
+
+    <div class="footer">
+        <ul class="footer-links">
+            <li><a href="#">Sobre</a></li>
+            <li><a href="#">Contatos</a></li>
+            <li><a href="#">Ajuda</a></li>
+        </ul>
+        <p>&copy; 2024 - Todos os direitos reservados.</p>
     </div>
 
     <script>
@@ -215,34 +387,20 @@ $aulas = buscarAulas($pdo, $id_professor);
                             <option value="Licença Médica - Licença para Tratamento de Saúde">Licença para Tratamento de Saúde</option>
                             <option value="Licença Médica - Licença Maternidade">Licença Maternidade</option>
                         </optgroup>
-                        <optgroup label="Falta Justificada">
-                            <option value="Falta Justificada - Falecimento de Cônjuge, Pai, Mãe, Filho">Falecimento de Cônjuge, Pai, Mãe, Filho</option>
-                            <option value="Falta Justificada - Falecimento de Ascendentes ou Descendentes">Falecimento de Ascendente ou Descendente</option>
-                            <option value="Falta Justificada - Casamento">Casamento</option>
-                            <option value="Falta Justificada - Nascimento de Filho">Nascimento de Filho (primeira semana)</option>
-                            <option value="Falta Justificada - Acompanhamento de Esposa ou Companheira Gestante">Acompanhamento de Esposa ou Companheira Gestante</option>
-                            <option value="Falta Justificada - Acompanhamento de Filho em Consulta Médica">Acompanhamento de Filho menor de 6 anos em consulta médica</option>
-                            <option value="Falta Justificada - Doação de Sangue">Doação Voluntária de Sangue</option>
+                        <optgroup label="Outras Justificativas">
+                            <option value="Falta Justificada">Falta Justificada</option>
+                            <option value="Problemas Pessoais">Problemas Pessoais</option>
+                            <option value="Problemas de Transporte">Problemas de Transporte</option>
+                            <option value="Outros">Outros</option>
                         </optgroup>
-                        <optgroup label="Falta Injustificada">
-                            <option value="Falta Injustificada - Saída Antecipada">Saída Antecipada</option>
-                        </optgroup>
-                        <optgroup label="Faltas Previstas na Legislação">
-                            <option value="Faltas Previstas na Legislação - Alistamento Eleitoral">Alistamento Eleitoral</option>
-                            <option value="Faltas Previstas na Legislação - Convocação para Depoimento Judicial">Convocação para Depoimento Judicial</option>
-                            <option value="Faltas Previstas na Legislação - Comparecimento como Jurado no Tribunal do Júri">Comparecimento como Jurado no Tribunal do Júri</option>
-                            <option value="Faltas Previstas na Legislação - Convocação para Serviço Eleitoral">Convocação para Serviço Eleitoral</option>
-                            <option value="Faltas Previstas na Legislação - Dispensa para Composição de Mesas Eleitorais">Dispensa por Composição de Mesas Eleitorais</option>
-                        </optgroup>
-                        <optgroup label="Motivos Educacionais">
-                            <option value="Motivos Educacionais - Realização de Prova de Vestibular">Realização de Prova de Vestibular</option>
-                        </optgroup>
-                        <optgroup label="Outros Motivos">
-                            <option value="Outros Motivos - Comparecimento na Justiça do Trabalho">Comparecimento na Justiça do Trabalho</option>
-                            <option value="Outros Motivos - Atraso devido a Acidente de Transporte">Atraso Decorrente de Acidente de Transporte (com atestado da empresa)</option>
-                        </optgroup>
-                        <option value="Outra">Outra</option>
                     </select>
+                    <input type="file" name="atestado[]" class="upload-atestado hidden" accept=".pdf, .doc, .docx, .jpg, .png">
+                </td>
+                <td>
+                    <input type="file" name="upload_pdf[]" class="upload-pdf hidden" accept=".pdf"> <!-- Novo campo -->
+                </td>
+                <td>
+                    <button type="button" class="removerAulaBtn">Remover</button>
                 </td>
             </tr>`;
             $('tbody').append(novaRow);
@@ -259,55 +417,31 @@ $aulas = buscarAulas($pdo, $id_professor);
             $(this).closest('tr').find('.nome-curso').val(nomeCurso);
         });
 
-        $('#reposicaoForm').submit(function(e) {
-            e.preventDefault(); // Impede o envio padrão do formulário
-            const formData = new FormData(this);
-            const documentoAula = $('#documentoAula').get(0).files.length;
-            let allValid = true;
+        $(document).on('change', '.justificativa', function() {
+            const justificativa = $(this).val();
+            const atestadoInput = $(this).closest('td').find('.upload-atestado');
+            const pdfInput = $(this).closest('tr').find('.upload-pdf');
 
-            // Verifique se todos os campos necessários estão preenchidos
-            $('select[name="id_aula[]"]').each(function() {
-                if ($(this).val() === "") {
-                    allValid = false;
-                    alert('Por favor, selecione todas as aulas.');
-                    return false; // Sai do loop
-                }
-            });
-
-            $('select[name="justificativa[]"]').each(function() {
-                if ($(this).val() === "") {
-                    allValid = false;
-                    alert('Por favor, selecione a justificativa para todas as aulas.');
-                    return false; // Sai do loop
-                }
-            });
-
-            if (documentoAula === 0) {
-                allValid = false;
-                alert('Por favor, faça o upload do documento para todas as aulas.');
+            if (justificativa.includes('Licença Médica')) {
+                atestadoInput.removeClass('hidden'); // Mostra o campo de upload
+                pdfInput.removeClass('hidden'); // Mostra o campo PDF
+            } else {
+                atestadoInput.addClass('hidden'); // Oculta o campo
+                atestadoInput.val(''); // Limpa o campo
+                pdfInput.addClass('hidden'); // Oculta o campo PDF
+                pdfInput.val(''); // Limpa o campo PDF
             }
+        });
 
-            if (allValid) {
-                $.ajax({
-                    url: '../php/justificar.php', // URL do arquivo PHP que processará os dados
-                    type: 'POST',
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(response) {
-                        alert('Justificativa enviada com sucesso!');
-                        console.log(response); // Para depuração
-                        // Aqui você pode adicionar lógica adicional, como redirecionamento ou limpeza do formulário
-                    },
-                    error: function(xhr, status, error) {
-                        alert('Ocorreu um erro ao enviar o formulário: ' + error);
-                        console.error(xhr.responseText); // Para depuração
-                    }
-                });
-            }
+        $(document).on('click', '.removerAulaBtn', function() {
+            $(this).closest('tr').remove(); // Remove a linha da tabela
+            // Atualiza a ordem das aulas
+            ordem--;
+            $('.ordem').each(function(index) {
+                $(this).text(index + 1); // Atualiza a numeração
+            });
         });
     </script>
 </body>
 
 </html>
-
