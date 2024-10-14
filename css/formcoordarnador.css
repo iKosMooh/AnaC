@@ -6,8 +6,13 @@
     background-color: #f9f9f9; 
     border-radius: 8px; 
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+    padding-top: 70px; /* Espaço superior para respeitar o nav */
 }
 
+/* Adiciona espaço superior ao corpo para que o conteúdo não fique atrás da barra fixa */
+body {
+    padding-top: 70px; /* Ajuste a altura conforme necessário */
+}
 
 label {
     font-weight: bold; 
@@ -23,11 +28,9 @@ select, input[type="text"], input[type="date"], textarea {
     border-radius: 4px; 
 }
 
-
 textarea {
     resize: none; 
 }
-
 
 button {
     background-color: #4CAF50; 
@@ -42,7 +45,6 @@ button {
 button:hover {
     background-color: #45a049; 
 }
-
 
 table {
     width: 100%; 
@@ -67,4 +69,33 @@ tr:nth-child(even) {
 
 tr:hover {
     background-color: #ddd; 
+}
+
+/* Estilos responsivos */
+@media (max-width: 600px) {
+    .container {
+        padding: 10px; /* Reduzir o padding em telas menores */
+    }
+
+    button {
+        width: 100%; /* Botões ocupam toda a largura */
+        padding: 15px; /* Aumenta o padding para melhor toque */
+    }
+
+    th, td {
+        padding: 10px; /* Reduz o padding em tabelas */
+    }
+
+    select, input[type="text"], input[type="date"], textarea {
+        padding: 8px; /* Reduz o padding em inputs e selects */
+    }
+
+    .upload-container {
+        margin-bottom: 15px; /* Adiciona espaço inferior */
+    }
+
+    /* Estilo para a tabela em dispositivos menores */
+    table {
+        font-size: 14px; /* Reduz o tamanho da fonte */
+    }
 }
