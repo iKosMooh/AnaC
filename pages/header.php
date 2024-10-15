@@ -8,6 +8,7 @@ $tipo = null;
 if (isset($_SESSION['tipo'])) {
     if ($_SESSION['tipo'] == 'professor') {
         $tipo = 'Professor';
+        // $exemplo = '<a href='/pagina/destino'>Nome do Campo</a>'
     } 
     else if ($_SESSION['tipo'] == 'coordenador') {
         $tipo = 'Coordenador';
