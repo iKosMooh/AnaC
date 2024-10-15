@@ -5,6 +5,10 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+body{
+    height: 100%;
+}
+
 header {
     background-color: #b20000;
     margin: 0;
@@ -474,9 +478,6 @@ header {
         color: #666666; /* Cor do texto */
     }
 }
-
-
-
 
 .login-options {
     display: flex;

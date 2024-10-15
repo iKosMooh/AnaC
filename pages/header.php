@@ -3,7 +3,7 @@ if (isset($_SESSION['tipo'])){
 session_start();
 }
 
-$tipo = 'Login';
+$tipo = null;
 
 if (isset($_SESSION['tipo'])) {
     if ($_SESSION['tipo'] == 'professor') {
@@ -32,7 +32,7 @@ if (isset($_SESSION['tipo'])) {
         <nav class="navbar">
             <a href="#" class="logo"><img src="/img/Logo-Fatec-1200x800-1-removebg-preview.png" alt="Logo"></a>
             <ul class="nav-menu nav-menu-border">
-                <li class="titulo">Portal do <?php echo $tipo ?></li>
+                <li class="titulo">Portal FATEC</li>
                 <!-- Exibir botão com base no estado de sessão -->
                 <li class="nav-item sair">
                     <?php if (isset($_SESSION['tipo'])): ?>
