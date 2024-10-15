@@ -1,5 +1,7 @@
 <?php
+if (isset($_SESSION['tipo'])){
 session_start();
+}
 
 $tipo = 'Login';
 
