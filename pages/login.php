@@ -27,7 +27,7 @@ if (!isset($_SESSION['tipo'])) {
         // Verificar se é um Coordenador
         $stmt = $pdo->prepare("
             SELECT * FROM Coordenadores 
-            WHERE (Usuario = :usuario OR EmailInstitucional = :usuario) 
+            WHERE (Usuario = :usuario OR EmailInstitucional = :usuario OR Email = :usuario) 
             AND Senha = :senha
         ");
         $stmt->execute(['usuario' => $usuario, 'senha' => $senha]);
@@ -62,7 +62,6 @@ if (!isset($_SESSION['tipo'])) {
 
 <body>
     <?php include_once 'header.php'; ?>
-    <?php include_once 'footer.php'; ?>
     <div class="flex-container">
         <div class="imagem">
             <img src="/img/fatec.jpg" alt="Fatec">
