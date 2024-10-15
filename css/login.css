@@ -9,7 +9,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-end;
+    align-items: center;
     min-height: 100vh;
     width: 100%;
     background-color: #f5f5f5;
@@ -33,22 +33,30 @@ body::before {
 }
 
 .flex-container {
-    flex: 1;
     display: flex;
-    flex-direction: row;
+    justify-content: center;
+    align-items: stretch; /* Garante que ambos tenham a mesma altura */
+    height: 60vh; /* Define a altura total do container flexível */
+    margin: 5%;
+    width: 80%;
+    padding: 0%;
+}
+
+.container, .imagem {
+    flex: 1; /* Ambos os elementos ocupam o mesmo espaço */
+    display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 10%;
+    max-height: 100%; /* Garante que ambos sigam a mesma altura */
 }
 
 .container {
-    width: 100%;
-    max-height: 600px;
-    padding: 8%;
+    flex-direction: column;
     background: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 2%;
     text-align: center;
+    max-width: 30%; /* Limita a largura máxima */
 }
 
 #tituloLogin {
@@ -56,8 +64,6 @@ body::before {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 3%;
-    margin-right: 2%;
-    margin-left: 15%;
 }
 
 #tituloLogin h1 {
@@ -75,7 +81,6 @@ body::before {
     display: block;
     font-weight: bold;
     margin-bottom: 1%;
-    margin-left: 1%;
     color: rgb(77, 77, 77);
 }
 
@@ -94,12 +99,6 @@ body::before {
 .inputlabel input[type="password"]:focus {
     border-color: #a31e22;
     color: black;
-}
-
-.inputlabel input[type="text"]::placeholder,
-.inputlabel input[type="password"]::placeholder {
-    color: rgb(122, 122, 122);
-    font-size: 1.2vw;
 }
 
 button[type="submit"] {
@@ -126,10 +125,6 @@ button[type="submit"]:hover {
     font-size: 1vw;
 }
 
-.lembrar label {
-    margin-right: 10%;
-}
-
 .esquecisenha {
     text-decoration: none;
     color: rgb(111, 111, 199);
@@ -137,6 +132,8 @@ button[type="submit"]:hover {
 
 .imagem img {
     width: 100%;
+    height: 100%; /* Garante que a imagem ocupe toda a altura disponível */
+    object-fit: cover; /* Garante que a imagem seja dimensionada corretamente */
 }
 
 /* Responsividade para telas médias */
@@ -148,15 +145,13 @@ button[type="submit"]:hover {
 
 /* Responsividade para telas pequenas */
 @media (max-width: 768px) {
-    .container {
-        padding: 5%;
-        margin-right: 0;
+    .flex-container {
+        flex-direction: column; /* Muda para coluna em telas pequenas */
     }
 
-    #tituloLogin {
-        margin-left: 0;
-        margin-right: 0;
-        justify-content: center;
+    .container, .imagem {
+        max-height: none;
+        height: auto; /* Ajusta a altura automaticamente */
     }
 
     #tituloLogin h1 {
