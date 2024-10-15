@@ -1,5 +1,9 @@
 <?php
+
+if (isset($_SESSION)){
 session_start();
+}
+
 include '../php/connect.php';
 if (!isset($_SESSION['tipo'])){
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -55,6 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Login</title>
 </head>
 <body>
+    <?php include_once 'header.php' ?>
     <h1>Login</h1>
     <?php if (isset($error)): ?>
         <p style="color: red;"><?= htmlspecialchars($error); ?></p>

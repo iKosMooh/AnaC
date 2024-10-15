@@ -80,7 +80,7 @@
 }
 
 .header header a:hover {
-    color: #a5dbff;
+    color: gray;
     transition: 0.5s;
 }
 
@@ -371,6 +371,7 @@
     align-items: center;
     text-align: center;
     padding: 10px;
+    font-size: 20px;
 }
 
 .user-text {

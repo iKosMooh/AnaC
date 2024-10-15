@@ -5,176 +5,152 @@
     font-family: 'Roboto', sans-serif;
 }
 
-
-/* Responsividade */
-@media (max-width: 768px) {
-    .titulo {
-        margin-right: 50px; /* Ajusta a margem em telas menores */
-        font-size: 10px; /* Ajusta o tamanho da fonte */
-        transform: translateY(60px); /* Ajusta a posição para baixo */
-    }
-}
-
 body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-end; 
-    min-height: 100vh; /* Garantir que o body tenha altura mínima */
+    align-items: flex-end;
+    min-height: 100vh;
     width: 100%;
     background-color: #f5f5f5;
     color: #333;
-    margin: 0;
-    position: relative; /* Permite que os elementos absolutos sejam posicionados em relação ao body */
-} 
+    position: relative;
+}
 
+/* Imagem de fundo com blur */
 body::before {
     content: "";
-    position: absolute; /* A imagem ocupa o espaço absoluto do body */
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     background-image: url('https://www.saopaulo.sp.gov.br/wp-content/uploads/2017/03/album-3-8.jpg');
-    background-size: cover; /* Garante que a imagem cobre toda a área */
-    background-position: center; /* Centraliza a imagem */
-    filter: blur(10px); /* Aplica um efeito de desfoque */
-    z-index: -1; /* Coloca a imagem atrás de todos os outros elementos */
+    background-size: cover;
+    background-position: center;
+    filter: blur(10px);
+    z-index: -1;
 }
-
 
 .flex-container {
     flex: 1;
     display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    flex-wrap: wrap;
+    margin: 10%;
 }
 
 .container {
-    width: 600px;
-    max-width: 90%; /* Ajusta a largura em telas menores */
-    padding: 160px 80px;
+    width: 100%;
+    max-height: 600px;
+    padding: 8%;
     background: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
-    margin-right: 70px;
-    height: 500px; /* Ajusta a altura para telas menores */
-    padding-top: 85px;
-    font-size: 15px;
-    margin-top: 30px; /* Ajuste responsivo usando viewport height */
-    margin-bottom: 5vh;
-    padding-bottom: 120px;
-    transform: translateY(20px);
 }
 
 #tituloLogin {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 40px;
-    margin-right: 20px;
-    margin-left: 150px;
+    margin-bottom: 3%;
+    margin-right: 2%;
+    margin-left: 15%;
 }
 
 #tituloLogin h1 {
-    margin: 0 20px;
+    margin: 0;
     color: #8b1a1d;
-    font-size: 25px;
-    font-family: 'Roboto', sans-serif;
+    font-size: 2vw;
 }
 
 .inputlabel {
-    margin-bottom: 15px;
+    margin-bottom: 2%;
     text-align: left;
 }
 
 .inputlabel label {
     display: block;
     font-weight: bold;
-    margin-bottom: 5px;
-    margin-left: 5px;
+    margin-bottom: 1%;
+    margin-left: 1%;
     color: rgb(77, 77, 77);
-    font-family: 'Roboto', sans-serif;
 }
 
 .inputlabel input[type="text"],
 .inputlabel input[type="password"] {
     width: 100%;
-    padding: 10px;
-    border: 0px;
+    padding: 5%;
     border-radius: 25px;
-    font-size: 13px;
-    transition: border-color 0.3s ease;
+    font-size: 1.2vw;
     background-color: #ffffff;
     border: 1px solid black;
+    transition: border-color 0.3s ease;
 }
 
 .inputlabel input[type="text"]:focus,
 .inputlabel input[type="password"]:focus {
     border-color: #a31e22;
-    color: rgb(0, 0, 0);
+    color: black;
 }
 
 .inputlabel input[type="text"]::placeholder,
 .inputlabel input[type="password"]::placeholder {
-    padding-left: 5px;
     color: rgb(122, 122, 122);
-    font-family: 'Roboto', sans-serif;
+    font-size: 1.2vw;
 }
 
 button[type="submit"] {
     width: 100%;
-    padding: 10px;
+    padding: 5%;
     background-color: #8b1a1d;
     color: white;
     border: none;
     border-radius: 25px;
-    font-size: 15px;
+    font-size: 1.5vw;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 button[type="submit"]:hover {
-    background-color: #8b1a1d;
+    background-color: #721517;
 }
 
 .lembrar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 10px;
-    margin-left: 5px;
-    color: #8b1a1d;
-    font-size: 12px;
+    margin-top: 2%;
+    font-size: 1vw;
 }
 
 .lembrar label {
-    margin-right: 190px;
-    font-family: 'Roboto', sans-serif;
+    margin-right: 10%;
 }
 
 .esquecisenha {
     text-decoration: none;
     color: rgb(111, 111, 199);
-    font-family: 'Roboto', sans-serif;
 }
 
-/* Responsividade */
+.imagem img {
+    width: 100%;
+}
+
+/* Responsividade para telas médias */
 @media (max-width: 1024px) {
     .container {
-        width: 80%;
-        padding: 50px 30px;
+        padding: 5%;
     }
 }
 
+/* Responsividade para telas pequenas */
 @media (max-width: 768px) {
     .container {
-        width: 90%;
-        padding: 30px 15px;
+        padding: 5%;
         margin-right: 0;
-        height: auto;
     }
 
     #tituloLogin {
@@ -184,28 +160,21 @@ button[type="submit"]:hover {
     }
 
     #tituloLogin h1 {
-        font-size: 20px;
+        font-size: 5vw;
     }
 
-    .lembrar {
-        margin-right: 0;
-        text-align: left;
+    .inputlabel input[type="text"],
+    .inputlabel input[type="password"] {
+        padding: 8%;
+        font-size: 3vw;
     }
 
     button[type="submit"] {
-        font-size: 14px;
+        font-size: 3.5vw;
+        padding: 8%;
     }
-}
 
-.imagem img {
-    height: 500px;
-    width: 90%;
-    max-width: 600px;
-    margin-top: 0;
-    transform: translateY(20px);
-    margin-left: 70px;
-}
-
-.p1 {
-    padding-top: 80px;
+    .lembrar {
+        font-size: 3vw;
+    }
 }
