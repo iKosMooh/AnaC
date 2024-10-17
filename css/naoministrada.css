@@ -108,7 +108,7 @@ button:hover {
     background-color: #414141;
 }
 
-@media (max-width: 1380px) {
+@media (max-width: 1700px) {
     .container {
         width: 90%;
         margin-left: auto;
@@ -197,3 +197,4 @@ button:hover {
 .aulaRow {
     border-bottom: 1px solid #eee;
 }
+
