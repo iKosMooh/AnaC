@@ -64,7 +64,7 @@ if (!isset($_SESSION['tipo'])) {
     <?php include_once 'header.php'; ?>
     <div class="flex-container">
         <div class="imagem">
-            <img src="/img/fatec.jpg" alt="Fatec">
+            <img src="../img/fatec.jpg" alt="Fatec">
         </div>
         <div class="container">
             <div id="tituloLogin">
@@ -90,6 +90,7 @@ if (!isset($_SESSION['tipo'])) {
             </form>
         </div>
     </div>
+    <?php include_once 'footer.php'; ?>
 </body>
 
 </html>
