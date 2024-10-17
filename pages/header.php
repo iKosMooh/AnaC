@@ -24,14 +24,14 @@ if (isset($_SESSION['tipo'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal do Coordenador</title>
-    <link rel="icon" href="/img/logo.png">
-    <link rel="stylesheet" href="/css/header.css"> 
+    <link rel="icon" href="../img/logo.png">
+    <link rel="stylesheet" href="../css/header.css"> 
 </head>
 
 <body>
     <header class="header">
         <nav class="navbar">
-            <a href="#" class="logo"><img src="/img/Logo-Fatec-1200x800-1-removebg-preview.png" alt="Logo"></a>
+            <a href="#" class="logo"><img src="../img/Logo-Fatec-1200x800-1-removebg-preview.png" alt="Logo"></a>
             <ul class="nav-menu nav-menu-border">
                 <li class="titulo">Portal FATEC</li>
                 <!-- Exibir botão com base no estado de sessão -->
