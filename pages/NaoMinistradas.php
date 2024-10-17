@@ -48,7 +48,6 @@ if ($is_coordenador) {
     $aulas = buscarAulas($pdo, $id_professor);
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -67,7 +66,7 @@ if ($is_coordenador) {
                 <input type="hidden" id="id_professor" name="id_professor" value="<?php echo $id_professor; ?>">
 
                 <?php if ($is_coordenador): ?>
-                    <div>
+                    <div class=pa>
                         <label for="selectProfessor">Selecione o Professor:</label>
                         <select id="selectProfessor" name="id_professor">
                             <option value="">Selecione um professor</option>
@@ -79,7 +78,7 @@ if ($is_coordenador) {
                 <?php endif; ?>
 
                 <div class="inputlabel">
-                    <label for="aulasNaoMinistradas">Dados da(s) aula(s) não ministrada(s)</label>
+                   <div class="pa"><label for="aulasNaoMinistradas">Dados da(s) aula(s) não ministrada(s)</label></div> 
                     <table>
                         <thead>
                             <tr>
@@ -94,9 +93,9 @@ if ($is_coordenador) {
                         </thead>
                         <tbody>
                             <tr class="aulaRow">
-                                <td class="ordem">1</td>
-                                <td><input type="date" name="dataAula[]"></td>
-                                <td>
+                                <td class="ordem" data-label="Ordem">1</td>
+                                <td data-label="Data da Aula Não Ministrada"><input type="date" name="dataAula[]"></td>
+                                 <td data-label="Aula">
                                     <select name="id_aula[]" class="select-aula">
                                         <option value="">Selecione a aula</option>
                                         <?php foreach ($aulas as $aula): ?>
@@ -110,17 +109,18 @@ if ($is_coordenador) {
                                         <?php endforeach; ?>
                                     </select>
                                 </td>
-                                <td><input type="text" class="horario-inicio" disabled></td>
-                                <td><input type="text" class="horario-termino" disabled></td>
-                                <td><input type="text" class="nome-disciplina" disabled></td>
-                                <td><input type="text" name="observacaoAula[]" placeholder="Motivo da aula não ministrada"></td>
+                                <td data-label="Horário Início"><input type="text" class="horario-inicio" disabled></td>
+                                <td data-label="Horário Término"><input type="text" class="horario-termino" disabled></td>
+                                <td data-label="Disciplina"><input type="text" class="nome-disciplina" disabled></td>
+                                <td data-label="Observação"><input type="text" name="observacaoAula[]" placeholder="Motivo da aula não ministrada"></td>
                             </tr>
                         </tbody>
                     </table>
-                    <button type="button" id="adicionarAulaBtn">Adicionar Aula</button>
+                    </div>
+                    <div class="button.container"> <button type="button" id="adicionarAulaBtn">Adicionar Aula</button>
                 </div>
 
-                <button type="button" id="enviarAulasBtn">Enviar Aulas</button>
+                <button type="button" id="enviarAulasBtn">Enviar Aulas</button></div>
             </form>
         </div>
     </div>
