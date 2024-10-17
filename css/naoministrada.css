@@ -1,6 +1,23 @@
+.container {
+    display: flex;
+    background-color: #e6e6e6;
+    margin-top: 150px;
+    width: 1300px;
+    margin-left: 300px;
+    border-radius: 1px;
+    border: 0.2px solid black;
+    padding: 20px;
+    position: relative;
+}
+
+.pa {
+    color: #a02406;
+    padding-right: 50rem;
+}
+
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: #f5f5f5;
+    background-color: #dadada;
     margin: 0;
     padding: 20px;
 }
@@ -16,8 +33,8 @@ body {
 
 h1 {
     text-align: center;
-    margin-bottom: 20px;
-    color: #333;
+    margin-top: 10px;
+    color: #960a0a;
 }
 
 table {
@@ -27,7 +44,7 @@ table {
 }
 
 table, th, td {
-    border: 1px solid #ccc;
+    border: 1px solid #000000;
 }
 
 th, td {
@@ -36,8 +53,8 @@ th, td {
 }
 
 th {
-    background-color: #007bff;
-    color: white;
+    background-color: #a02406;
+    color: rgb(250, 250, 250);
 }
 
 .inputlabel {
@@ -62,34 +79,115 @@ input[type="text"], input[type="date"], select {
     margin-bottom: 10px;
 }
 
-button {
+#adicionarAulaBtn {
+    width: 150px;
+    position: absolute;
+    top: 150px;
+    right: 20px;
     padding: 10px 15px;
-    background-color: #28a745;
+    background-color: #a72828;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
+}
+
+#enviarAulasBtn {
+    margin: 20px auto 0;
+    padding: 10px 15px;
+    background-color: #a72828;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    width: 150px;
 }
 
 button:hover {
-    background-color: #218838;
+    background-color: #414141;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 1380px) {
+    .container {
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+
+    }
     table, th, td {
-        font-size: 14px; /* Tamanho de fonte menor em telas pequenas */
+        flex-direction: column;
+    }
+
+    .pa {
+        padding-right: 15rem;
+    }
+    #adicionarAulaBtn {
+        padding: 8px 12px; /* Ajusta o tamanho do botão */
+        width: auto; /* Deixa o botão no tamanho automático */
+        
     }
 }
 
-@media (max-width: 400px) {
-    input[type="text"], input[type="date"], select {
-        width: calc(100% - 15px); /* Ajuste de largura em telas muito pequenas */
+@media (max-width: 800px) {
+    .container {
+        flex-direction: column;
+        max-width: 700px; /* Largura máxima do contêiner */
+        margin-left: auto;
+        margin-right: auto; /* Centraliza o contêiner */
+        padding: 10px;
+    }
+
+    table {
+        width: 90%; /* Ocupa toda a largura do contêiner */
+        border-collapse: collapse; /* Remove espaços entre as bordas */
+    }
+
+    thead {
+        display: none; /* Oculta o cabeçalho da tabela em telas pequenas */
+    }
+
+    tbody, tr {
+        display: block; /* Cada linha será um bloco */
+        width: 97%;
+    }
+
+  
+
+    td {
+        display: flex;
+        padding: 0px;
+        text-align: left;
+    }
+
+    /* Remover a borda inferior da célula Ordem */
+    td.ordem {
+        padding-left: 92%;
+        text-align: center; /* Centraliza o texto */
+    }
+
+    td:before {
+        content: attr(data-label); /* Usa o valor do atributo data-label para criar rótulos */
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    /* Se houver borda inferior em todas as células */
+    td {
+        border-bottom: none; /* Remove a borda inferior de todas as células */
+    }
+
+    table, th, td {
+        font-size: 14px; /* Tamanho da fonte */
     }
 }
+
+
+
+
 
 .upload-documento {
-    display: none; /* Ocultar por padrão */
+    display: none;
 }
 
 .ordem {
