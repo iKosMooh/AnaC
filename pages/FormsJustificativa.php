@@ -292,7 +292,7 @@ $aulas = buscarAulas($pdo, $id_professor);
                                         </select>
                                     </td>
                                     <td>
-                                        <input type="date" name="date-aula[]" required readonly>
+                                        <input type="datetime-local" name="date-aula[]" required readonly>
                                     </td>
                                     <td>
                                         <input type="text" class="nome-disciplina" disabled>
@@ -370,7 +370,7 @@ $aulas = buscarAulas($pdo, $id_professor);
                     </select>
                 </td>
                 <td>
-                    <input type="date" name="date-aula[]" required readonly>
+                    <input type="datetime-local" name="date-aula[]" required readonly>
                 </td>
                 <td>
                     <input type="text" class="nome-disciplina" disabled>
