@@ -42,28 +42,21 @@ body::before {
     align-items: center; /* Centraliza os itens verticalmente */
     height: 100vh; /* Define a altura como 100% da viewport */
     flex-wrap: wrap; /* Permite que os itens se quebrem para uma nova linha, se necessário */
-    margin-top: 320px; /* Adiciona um espaço de 320px acima do elemento */
 }
 
 .container {
-    width: 600px; /* Define a largura do container */
+    width: 550px; /* Define a largura do container */
     max-width: 90%; /* Define uma largura máxima de 90% para telas menores */
-    padding: 160px 80px; /* Aplica padding interno ao redor do conteúdo */
+    padding: 100px 80px; /* Reduz o padding interno ao redor do conteúdo */
     background: white; /* Define a cor de fundo do container como branco */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra sutil ao redor do container */
     text-align: center; /* Alinha o texto ao centro */
     margin-right: 70px; /* Adiciona uma margem à direita */
-    height: 500px; /* Define uma altura fixa para o container */
-    padding-top: 85px; /* Adiciona padding extra no topo */
-    font-size: 15px; /* Define o tamanho da fonte para o texto dentro do container */
-    margin-top: 30px; /* Adiciona uma margem no topo */
-    margin-bottom: 5vh; /* Adiciona uma margem no fundo em relação à altura da viewport */
-    padding-bottom: 120px; /* Adiciona padding extra na parte inferior */
-    justify-content: center; /* Centraliza os itens horizontalmente */
-    align-items: center; /* Centraliza os itens verticalmente */
-    z-index: 0; /* Mantém o container atrás do botão */
-
+    height: auto; /* Muda para auto para ajuste automático de altura */
+    margin: 1;
+    padding-bottom: 110px; /* Ajusta o padding na parte inferior */
 }
+
 
 #tituloLogin {
     display: flex; /* Define o layout flexbox para o título */
