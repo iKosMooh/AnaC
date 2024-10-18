@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Visualização de Reposições</title>
+    <link rel="stylesheet" href="../css/view.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="../css/footer.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Visualização de Reposições/Substituições de Aulas</h1>
+
+      <!-- Dropdown para selecionar o professor -->
+      <label for="selectProfessor">Selecione o Professor:</label>
+      <select id="selectProfessor" onchange="filterByProfessor(this.value)">
+        <option value="">Todos os Professores</option>
+        <option value="João da Silva">João da Silva</option>
+        <option value="Maria Oliveira">Maria Oliveira</option>
+        <option value="Pedro Almeida">Pedro Almeida</option>
+      </select>
+
+      <table id="replacementsTable">
+        <thead>
+          <tr>
+            <th>Semestre</th>
+            <th>Reposições Mês</th>
+            <th>Nome do Professor</th>
+            <th>Curso</th>
+            <th>Turno</th>
+            <th>Reposição em Virtude de</th>
+            <th>Aulas Não Ministradas</th>
+            <th>Aulas de Reposição</th>
+            <th>Entregue na Coordenação</th>
+            <th>Parecer do Coordenador</th>
+            <th>Motivo da Reprovação</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Linhas serão geradas dinamicamente pelo JavaScript -->
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <p>&copy; 2024 projetoproject.rf.gd. Todos os direitos reservados.</p>
+        <ul class="footer-links">
+          <li><a href="/">Início</a></li>
+          <li><a href="#">Termos de Serviço</a></li>
+          <li><a href="#">Política de Privacidade</a></li>
+          <li><a href="#">Contato</a></li>
+        </ul>
+      </div>
+    </footer>
+
+    <script src="../js/view.js"></script>
+    <style>
+      /* CSS personalizado integrado */
+      body {
+        font-family: "Roboto", sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        width: 95%; /* Ajustado para 95% da largura do viewport */
+        max-width: 1400px; /* Aumentado o máximo para melhor adaptação em telas maiores */
+        margin: 20px auto;
+        padding: 30px; /* Aumentado o padding para melhor espaçamento interno */
+        background: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+      }
+      
+
+      h1 {
+        color: #a31e22;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        padding: 15px; /* Aumentado o padding das células para melhor espaçamento interno */
+      }
+      
+
+      th,
+      td {
+        padding: 15px; /* Aumentado o padding das células */
+        border: 1px solid #ccc;
+        text-align: left;
+      }
+
+      th {
+        background-color: #f5f5f5;
+      }
+
+      button {
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .approve {
+        background-color: #28a745;
+        color: #fff;
+      }
+
+      .approve:hover {
+        background-color: #218838;
+      }
+
+      .reject {
+        background-color: #dc3545;
+        color: #fff;
+      }
+
+      .reject:hover {
+        background-color: #c82333;
+      }
+
+      textarea {
+        width: calc(100% - 22px);
+        /* Ajustado para alinhar com a largura da célula da tabela */
+        height: 60px;
+        /* Altura do textarea ajustável conforme necessário */
+        margin-bottom: 5px;
+        display: none;
+        /* Inicialmente oculto */
+      }
+
+      .confirm-reject {
+        display: none;
+        /* Botão de confirmar reprovação inicialmente oculto */
+      }
+    </style>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          const tableBody = document.querySelector("#replacementsTable tbody");
+
+          // Simulação de dados do backend (JSON)
+          const data = [
+              {
+                  "numero": "2º",
+                  "reposicoesMes": "Fevereiro/2024",
+                  "nomeProfessor": "João da Silva",
+                  "curso": ["GE"],
+                  "turno": ["Tarde"],
+                  "reposicaoVirtude": ["Conferência"],
+                  "aulasNaoMinistradas": [
+                      { "ordem": 1, "data": "18/02/2024", "numero": 2, "disciplina": "Contabilidade" },
+                      { "ordem": 2, "data": "19/02/2024", "numero": 1, "disciplina": "Admin. Geral" }
+                  ],
+                  "aulasReposicao": [
+                      { "ordem": 1, "data": "26/02/2024", "horario": "13:00 - 14:30", "disciplina": "Contabilidade", "assinatura": "J. da Silva" }
+                  ],
+                  "entregueCoordenacao": "21/02/2024",
+                  "parecerCoordenador": "Aguardando",
+                  "motivoReprovacao": ""
+              },
+              {
+                  "numero": "5º",
+                  "reposicoesMes": "Março/2024",
+                  "nomeProfessor": "João da Silva",
+                  "curso": ["DSM"],
+                  "turno": ["Noite"],
+                  "reposicaoVirtude": ["Doença"],
+                  "aulasNaoMinistradas": [
+                      { "ordem": 1, "data": "02/03/2024", "numero": 2, "disciplina": "Desenv. Web" },
+                      { "ordem": 2, "data": "03/03/2024", "numero": 1, "disciplina": "Lóg. de Programação" }
+                  ],
+                  "aulasReposicao": [
+                      { "ordem": 1, "data": "10/03/2024", "horario": "19:00 - 20:30", "disciplina": "Desenv. Web", "assinatura": "J. da Silva" }
+                  ],
+                  "entregueCoordenacao": "05/03/2024",
+                  "parecerCoordenador": "Aguardando",
+                  "motivoReprovacao": ""
+              },
+              {
+                  "numero": "1º",
+                  "reposicoesMes": "Março/2024",
+                  "nomeProfessor": "Maria Oliveira",
+                  "curso": ["DSM"],
+                  "turno": ["Manhã"],
+                  "reposicaoVirtude": ["Treinamento"],
+                  "aulasNaoMinistradas": [
+                      { "ordem": 1, "data": "18/03/2024", "numero": 2, "disciplina": "Sist. Operacionais" },
+                      { "ordem": 2, "data": "19/03/2024", "numero": 1, "disciplina": "Eng. de Software" }
+                  ],
+                  "aulasReposicao": [
+                      { "ordem": 1, "data": "26/03/2024", "horario": "09:30 - 11:00", "disciplina": "Sist. Operacionais", "assinatura": "Maria Oliveira" }
+                  ],
+                  "entregueCoordenacao": "21/03/2024",
+                  "parecerCoordenador": "Aguardando",
+                  "motivoReprovacao": ""
+              },
+              {
+                  "numero": "3º",
+                  "reposicoesMes": "Abril/2024",
+                  "nomeProfessor": "Pedro Almeida",
+                  "curso": ["GE"],
+                  "turno": ["Tarde"],
+                  "reposicaoVirtude": ["Evento Externo"],
+                  "aulasNaoMinistradas": [
+                  [
+                  {
+                      "ordem": 1,
+                      "data": "08/04/2024",
+                      "numero": 2,
+                      "disciplina": "Matemática"
+                  },
+                  {
+                      "ordem": 2,
+                      "data": "09/04/2024",
+                      "numero": 1,
+                      "disciplina": "Comunicação e Expressão"
+                  }
+              ]
+              
+                  ],
+                  "aulasReposicao": [
+                      { "ordem": 1, "data": "16/04/2024", "horario": "13:00 - 14:30", "disciplina": "Matemática", "assinatura": "Pedro Almeida" }
+                  ],
+                  "entregueCoordenacao": "11/04/2024",
+                  "parecerCoordenador": "Aguardando",
+                  "motivoReprovacao": ""
+              }
+          ];
+
+          // Função para renderizar os dados na tabela de acordo com o professor selecionado
+          function renderTable(data) {
+              tableBody.innerHTML = "";
+
+              data.forEach(item => {
+                  const row = document.createElement("tr");
+
+                  row.innerHTML = `
+                      <td>${item.numero}</td>
+                      <td>${item.reposicoesMes}</td>
+                      <td>${item.nomeProfessor}</td>
+                      <td>${item.curso.join(", ")}</td>
+                      <td>${item.turno.join(", ")}</td>
+                      <td>${item.reposicaoVirtude.join(", ")}</td>
+                      <td>${item.aulasNaoMinistradas.map(aula => `${aula.ordem}: ${aula.data} (${aula.numero} aulas, ${aula.disciplina})`).join("<br>")}</td>
+                      <td>${item.aulasReposicao.map(aula => `${aula.ordem}: ${aula.data} (${aula.horario}, ${aula.disciplina}, ${aula.assinatura})`).join("<br>")}</td>
+                      <td>${item.entregueCoordenacao}</td>
+                      <td>${item.parecerCoordenador}</td>
+                      <td>
+                          <textarea id="motivo-${item.numero}" placeholder="Motivo da reprovação"></textarea>
+                          <button class="confirm-reject" onclick="confirmRejection('${item.numero}')">Confirmar Reprovação</button>
+                      </td>
+                      <td>
+                          <button class="approve" onclick="updateStatus('${item.numero}', 'Aprovado')">Aprovar</button>
+                          <button class="reject" onclick="showRejectionReason('${item.numero}')">Reprovar</button>
+                      </td>
+                  `;
+
+                  tableBody.appendChild(row);
+              });
+          }
+
+          // Função para filtrar os dados pelo professor selecionado
+          window.filterByProfessor = function (professor) {
+              let filteredData = [];
+
+              if (professor) {
+                  filteredData = data.filter(item => item.nomeProfessor === professor);
+              } else {
+                  filteredData = data;
+              }
+
+              renderTable(filteredData);
+          }
+
+          // Função para mostrar o campo de motivo da reprovação
+          window.showRejectionReason = function (numero) {
+              const motivoTextarea = document.querySelector(`#motivo-${numero}`);
+              const confirmButton = motivoTextarea.nextElementSibling;
+
+              motivoTextarea.style.display = "block";
+              confirmButton.style.display = "inline";
+          }
+
+          // Função para confirmar a reprovação e atualizar o status de um item
+          window.confirmRejection = function (numero) {
+              const motivo = document.querySelector(`#motivo-${numero}`).value;
+              updateStatus(numero, 'Reprovado', motivo);
+          }
+
+          // Função para atualizar o status de um item
+          window.updateStatus = function (numero, status, motivo = '') {
+              const item = data.find(d => d.numero === numero);
+              if (item) {
+                  item.parecerCoordenador = status;
+                  if (status === 'Reprovado') {
+                      item.motivoReprovacao = motivo;
+                  }
+                  renderTable(data);
+              }
+          }
+
+          // Inicialização inicial exibindo todos os dados
+          renderTable(data);
+      });
+    </script>
+  </body>
+</html>

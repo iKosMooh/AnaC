@@ -1,0 +1,70 @@
+/* Estilo para o modal */
+#myModal {
+    display: none; /* Escondido por padrão */
+    position: fixed; /* Fica fixo na tela */
+    z-index: 1000; /* Garantir que o modal fique acima de outros elementos */
+    left: 0;
+    top: 0;
+    width: 100%; /* Largura total da tela */
+    height: 100%; /* Altura total da tela */
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo escurecido */
+    overflow: auto; /* Adiciona scroll se o conteúdo for muito grande */
+}
+
+/* Estilo para o conteúdo do modal */
+.modal-content {
+    background-color: #fff; /* Fundo branco para o conteúdo */
+    margin: 15% auto; /* Espaço no topo e centralizado horizontalmente */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Largura do modal (ajuste conforme necessário) */
+    max-width: 600px; /* Largura máxima */
+    border-radius: 8px; /* Bordas arredondadas */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Sombra para destacar o modal */
+}
+
+/* Estilo para o botão de fechar (X) */
+.close {
+    color: #aaa; /* Cor padrão */
+    float: right; /* Posiciona à direita */
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000; /* Cor preta ao passar o mouse */
+    text-decoration: none;
+    cursor: pointer; /* Cursor de mãozinha */
+}
+
+/* Estilo para o formulário dentro do modal */
+.modal-content label {
+    display: block; /* Os labels ficam em blocos */
+    margin: 10px 0 5px; /* Espaço entre o label e o input */
+    font-weight: bold;
+}
+
+.modal-content input,
+.modal-content select {
+    width: 100%; /* Inputs e selects ocupam a largura total */
+    padding: 8px;
+    margin-bottom: 10px; /* Espaço inferior entre os campos */
+    border: 1px solid #ccc; /* Borda padrão */
+    border-radius: 4px; /* Bordas levemente arredondadas */
+    box-sizing: border-box; /* Garantir que o padding não afete a largura */
+}
+
+/* Estilo para o botão dentro do modal */
+.modal-content button {
+    background-color: #a31e22; /* Cor verde */
+    color: white; /* Cor do texto branca */
+    padding: 10px 20px;
+    border: none; /* Remove borda */
+    border-radius: 5px; /* Bordas arredondadas */
+    cursor: pointer; /* Cursor de mãozinha */
+}
+
+.modal-content button:hover {
+    background-color: #8b1a1d; /* Verde mais escuro ao passar o mouse */
+}

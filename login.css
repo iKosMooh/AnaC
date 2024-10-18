@@ -1,0 +1,201 @@
+* {
+    margin: 0; /* Remove as margens padrão de todos os elementos */
+    padding: 0; /* Remove o padding padrão de todos os elementos */
+    box-sizing: border-box; /* Inclui padding e bordas no tamanho total dos elementos */
+    font-family: 'Roboto', sans-serif; /* Define a fonte Roboto para todos os elementos */
+}
+
+body {
+    display: flex; /* Utiliza o modelo flexbox no corpo da página */
+    width: 100%; /* Define a largura como 100% da tela */
+    height: 100vh; /* Define a altura do container como 100vh */
+    flex-direction: column; /* Organiza os elementos filhos em uma coluna */
+    justify-content: center; /* Centraliza os elementos verticalmente no centro */
+    align-items: center; /* Centraliza os itens do formulário verticalmente */
+    min-height: 100vh; /* Garante que o body tenha altura mínima de 100% da tela */
+    background-color: #f5f5f5; /* Define a cor de fundo como cinza claro */
+    color: #333; /* Define a cor do texto como cinza escuro */
+    margin: 0; /* Remove qualquer margem do body */
+    position: relative; /* Define posição relativa para o body para controle dos elementos absolutos */
+}
+
+body::before {
+    content: ""; /* Insere conteúdo vazio antes do body */
+    position: fixed; /* Mantém a imagem fixa durante a rolagem */
+    top: 0; /* Define a posição no topo */
+    left: 0; /* Define a posição na esquerda */
+    width: 100vw; /* Largura total da viewport (janela de visualização) */
+    height: 100vh; /* Altura total da viewport */
+    background-image: url(../img/fatec.jpg); /* Define a imagem de fundo */
+    background-size: cover; /* Faz a imagem cobrir toda a área disponível */
+    background-position: center; /* Centraliza a imagem no background */
+    background-repeat: no-repeat; /* Impede que a imagem se repita */
+    filter: blur(10px); /* Aplica um efeito de desfoque à imagem */
+    z-index: -1; /* Coloca a imagem atrás de todos os outros elementos */
+}
+
+
+.flex-container {
+    flex: 1; /* O container ocupa todo o espaço disponível */
+    display: flex; /* Define o modelo de layout flexbox */
+    justify-content: center; /* Centraliza os itens horizontalmente */
+    align-items: center; /* Centraliza os itens verticalmente */
+    height: 100vh; /* Define a altura como 100% da viewport */
+    flex-wrap: wrap; /* Permite que os itens se quebrem para uma nova linha, se necessário */
+}
+
+.container {
+    width: 550px; /* Define a largura do container */
+    max-width: 90%; /* Define uma largura máxima de 90% para telas menores */
+    padding: 100px 80px; /* Reduz o padding interno ao redor do conteúdo */
+    background: white; /* Define a cor de fundo do container como branco */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra sutil ao redor do container */
+    text-align: center; /* Alinha o texto ao centro */
+    margin-right: 70px; /* Adiciona uma margem à direita */
+    height: auto; /* Muda para auto para ajuste automático de altura */
+    margin: 1;
+    padding-bottom: 110px; /* Ajusta o padding na parte inferior */
+}
+
+
+#tituloLogin {
+    display: flex; /* Define o layout flexbox para o título */
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Alinha os itens no centro verticalmente */
+    margin-bottom: 40px; /* Adiciona uma margem inferior */
+}
+
+#tituloLogin h1 {
+    margin: 0; /* Remove margens para centralizar melhor */
+    color: #8b1a1d; /* Define a cor do texto como vermelho escuro */
+    font-size: 25px; /* Define o tamanho da fonte */
+    text-shadow: 1px 1px 6px #eebabd; /* Sombra sutil ao texto */
+}
+
+.inputlabel {
+    margin-bottom: 15px; /* Adiciona uma margem inferior */
+    text-align: left; /* Alinha o texto à esquerda */
+}
+
+.inputlabel label {
+    display: block; /* Exibe o label como um bloco completo */
+    font-weight: bold; /* Define o texto como negrito */
+    margin-bottom: 5px; /* Adiciona uma margem inferior de 5px */
+    margin-left: 5px; /* Adiciona uma margem à esquerda */
+    color: rgb(77, 77, 77); /* Define a cor do texto como cinza escuro */
+    text-shadow: 1px 1px 6px rgb(189, 188, 188); /* Sombra sutil ao texto */
+}
+
+.inputlabel input[type="text"]:hover,
+.inputlabel input[type="password"]:hover {
+    background-color: #eeeeee75;
+}
+
+.inputlabel input[type="text"],
+.inputlabel input[type="password"] {
+    width: 100%; /* Define a largura como 100% do container */
+    padding: 10px; /* Adiciona padding interno */
+    border: 0px; /* Remove a borda padrão */
+    border-radius: 25px; /* Aplica bordas arredondadas */
+    font-size: 13px; /* Define o tamanho da fonte */
+    transition: border-color 0.3s ease; /* Transição suave ao alterar a cor da borda */
+    background-color: #ffffff; /* Define a cor de fundo como branco */
+    border: 1px solid black; /* Adiciona uma borda preta */
+    box-shadow: 1px 1px 6px #0000005e; /* Aplica uma sombra leve ao redor do input */
+}
+
+.inputlabel input[type="text"]:focus,
+.inputlabel input[type="password"]:focus {
+    border-color: #a31e22; /* Muda a cor da borda ao focar no input */
+    color: rgb(0, 0, 0); /* Define a cor do texto como preto */
+}
+
+.inputlabel input[type="text"]::placeholder,
+.inputlabel input[type="password"]::placeholder {
+    padding-left: 5px; /* Adiciona padding à esquerda dentro do placeholder */
+    color: rgb(88, 88, 88); /* Define a cor do placeholder como cinza claro */
+}
+
+button[type="submit"] {
+    width: 100%; /* Define a largura como 100% */
+    padding: 10px; /* Adiciona padding interno */
+    background-color: #8b1a1d; /* Define a cor de fundo como vermelho escuro */
+    color: white; /* Define a cor do texto como branco */
+    border: none; /* Remove a borda */
+    border-radius: 25px; /* Adiciona bordas arredondadas */
+    font-size: 15px; /* Define o tamanho da fonte */
+    cursor: pointer; /* Muda o cursor para um ponteiro ao passar por cima */
+    transition: background-color 0.3s ease; /* Transição suave ao alterar a cor de fundo */
+    box-shadow: 1px 1px 6px #be4e52; /* Aplica uma sombra leve ao redor do input */
+}
+
+button[type="submit"]:hover {
+    background-color: #a53034; /* Mantém a cor do botão ao passar o mouse por cima */
+    z-index: 1; /* Garante que o botão esteja na frente de outros elementos */
+}
+
+.lembrar {
+    display: flex; /* Utiliza o layout flexbox */
+    justify-content: space-between; /* Espaçamento entre os itens */
+    align-items: center; /* Alinha os itens no centro verticalmente */
+    margin-top: 10px; /* Adiciona uma margem superior */
+    margin-left: 5px; /* Adiciona uma margem à esquerda */
+    color: #8b1a1d; /* Define a cor do texto como vermelho escuro */
+    font-size: 12px; /* Define o tamanho da fonte */
+}
+
+.lembrar label {
+    margin-right: 190px; /* Adiciona uma margem à direita */
+    font-family: 'Roboto', sans-serif; /* Define a fonte como Roboto */
+}
+
+.esquecisenha {
+    text-decoration: none; /* Remove o sublinhado dos links */
+    color: rgb(111, 111, 199); /* Define a cor do link como azul */
+    font-family: 'Roboto', sans-serif; /* Define a fonte como Roboto */
+}
+
+.imagem img {
+    height: 500px; /* Define a altura da imagem */
+    width: 90%; /* Define a largura da imagem como 90% */
+    max-width: 600px; /* Define a largura máxima como 600px */
+    margin-top: -38px; /* Remove a margem superior */
+    transform: translateY(20px); /* Move a imagem 20px para baixo */
+    margin-left: 70px; /* Adiciona uma margem à esquerda */
+}
+
+.p1 {
+    padding-top: 80px; /* Adiciona padding no topo */
+}
+
+/* Responsividade */
+
+@media (max-width: 1360px) {
+    .imagem {
+        display: none; /* Esconde a imagem em telas menores que 1330px */
+    }
+
+    .container {
+        height: auto; /* Mantém a altura do container automática */
+        margin: 0 30px; /* Reduz as margens laterais para evitar que fique grudado */
+        padding: 5px 10px; /* Adiciona padding para o conteúdo dentro do container */
+        margin-top: 5px; /* Diminui o espaço acima do container */
+    }
+
+    h1 {
+        padding-left: 10px; /* Ajusta o padding à esquerda do título */
+    }
+}
+
+@media (max-width: 1064px) {
+    .container {
+        width: 500px; /* Mantém a largura do container automática */
+        height: auto; /* Mantém a altura do container automática */
+        margin: 0 20px; /* Diminui as margens laterais */
+        margin-top: 100px; /* Ajusta a margem superior para um valor menor */
+        padding: 5px 10px; /* Padding para um espaçamento extra */
+    }
+    h1 {
+        padding-left: 15px; /* Ajusta o padding à esquerda do título */
+    }
+}

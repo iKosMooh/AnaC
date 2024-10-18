@@ -1,0 +1,89 @@
+footer {
+    background-color: #b20000;
+    padding: 10px;
+    text-align: center;
+    position: fixed; /* Fixa o rodapé */
+    bottom: 0; /* Posiciona na parte inferior */
+    left: 0; /* Faz o rodapé ocupar a largura da tela */
+    width: 100%; /* Garante que o rodapé ocupe toda a largura da tela */
+    z-index: 1000; /* Garante que o rodapé fique sobre outros elementos */
+}
+
+#footer_content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 5px;
+    margin: 0 1%;
+}
+
+#footer_contacts p {
+    font-size: 14px;
+    text-align: left;
+}
+
+#footer_social_media {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+#footer_social_media ul {
+    list-style: none;
+    display: flex;
+    gap: 10px;
+    padding: 0;
+    margin: 0;
+}
+
+#footer_social_media ul li {
+    display: inline;
+}
+
+#footer_social_media a {
+    color: white;
+    font-size: 20px;
+    transition: color 0.3s ease;
+}
+
+#footer_social_media a:hover {
+    color: #ccc;
+}
+
+#footer_logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.footer-logo {
+    width: 100px;
+}
+
+.middle {
+    width: 150px;
+}
+
+.footer-rights {
+    font-size: 12px;
+    color: white;
+    margin-top: 5px;
+    text-align: center;
+}
+
+#footer_content{
+    color: white;
+}
+
+@media (max-width: 768px) {
+    #footer_content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    #footer_social_media {
+        margin-top: 10px;
+    }
+}
