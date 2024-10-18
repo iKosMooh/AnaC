@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/footer.css">
 </head>
 <body>
+    <main></main>
     <footer>
         <div id="footer_content">
             <div id="footer_contacts">
@@ -26,15 +27,18 @@
             </div>
         </div>
         <div id="footer_logos">
-            <a href="https://www.cps.sp.gov.br/"> 
-                <img src="../img/cps-removebg-preview.png" alt="Logo do Centro Paula Souza" class="footer-logo">
-            </a>
-            <a href="https://www.saopaulo.sp.gov.br/"> 
-                <img src="../img/logo-footer-governo-do-estado-sp.png" alt="Logo do Governo do Estado de São Paulo" class="footer-logo middle">
-            </a>
+            <div id="footer_logo1">
+                <a href="https://www.cps.sp.gov.br/"> 
+                    <img src="../img/cps-removebg-preview.png" alt="Logo do Centro Paula Souza" class="footer-logo">
+                </a>
+            </div>
+            <div id="footer_logo2">
+                <a href="https://www.saopaulo.sp.gov.br/"> 
+                    <img src="../img/logo-footer-governo-do-estado-sp.png" alt="Logo do Governo do Estado de São Paulo" class="footer-logo">
+                </a>
+            </div>
         </div>
         <p class="footer-rights">© Todos os direitos reservados</p>
     </footer>
-    
 </body>
 </html>
