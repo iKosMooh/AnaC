@@ -169,7 +169,7 @@ VALUES
 ('456456456', 'Lucas Pereira', '1992-05-30', '11945645678', 'lucas.pereira@gmail.com', 'lucaspereira', 'senha123', 'Rua 5', 'Apt 505', 'lucas.pereira@instituicao.edu', 'Geografia', 'Tarde');
 
 -- Inserir Matérias
-INSERT INTO Materias (Nome, CargaHR, ID_Curso, ID_Professor) 
+INSERT INTO Materias (Nome_Materia, CargaHR, ID_Curso, ID_Professor) 
 VALUES 
 ('Cálculo I', 80, 1, 1),
 ('História Antiga', 60, 2, 2),
