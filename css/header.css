@@ -23,7 +23,7 @@ header {
     left: 0;
     width: 100%;
     height: calc(100vh - 100%);
-    background-color: #f4f4f4; /* Definindo a cor de fundo fora do header */
+    background-color: #000000; /* Definindo a cor de fundo fora do header */
     z-index: -1;
 }
 
@@ -195,10 +195,6 @@ header {
         margin-right: 5px;
     }
 }
-
-
-
-
 
 .header .hamburguer {
     display: none;
