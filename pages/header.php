@@ -1,7 +1,8 @@
 <?php
-if (isset($_SESSION['tipo'])){
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
 }
+
 
 $tipo = null;
 
