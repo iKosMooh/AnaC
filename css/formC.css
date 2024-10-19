@@ -1,0 +1,103 @@
+/* Estilos gerais do container */
+.container {
+    max-width: 800px;
+    margin: 0 auto; 
+    padding: 20px; 
+    background-color: #f9f9f9;
+    border-radius: 8px; 
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+    padding-top: 70px; /* Espaço superior para respeitar o nav */
+}
+
+/* Adiciona espaço superior ao corpo para que o conteúdo não fique atrás da barra fixa */
+body {
+    padding-top: 70px; /* Ajuste a altura conforme necessário */
+    background-image: url("../img/formBG.jpg");
+    background-repeat: repeat;
+}
+
+label {
+    font-weight: bold; 
+    display: block; 
+}
+
+/* Estilo para selects e inputs */
+select, input[type="text"], input[type="date"], textarea {
+    width: calc(100% - 20px); 
+    padding: 10px; 
+    margin: 5px 0; 
+    border: 1px solid #ddd; 
+    border-radius: 4px; 
+}
+
+textarea {
+    resize: none; 
+}
+
+button {
+    background-color: #b20000; 
+    color: white; 
+    border: none;
+    padding: 10px 20px; 
+    margin: 15px 0; 
+    border-radius: 5px; 
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #800000; 
+}
+
+table {
+    width: 100%; 
+    border-collapse: collapse;
+    margin: 20px 0; 
+}
+
+th, td {
+    padding: 15px; 
+    border: 1px solid #ddd; 
+    text-align: left; 
+}
+
+th {
+    background-color: #4CAF50; 
+    color: white; 
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2; 
+}
+
+tr:hover {
+    background-color: #ddd; 
+}
+
+/* Estilos responsivos */
+@media (max-width: 600px) {
+    .container {
+        padding: 10px; /* Reduzir o padding em telas menores */
+    }
+
+    button {
+        width: 100%; /* Botões ocupam toda a largura */
+        padding: 15px; /* Aumenta o padding para melhor toque */
+    }
+
+    th, td {
+        padding: 10px; /* Reduz o padding em tabelas */
+    }
+
+    select, input[type="text"], input[type="date"], textarea {
+        padding: 8px; /* Reduz o padding em inputs e selects */
+    }
+
+    .upload-container {
+        margin-bottom: 15px; /* Adiciona espaço inferior */
+    }
+
+    /* Estilo para a tabela em dispositivos menores */
+    table {
+        font-size: 14px; /* Reduz o tamanho da fonte */
+    }
+}
