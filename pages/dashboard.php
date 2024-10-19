@@ -11,11 +11,9 @@ echo '<link rel="stylesheet" href="../css/dashboard.css">';
 
 echo '<div class="dashboard-container">';
 echo "<h1>Bem-vindo, " . htmlspecialchars($_SESSION['nome']) . "</h1>";
-echo "<p>Tipo de usuário: " . htmlspecialchars($_SESSION['tipo']) . "</p>";
 
 if ($_SESSION['tipo'] === 'professor') {
-    echo "<h2>Área do Professor</h2>";
-
+    echo "<h2>Acesso aos Formulários</h2>";
     echo '<div class="form-options">';
         echo '<div class="option">';
             echo '<a href="/pages/ReposicaoForm.html">';
@@ -43,7 +41,7 @@ if ($_SESSION['tipo'] === 'professor') {
     echo '</div>'; 
 
 } elseif ($_SESSION['tipo'] === 'coordenador') {
-    echo "<h2>Área do Coordenador</h2>";
+    echo "<h2>Acesso aos Formulários</h2>";
     echo '<div class="form-options">'; 
         echo '<div class="option top">'; 
             echo '<a href="/pages/formulariocoordenador.php">';
