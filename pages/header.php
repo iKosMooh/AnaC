@@ -26,7 +26,7 @@ if (isset($_SESSION['tipo'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal do Coordenador</title>
     <link rel="icon" href="../img/logo.png">
-    <link rel="stylesheet" href="../css/header.css"> 
+    <link rel="stylesheet" href="../css/header.css">
 </head>
 
 <body>
@@ -34,13 +34,20 @@ if (isset($_SESSION['tipo'])) {
         <nav class="navbar">
             <a href="#" class="logo"><img src="../img/Logo-Fatec-1200x800-1-removebg-preview.png" alt="Logo"></a>
             <ul class="nav-menu nav-menu-border">
-                <li class="titulo">Portal FATEC</li>
+                <li class="titulo">
+                    <?php if (isset($_SESSION['tipo'])): ?>
+                    Olá, <?= ucfirst($_SESSION['tipo']); ?>!
+                    <?php else: ?>
+                    Portal FATEC
+                    <?php endif; ?>
+                </li>
+
                 <!-- Exibir botão com base no estado de sessão -->
                 <li class="nav-item sair">
                     <?php if (isset($_SESSION['tipo'])): ?>
-                        <a class="user-link" href="/pages/logout.php">Sair</a>
+                    <a class="user-link" href="/pages/logout.php">Sair</a>
                     <?php else: ?>
-                        <a class="user-link" href="/pages/login.php">Login</a>
+                    <a class="user-link" href="/pages/login.php">Login</a>
                     <?php endif; ?>
                 </li>
             </ul>
@@ -53,17 +60,16 @@ if (isset($_SESSION['tipo'])) {
     </header>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const hamburger = document.querySelector(".hamburguer");
-            const navMenu = document.querySelector(".nav-menu");
+    document.addEventListener("DOMContentLoaded", function() {
+        const hamburger = document.querySelector(".hamburguer");
+        const navMenu = document.querySelector(".nav-menu");
 
-            hamburger.addEventListener("click", () => {
-                hamburger.classList.toggle('active');
-                navMenu.classList.toggle('active');
-            });
+        hamburger.addEventListener("click", () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
         });
+    });
     </script>
 </body>
 
 </html>
-
