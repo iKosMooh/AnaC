@@ -65,3 +65,4 @@ if (isset($_SESSION['tipo'])) {
 </body>
 
 </html>
+
