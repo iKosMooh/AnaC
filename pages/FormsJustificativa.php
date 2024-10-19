@@ -58,7 +58,6 @@ $aulas = buscarAulas($pdo, $id_professor);
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="styles.css">
     <style>
         /* CSS personalizado integrado */
         * {
@@ -253,6 +252,7 @@ $aulas = buscarAulas($pdo, $id_professor);
 </head>
 
 <body>
+    <?php include_once 'header.php'; ?>
     <div class="wrapper">
         <div class="container">
             <div class="formContainer">
@@ -339,14 +339,7 @@ $aulas = buscarAulas($pdo, $id_professor);
         </div>
     </div>
 
-    <div class="footer">
-        <ul class="footer-links">
-            <li><a href="#">Sobre</a></li>
-            <li><a href="#">Contatos</a></li>
-            <li><a href="#">Ajuda</a></li>
-        </ul>
-        <p>&copy; 2024 - Todos os direitos reservados.</p>
-    </div>
+    <?php include_once 'footer.php'; ?>
 
     <script>
         let ordem = 1;
@@ -442,6 +435,8 @@ $aulas = buscarAulas($pdo, $id_professor);
             });
         });
     </script>
+
+
 </body>
 
 </html>
