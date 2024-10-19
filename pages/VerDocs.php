@@ -126,6 +126,7 @@
 </head>
 
 <body>
+    <?php include_once 'header.php';?>
     <div class="container">
         <h1>Lista de Atestados</h1>
         <table id="atestadoTable">
@@ -282,6 +283,7 @@
 
         });
     </script>
+    <?php include_once 'footer.php';?>
 </body>
 
 </html>
