@@ -6,7 +6,7 @@
     <title>Seleção de Professor e Aulas</title>
     <link rel="stylesheet" href="../css/formcoordarnador.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <?php include('header.php');?>
+    <?php include_once('header.php');?>
 </head>
 <body>
 <div class="container">
@@ -31,6 +31,8 @@
 
     <div id="formulario_reposicao"></div>
 </div>
+
+<?php include_once 'footer.php'; ?>
 
 <script>
 $(document).ready(function() {
@@ -137,6 +139,6 @@ $(document).ready(function() {
 });
 </script>
 
-<?php include_once 'footer.php'; ?>
+
 </body>
 </html>
