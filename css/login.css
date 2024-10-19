@@ -134,26 +134,6 @@ button[type="submit"]:hover {
     z-index: 1; /* Garante que o botão esteja na frente de outros elementos */
 }
 
-.lembrar {
-    display: flex; /* Utiliza o layout flexbox */
-    justify-content: space-between; /* Espaçamento entre os itens */
-    align-items: center; /* Alinha os itens no centro verticalmente */
-    margin-top: 10px; /* Adiciona uma margem superior */
-    margin-left: 5px; /* Adiciona uma margem à esquerda */
-    color: #8b1a1d; /* Define a cor do texto como vermelho escuro */
-    font-size: 12px; /* Define o tamanho da fonte */
-}
-
-.lembrar label {
-    margin-right: 190px; /* Adiciona uma margem à direita */
-    font-family: 'Roboto', sans-serif; /* Define a fonte como Roboto */
-}
-
-.esquecisenha {
-    text-decoration: none; /* Remove o sublinhado dos links */
-    color: rgb(111, 111, 199); /* Define a cor do link como azul */
-    font-family: 'Roboto', sans-serif; /* Define a fonte como Roboto */
-}
 
 .imagem img {
     height: 500px; /* Define a altura da imagem */
