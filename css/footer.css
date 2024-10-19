@@ -11,18 +11,25 @@
 }
 
 main {
-    height: 80vh; /* Pode ser relativo à viewport */
+    margin: 0; /* Remove margens gerais */
+    padding: 0; /* Remove paddings */
+    margin-bottom: 10px; /* Adiciona uma margem inferior pequena */
+    padding-bottom: 10px;
 }
+
 
 footer {
     background-color: var(--color-neutral-0);
     text-align: left;
-    position: relative; /* Fixar o footer na parte inferior */
-    bottom: 0; /* Alinha o footer no fundo */
-    width: 100%; /* Faz o footer ocupar toda a largura da tela */
-    z-index: 1000; /* Garante que o footer fique acima de outros elementos */
-    padding: 0 ; /* Ajustado para diminuir a altura */
+    position: relative; /* ou fixed, dependendo do layout desejado */
+    bottom: 0; /* Não é necessário se for fixed */
+    width: 100%;
+    z-index: 1000;
+    padding: 10px 0; /* Mantenha o padding se necessário */
+    margin: 0; /* Remove qualquer margem */
 }
+
+
 
 #footer_content {
     display: flex;
