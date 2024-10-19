@@ -14,12 +14,21 @@ body {
 }
 
 .dashboard-container {
-    padding: 20px;
+    padding: 40px; /* Aumenta o padding para mais espaço interno */
     max-width: 1200px;
-    margin: 20px auto; /* Adiciona margem acima e abaixo */
-    background-color: #ffffff; /* Fundo branco para o dashboard */
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin: 40px auto; /* Mantém margem para centralizar */
+    background-color: #ffffff; /* Fundo branco */
+    border-radius: 12px; /* Bordas arredondadas */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15); /* Sombra suave */
+    text-align: center; /* Centraliza todo o texto */
+}
+
+.dashboard-container h1 {
+    font-size: 2.5em; /* Aumenta o tamanho da fonte do título */
+    color: #b20000; /* Cor do título */
+    margin-bottom: 15px; /* Espaço abaixo do título */
+    font-weight: bold; /* Título em negrito */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Sombra sutil no texto */
 }
 
 /* Opções de formulário */
@@ -30,6 +39,7 @@ body {
     gap: 30px; /* Espaçamento entre as opções */
     padding: 20px;
 }
+
 
 .form-options .option {
     flex: 1 1 280px; /* Flexibilidade para o tamanho */
