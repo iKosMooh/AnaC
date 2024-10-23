@@ -1,25 +1,29 @@
 .container {
     display: flex;
-    background-color: #e6e6e6;
+    background: rgba(255, 255, 255, 0.9);
     margin-top: 150px;
     width: 1300px;
     margin-left: 300px;
-    border-radius: 1px;
-    border: 0.2px solid black;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Sombra mais suave */
     padding: 20px;
     position: relative;
 }
 
 .pa {
-    color: #a02406;
+    color: #333;
     padding-right: 50rem;
 }
 
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: #dadada;
-    margin: 0;
-    padding: 20px;
+    background-color: #f5f5f5;
+    color: #333;
+    background-image: url("../img/formBG.jpg");
+    background-size: auto; /* Ou um valor específico, como 100px 100px */
+    background-repeat: repeat;
+    background-position: center;
+    min-height: 100vh;
 }
 
 .wrapper {
@@ -34,7 +38,8 @@ body {
 h1 {
     text-align: center;
     margin-top: 10px;
-    color: #960a0a;
+    color: #a31e22;
+    font-size: 28px; /* Aumentado para melhor legibilidade */
 }
 
 table {
@@ -53,7 +58,7 @@ th, td {
 }
 
 th {
-    background-color: #a02406;
+    background-color: #a31e22;
     color: rgb(250, 250, 250);
 }
 
@@ -85,7 +90,7 @@ input[type="text"], input[type="date"], select {
     top: 150px;
     right: 20px;
     padding: 10px 15px;
-    background-color: #a72828;
+    background-color: #a31e22;
     color: white;
     border: none;
     border-radius: 5px;
@@ -95,7 +100,7 @@ input[type="text"], input[type="date"], select {
 #enviarAulasBtn {
     margin: 20px auto 0;
     padding: 10px 15px;
-    background-color: #a72828;
+    background-color: #a31e22;
     color: white;
     border: none;
     border-radius: 5px;
@@ -197,4 +202,3 @@ button:hover {
 .aulaRow {
     border-bottom: 1px solid #eee;
 }
-
