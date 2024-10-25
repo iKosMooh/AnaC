@@ -1,124 +1,15 @@
-:root {
-    --color-neutral-0: #0a0505; /* Vinho escuro */
-}
-
-* {
-    font-family: 'Inter', sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    letter-spacing: 1px;
-}
-
-main {
-    margin: 0; /* Remove margens gerais */
-    padding: 0; /* Remove paddings */
-    margin-bottom: 10px; /* Adiciona uma margem inferior pequena */
-    padding-bottom: 10px;
-}
-
-
-footer {
-    background-color: var(--color-neutral-0);
-    text-align: left;
-    position: relative; /* ou fixed, dependendo do layout desejado */
-    bottom: 0; /* Não é necessário se for fixed */
+#page-container {
+    position: relative;
+    min-height: 100vh;
+  }
+  
+  #content-wrap {
+    padding-bottom: 2.5rem;    /* Footer height */
+  }
+  
+  #footer {
+    position: absolute;
+    bottom: 0;
     width: 100%;
-    z-index: 1000;
-    padding: 10px 0; /* Mantenha o padding se necessário */
-    margin: 0; /* Remove qualquer margem */
-}
-
-
-
-#footer_content {
-    display: flex;
-    justify-content: space-between; /* Espaça os conteúdos entre os lados */
-    align-items: center; /* Alinha itens ao topo */
-    height: auto;
-    padding: 0; /* Ajustado para diminuir a altura */
-}
-
-#footer_contacts {
-    margin-bottom: 1rem; /* Margem ajustada para espaçamento */
-}
-
-#footer_contacts p {
-    color: white; /* Cor do texto */
-    font-size: 0.8rem; /* Tamanho do texto ajustado */
-    line-height: 1.2; /* Melhor espaçamento entre linhas */
-    max-width: 300px; /* Limita a largura do texto */
-    margin-bottom: -50%;
-}
-
-#footer_social_media {
-    display: flex;
-    align-items: flex-end; /* Alinha à direita */
-    margin-top: 0.5rem;
-}
-
-#footer_social_media ul {
-    list-style: none; /* Remove o estilo padrão de lista */
-    padding-left: 0; /* Remove o padding padrão */
-    margin-left: 0; /* Remove a margem padrão */
-    display: flex;
-}
-
-#footer_social_media li {
-    margin-bottom: 0.5rem; /* Espaço entre os itens da lista */
-}
-
-.footer_link i {
-    font-size: 1.3rem; /* Tamanho dos ícones das redes sociais */
-    color: white;    
-    margin-right: 0.5rem; /* Espaçamento entre o ícone e a bolinha */
-}
-
-/* Novo estilo para o ponto da lista */
-#footer_social_media li::before {
-    content: "•"; /* Usar uma bolinha */
-    color: white; /* Cor da bolinha */
-    margin-right: 0.5rem; /* Espaçamento entre a bolinha e o ícone */
-}
-
-#footer_logos {
-    display: flex; /* Usar flexbox para alinhar os logos */
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center; /* Alinha verticalmente */
-    padding: 0.5rem 0; /* Adiciona espaço ao redor */
-    width: 100%; /* Garante que ocupa toda a largura */
-    gap: 50px; /* Adiciona espaçamento entre os logos */
-    margin-bottom: -1rem;
-}
-
-.footer-logo {
-    width: 100px; /* Tamanho padrão para as imagens */
-    height: auto; /* Mantém a proporção da imagem */
-    max-width: 100%; /* Tamanho máximo para as imagens */
-    margin-top: -3rem;
-}
-
-.footer-rights {
-    text-align: center; /* Centraliza o texto */
-    font-size: 1rem; /* Tamanho menor para o texto de direitos reservados */
-    color: white; /* Cor do texto */
-    padding-top: 0.5rem;
-}
-
-/* Responsivo */
-@media screen and (max-width: 768px) {
-    #footer_content {
-        flex-direction: column; /* Muda a direção para coluna */
-        align-items: center; /* Centraliza o conteúdo */
-        padding: 1rem; /* Menos padding em telas pequenas */
-    }
-
-    #footer_logos {
-        flex-direction: column; /* Empilha os logos em telas menores */
-    }
-
-    .footer-logo {
-        max-width: 80px; /* Ajusta o tamanho dos logos em telas menores */
-        margin: 0.5rem 0; /* Ajusta o espaço entre os logos no celular */
-    }
-}
+    height: 2.5rem;            /* Footer height */
+  }
