@@ -26,7 +26,6 @@
             <p>Acesse o portal de login para Professores.</p>
         </div>
     </div>
-
     <?php include_once './pages/footer.php' ?>
 </body>
 
