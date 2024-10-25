@@ -16,7 +16,7 @@ if ($_SESSION['tipo'] === 'professor') {
     echo "<h2>Acesso aos Formulários</h2>";
     echo '<div class="form-options">';
         echo '<div class="option">';
-            echo '<a href="/pages/ReposicaoForm.html">';
+            echo '<a href="/pages/ReposicaoForm.php">';
                 echo '<img src="../img/81088.png" alt="Formulário de Reposição de Aulas">';
                 echo '<span>Formulário de Reposição de Aulas</span>';
             echo '</a>';
