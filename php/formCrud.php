@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             break;
 
         case 'read':
-            $whereValue = $data['whereValue'];
+            //$whereValue = $data['whereValue'];
 
             // Verifica se as variáveis identificadoras existem e procede
             $inputIdentifier = null; // Inicializa como null

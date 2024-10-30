@@ -122,13 +122,13 @@
             /* Estilo itálico */
         }
     </style>
-    <title>Lista de Atestados</title>
+    <title>Justificativas Enviadas</title>
 </head>
 
 <body>
     <?php include_once 'header.php';?>
     <div class="container">
-        <h1>Lista de Atestados</h1>
+        <h1>Justificativas Enviadas</h1>
         <table id="atestadoTable">
             <thead>
                 <tr id="headerRow">
@@ -193,7 +193,7 @@
                 }
             });
             $form.append(
-                `<button id='sendButton' type="submit" onclick="submitForm('update', 'atestado', 'statusForm', 'ID_Atestado')">Confirmar</button>`
+                `<button id='sendButton' type="button" onclick="submitForm('update', 'justificado', 'statusForm', 'ID_Atestado')">Confirmar</button>`
             )
             $('#myModal').show(); // Exibe o modal
         }
@@ -206,7 +206,7 @@
 
 
         $(document).ready(function() {
-            submitForm("read", "atestado", null, null)
+            submitForm("read", "justificado", null, null)
                 .then(data => {
                     VerDocsTable(data, 'atestadoTable');
                 })

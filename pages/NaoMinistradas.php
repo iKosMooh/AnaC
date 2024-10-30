@@ -17,23 +17,48 @@ require '../PHP/connect.php';
 // Função para buscar aulas
 function buscarAulas($pdo, $id_professor)
 {
-    $sql = "SELECT 
-        Aula.ID_Aula, 
-        Aula.Horario_Inicio, 
-        Aula.Horario_Termino,
-        Aula.ID_Materia, 
-        Materias.Nome AS Nome_Materia, 
-        CursoAtivo.nome AS Nome_Curso 
-    FROM Aula
-    INNER JOIN Materias ON Aula.ID_Materia = Materias.ID_Materia
-    INNER JOIN CursoAtivo ON Materias.ID_Curso = CursoAtivo.ID_Curso
-    INNER JOIN Professores_Cursos ON CursoAtivo.ID_Curso = Professores_Cursos.ID_Curso
-    WHERE Professores_Cursos.ID_Professor = :id_professor";
+    $sql = "
+    SELECT 
+        A.ID_Aula_Nao_Ministrada, 
+        A.Date_Time AS Date_Aula_Nao_Ministrada, 
+        M.Nome AS Nome_Materia, 
+        C.Nome AS Nome_Curso, 
+        A.Observacao, 
+        A.Justificado 
+    FROM 
+        aula_nao_ministrada A
+    INNER JOIN 
+        Aula Au ON A.ID_Aula = Au.ID_Aula
+    INNER JOIN 
+        Materias M ON A.ID_Materia = M.ID_Materia
+    INNER JOIN 
+        CursoAtivo C ON M.ID_Curso = C.ID_Curso
+    INNER JOIN 
+        Professores_Cursos PC ON C.ID_Curso = PC.ID_Curso
+    WHERE 
+        PC.ID_Professor = :id_professor
+        AND A.Justificado != 'Justificado'";
 
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindParam(':id_professor', $id_professor, PDO::PARAM_INT);
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    try {
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':id_professor', $id_professor, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Verifique se o resultado está vazio
+        if (empty($result)) {
+            echo "<script>console.log('Nenhum registro encontrado para o professor com ID $id_professor');</script>";
+        } else {
+            echo "<script>console.log(" . json_encode($result) . ");</script>";
+        }
+        
+        return $result;
+    } catch (PDOException $e) {
+        // Exibe o erro específico no console
+        echo "<script>console.log('Erro SQL: " . $e->getMessage() . "');</script>";
+        return [];
+    }
 }
 
 $aulas = buscarAulas($pdo, $id_professor); // Corrigido para usar $id_professor corretamente

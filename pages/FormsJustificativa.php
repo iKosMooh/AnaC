@@ -25,7 +25,7 @@ function buscarAulas($pdo, $id_professor)
         A.Observacao, 
         A.Justificado 
     FROM 
-        Aula_Nao_Ministrada A
+        aula_nao_ministrada A
     INNER JOIN 
         Aula Au ON A.ID_Aula = Au.ID_Aula
     INNER JOIN 
@@ -38,14 +38,31 @@ function buscarAulas($pdo, $id_professor)
         PC.ID_Professor = :id_professor
         AND A.Justificado != 'Justificado'";
 
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindParam(':id_professor', $id_professor, PDO::PARAM_INT);
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    try {
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':id_professor', $id_professor, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Verifique se o resultado está vazio
+        if (empty($result)) {
+            echo "<script>console.log('Nenhum registro encontrado para o professor com ID $id_professor');</script>";
+        } else {
+            echo "<script>console.log(" . json_encode($result) . ");</script>";
+        }
+        
+        return $result;
+    } catch (PDOException $e) {
+        // Exibe o erro específico no console
+        echo "<script>console.log('Erro SQL: " . $e->getMessage() . "');</script>";
+        return [];
+    }
 }
 
 $aulas = buscarAulas($pdo, $id_professor);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -333,7 +350,7 @@ $aulas = buscarAulas($pdo, $id_professor);
                         <textarea name="observacao" id="observacao" rows="4"></textarea>
                     </div>
 
-                    <button type="submit">Enviar Justificativa</button>
+                    <button type="button" onclick="">Enviar Justificativa</button>
                 </form>
             </div>
         </div>
@@ -342,99 +359,105 @@ $aulas = buscarAulas($pdo, $id_professor);
     <?php include_once 'footer.php'; ?>
 
     <script>
-        let ordem = 1;
+    let ordem = 1;
 
-        $('#adicionarAulaBtn').click(function() {
-            ordem++;
-            let novaRow = `
-            <tr class="aulaRow">
-                <td class="ordem">${ordem}</td>
-                <td>
-                    <select name="id_aula[]" class="select-aula" required>
-                        <option value="">Selecione a aula</option>
-                        <?php foreach ($aulas as $aula): ?>
-                            <option value="<?php echo $aula['ID_Aula_Nao_Ministrada']; ?>"
-                                data-nome-disciplina="<?php echo $aula['Nome_Materia']; ?>"
-                                data-nome-curso="<?php echo $aula['Nome_Curso']; ?>"
-                                data-date-aula="<?php echo $aula['Date_Aula_Nao_Ministrada']; ?>">
-                                <?php echo $aula['Date_Aula_Nao_Ministrada'] . ' - ' . $aula['Nome_Curso'] . ' - ' . $aula['Nome_Materia']; ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                </td>
-                <td>
-                    <input type="datetime-local" name="date-aula[]" required readonly>
-                </td>
-                <td>
-                    <input type="text" class="nome-disciplina" disabled>
-                </td>
-                <td>
-                    <input type="text" class="nome-curso" disabled>
-                </td>
-                <td>
-                    <select class="justificativa" name="justificativa[]" required>
-                        <option value="">Selecione a justificativa</option>
-                        <optgroup label="Licença Médica">
-                            <option value="Licença Médica - Falta Médica">Falta Médica</option>
-                            <option value="Licença Médica - Comparecimento ao Médico">Comparecimento ao Médico</option>
-                            <option value="Licença Médica - Licença para Tratamento de Saúde">Licença para Tratamento de Saúde</option>
-                            <option value="Licença Médica - Licença Maternidade">Licença Maternidade</option>
-                        </optgroup>
-                        <optgroup label="Outras Justificativas">
-                            <option value="Falta Justificada">Falta Justificada</option>
-                            <option value="Problemas Pessoais">Problemas Pessoais</option>
-                            <option value="Problemas de Transporte">Problemas de Transporte</option>
-                            <option value="Outros">Outros</option>
-                        </optgroup>
-                    </select>
-                    <input type="file" name="atestado[]" class="upload-atestado hidden" accept=".pdf, .doc, .docx, .jpg, .png">
-                </td>
-                <td>
-                    <input type="file" name="upload_pdf[]" class="upload-pdf hidden" accept=".pdf"> <!-- Novo campo -->
-                </td>
-                <td>
-                    <button type="button" class="removerAulaBtn">Remover</button>
-                </td>
-            </tr>`;
-            $('tbody').append(novaRow);
+    $('#adicionarAulaBtn').click(function() {
+        ordem++;
+        let novaRow = `
+        <tr class="aulaRow">
+            <td class="ordem">${ordem}</td>
+            <td>
+                <select name="id_aula[]" class="select-aula" required>
+                    <option value="">Selecione a aula</option>
+                    <?php foreach ($aulas as $aula): ?>
+                        <option value="<?php echo $aula['ID_Aula_Nao_Ministrada']; ?>"
+                            data-nome-disciplina="<?php echo $aula['Nome_Materia']; ?>"
+                            data-nome-curso="<?php echo $aula['Nome_Curso']; ?>"
+                            data-date-aula="<?php echo $aula['Date_Aula_Nao_Ministrada']; ?>">
+                            <?php echo $aula['Date_Aula_Nao_Ministrada'] . ' - ' . $aula['Nome_Curso'] . ' - ' . $aula['Nome_Materia']; ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </td>
+            <td>
+                <input type="datetime-local" name="date-aula[]" required readonly>
+            </td>
+            <td>
+                <input type="text" class="nome-disciplina" disabled>
+            </td>
+            <td>
+                <input type="text" class="nome-curso" disabled>
+            </td>
+            <td>
+                <select class="justificativa" name="justificativa[]" required>
+                    <option value="">Selecione a justificativa</option>
+                    <optgroup label="Licença Médica">
+                        <option value="Licença Médica - Falta Médica">Falta Médica</option>
+                        <option value="Licença Médica - Comparecimento ao Médico">Comparecimento ao Médico</option>
+                        <option value="Licença Médica - Licença para Tratamento de Saúde">Licença para Tratamento de Saúde</option>
+                        <option value="Licença Médica - Licença Maternidade">Licença Maternidade</option>
+                    </optgroup>
+                    <optgroup label="Outras Justificativas">
+                        <option value="Falta Justificada">Falta Justificada</option>
+                        <option value="Problemas Pessoais">Problemas Pessoais</option>
+                        <option value="Problemas de Transporte">Problemas de Transporte</option>
+                        <option value="Outros">Outros</option>
+                    </optgroup>
+                </select>
+                <input type="file" name="atestado[]" class="upload-atestado hidden" accept=".pdf, .doc, .docx, .jpg, .png">
+            </td>
+            <td>
+                <input type="file" name="upload_pdf[]" class="upload-pdf hidden" accept=".pdf"> <!-- Novo campo -->
+            </td>
+            <td>
+                <button type="button" class="removerAulaBtn">Remover</button>
+            </td>
+        </tr>`;
+        $('tbody').append(novaRow);
+    });
+
+    $(document).on('change', '.select-aula', function() {
+        const selectedOption = $(this).find(':selected');
+        let dateAula = selectedOption.data('date-aula');
+        const nomeDisciplina = selectedOption.data('nome-disciplina');
+        const nomeCurso = selectedOption.data('nome-curso');
+
+        // Ajusta o formato de dateAula para datetime-local caso necessário
+        if (dateAula && dateAula.length === 10) {
+            dateAula += 'T00:00'; // Adiciona uma hora padrão
+        }
+
+        $(this).closest('tr').find('input[name="date-aula[]"]').val(dateAula);
+        $(this).closest('tr').find('.nome-disciplina').val(nomeDisciplina);
+        $(this).closest('tr').find('.nome-curso').val(nomeCurso);
+    });
+
+    $(document).on('change', '.justificativa', function() {
+        const justificativa = $(this).val();
+        const atestadoInput = $(this).closest('td').find('.upload-atestado');
+        const pdfInput = $(this).closest('tr').find('.upload-pdf');
+
+        if (justificativa.includes('Licença Médica')) {
+            atestadoInput.removeClass('hidden'); // Mostra o campo de upload
+            pdfInput.removeClass('hidden'); // Mostra o campo PDF
+        } else {
+            atestadoInput.addClass('hidden'); // Oculta o campo
+            atestadoInput.val(''); // Limpa o campo
+            pdfInput.addClass('hidden'); // Oculta o campo PDF
+            pdfInput.val(''); // Limpa o campo PDF
+        }
+    });
+
+    $(document).on('click', '.removerAulaBtn', function() {
+        $(this).closest('tr').remove(); // Remove a linha da tabela
+        // Atualiza a ordem das aulas
+        ordem--;
+        $('.ordem').each(function(index) {
+            $(this).text(index + 1); // Atualiza a numeração
         });
+    });
+</script>
 
-        $(document).on('change', '.select-aula', function() {
-            const selectedOption = $(this).find(':selected');
-            const dateAula = selectedOption.data('date-aula');
-            const nomeDisciplina = selectedOption.data('nome-disciplina');
-            const nomeCurso = selectedOption.data('nome-curso');
-
-            $(this).closest('tr').find('input[name="date-aula[]"]').val(dateAula);
-            $(this).closest('tr').find('.nome-disciplina').val(nomeDisciplina);
-            $(this).closest('tr').find('.nome-curso').val(nomeCurso);
-        });
-
-        $(document).on('change', '.justificativa', function() {
-            const justificativa = $(this).val();
-            const atestadoInput = $(this).closest('td').find('.upload-atestado');
-            const pdfInput = $(this).closest('tr').find('.upload-pdf');
-
-            if (justificativa.includes('Licença Médica')) {
-                atestadoInput.removeClass('hidden'); // Mostra o campo de upload
-                pdfInput.removeClass('hidden'); // Mostra o campo PDF
-            } else {
-                atestadoInput.addClass('hidden'); // Oculta o campo
-                atestadoInput.val(''); // Limpa o campo
-                pdfInput.addClass('hidden'); // Oculta o campo PDF
-                pdfInput.val(''); // Limpa o campo PDF
-            }
-        });
-
-        $(document).on('click', '.removerAulaBtn', function() {
-            $(this).closest('tr').remove(); // Remove a linha da tabela
-            // Atualiza a ordem das aulas
-            ordem--;
-            $('.ordem').each(function(index) {
-                $(this).text(index + 1); // Atualiza a numeração
-            });
-        });
-    </script>
 
 
 </body>

@@ -16,11 +16,11 @@ if ($_SESSION['tipo'] === 'professor') {
     echo "<h2>Acesso aos Formulários</h2>";
     echo '<div class="form-options">';
         echo '<div class="option">';
-            echo '<a href="/pages/ReposicaoForm.php">';
-                echo '<img src="../img/81088.png" alt="Formulário de Reposição de Aulas">';
-                echo '<span>Formulário de Reposição de Aulas</span>';
+            echo '<a href="/pages/NaoMinistradas.php">';
+                echo '<img src="../img/81088.png" alt="Formulário de Cadastro de Faltas">';
+                echo '<span>Cadastro de Faltas</span>';
             echo '</a>';
-            echo '<p>Preencha o formulário para reposição de aulas.</p>';
+            echo '<p>Neste forms você deve cadastrar uma aula que você não ministrou para justifica-la posteriormente</p>';
         echo '</div>';
 
         echo '<div class="option">';

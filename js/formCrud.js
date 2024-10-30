@@ -34,8 +34,8 @@ function submitForm(operation, tabela, formID = null, inputIdentifier = null) {
             data: formData,  // Dados do formulário
             success: function(response) {
                 $('#response').html(response);  // Exibe a resposta do PHP na página
-                console.log(response);
-                console.log(formData);
+                //console.log(response);
+                //  console.log(formData);
                 resolve(response); // Resolve a Promise com a resposta
             },
             error: function(xhr, status, error) {
