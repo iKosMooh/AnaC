@@ -16,7 +16,7 @@ if ($_SESSION['tipo'] === 'professor') {
     echo "<h2>Acesso aos Formulários</h2>";
     echo '<div class="form-options">';
         echo '<div class="option">';
-            echo '<a href="/pages/NaoMinistradas.php">';
+            echo '<a href="/pages/CadastroNaoMinistradas.php">';
                 echo '<img src="../img/81088.png" alt="Formulário de Cadastro de Faltas">';
                 echo '<span>Cadastro de Faltas</span>';
             echo '</a>';
@@ -32,7 +32,7 @@ if ($_SESSION['tipo'] === 'professor') {
         echo '</div>';
 
         echo '<div class="option">';
-            echo '<a href="/pages/ProfView.html">';
+            echo '<a href="/pages/statusReposicaoProf.php">';
                 echo '<img src="../img/status.png" alt="Ver Status dos pedidos de Reposições">';
                 echo '<span>Ver Status dos pedidos de Reposições</span>';
             echo '</a>';
@@ -44,7 +44,7 @@ if ($_SESSION['tipo'] === 'professor') {
     echo "<h2>Acesso aos Formulários</h2>";
     echo '<div class="form-options">'; 
         echo '<div class="option top">'; 
-            echo '<a href="/pages/formulariocoordenador.php">';
+            echo '<a href="/pages/reposicaoCoord.php">';
                 echo '<img src="../img/81088.png" alt="Painel do Coordenador">';
                 echo '<span>Painel do Coordenador</span>';
             echo '</a>';
