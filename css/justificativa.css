@@ -1,91 +1,231 @@
-body {
-    font-family: 'Roboto', sans-serif;
+/* CSS personalizado integrado */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     background-color: #f5f5f5;
+    color: #333;
+    background-image: url("../img/formBG.jpg");
+    background-size: auto;
+    /* Ou um valor específico, como 100px 100px */
+    background-repeat: repeat;
+    background-position: center;
+    min-height: 100vh;
 }
 
 .wrapper {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
+    width: 100%;
 }
 
 .container {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    width: 90%;
-    max-width: 800px;
+    width: 100%;
+    max-width: 1200px;
+    /* Aumentando a largura máxima do container */
+    margin: 20px auto;
+    /* Centralizando o container */
+    padding: 40px;
+    /* Aumentado para melhor conforto */
+    background: rgba(255, 255, 255, 0.9);
+    /* Fundo com leve transparência */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    /* Sombra mais suave */
+    border-radius: 10px;
+    /* Borda mais suave */
 }
+
 
 .formContainer {
-    margin: 20px 0;
+    text-align: center;
 }
 
-h1 {
-    text-align: center;
-    color: #333;
+.formContainer h1 {
+    margin-bottom: 20px;
+    /* Reduzido para melhor alinhamento */
+    color: #a31e22;
+    font-size: 28px;
+    /* Aumentado para melhor legibilidade */
 }
 
 .inputlabel {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    /* Espaçamento aumentado */
+    text-align: left;
+}
+
+.inputlabel label {
+    display: block;
+    margin-bottom: 10px;
+    /* Melhor separação */
+    font-weight: bold;
+}
+
+.inputlabel select,
+.inputlabel input[type="text"],
+.inputlabel textarea,
+.inputlabel input[type="file"],
+.inputlabel input[type="date"],
+.inputlabel input[type="time"] {
+    width: 100%;
+    padding: 12px;
+    /* Ajustando o padding para uniformidade */
+    margin-top: 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    /* Borda mais suave */
+    font-size: 16px;
+    /* Diminuindo um pouco o tamanho da fonte */
+    transition: border-color 0.3s;
+    /* Transição suave para a borda */
+}
+
+.inputlabel select:focus,
+.inputlabel input[type="text"]:focus,
+.inputlabel textarea:focus,
+.inputlabel input[type="file"]:focus,
+.inputlabel input[type="date"]:focus,
+.inputlabel input[type="time"]:focus {
+    border-color: #a31e22;
+    /* Mudança de cor no foco */
+    outline: none;
+    /* Remover contorno padrão */
+}
+
+.justificativa {
+    width: calc(100% - 40px);
+    /* Ajustando a largura */
+    padding: 10px;
+    /* Melhorando o padding */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.upload-atestado {
+    margin-top: 10px;
+    /* Espaço acima do campo de upload */
+    width: 100%;
+}
+
+button[type="submit"],
+button[type="button"] {
+    width: 100%;
+    padding: 15px;
+    /* Aumentado para melhor acessibilidade */
+    border: none;
+    border-radius: 5px;
+    /* Borda mais suave */
+    background-color: #a31e22;
+    color: #fff;
+    font-size: 20px;
+    /* Aumentado para melhor legibilidade */
+    cursor: pointer;
+    margin-top: 15px;
+    /* Espaço entre os botões */
+    transition: background-color 0.3s;
+    /* Transição suave para o botão */
+}
+
+button[type="button"] {
+    background-color: #8b1a1d;
+    /* Mudando a cor do botão "Remover" */
+}
+
+button[type="button"]:hover {
+    background-color: #8b1a1d;
+    /* Cor do botão ao passar o mouse */
+}
+
+button[type="submit"]:hover,
+button[type="button"]:hover {
+    background-color: #8b1a1d;
+    /* Cor de fundo ao passar o mouse */
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-}
-
-table th, table td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: left;
-}
-
-table th {
-    background-color: #f2f2f2;
-    color: #333;
-}
-
-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-.upload-container {
     margin: 20px 0;
+    /* Margem para a tabela */
+    min-height: 200px;
+    /* Aumentando a altura mínima da tabela */
 }
 
+th,
+td {
+    padding: 15px 20px;
+    /* Aumentado para mais conforto e visibilidade */
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    /* Linha de separação */
+    line-height: 1.5;
+    /* Aumentando a altura das linhas */
+}
+
+th {
+    background-color: #f2f2f2;
+    /* Cor de fundo para cabeçalho */
+    font-weight: bold;
+    /* Negrito para o cabeçalho */
+}
+
+td {
+    word-wrap: break-word;
+    /* Quebrar palavras longas, se necessário */
+}
+
+.footer {
+    width: 100%;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    position: relative;
+    bottom: 0;
+    /* Fixar o rodapé */
+}
+
+.footer-links {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    display: inline;
+    margin: 0 15px;
+    /* Aumentado o espaço entre links */
+}
+
+.footer-links a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Responsividade */
 @media (max-width: 600px) {
-    table, thead, tbody, th, td, tr {
-        display: block;
-        width: 100%;
-    }
 
-    table th {
-        display: none;
-    }
-
-    .ordem {
-        display: none; /* Ocultar coluna de ordem em telas pequenas */
-    }
-
-    .select-aula,
-    .justificativa,
-    input[type="text"],
-    input[type="date"] {
-        margin: 10px 0;
+    th,
+    td {
+        padding: 10px;
+        /* Menos padding em telas menores */
+        font-size: 14px;
+        /* Ajustando o tamanho da fonte */
     }
 }

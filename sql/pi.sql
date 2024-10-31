@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 23/10/2024 às 01:10
+-- Tempo de geração: 31/10/2024 às 01:12
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -59,23 +59,25 @@ CREATE TABLE `aula_nao_ministrada` (
   `ID_Aula` int(11) NOT NULL,
   `ID_Professor` int(11) DEFAULT NULL,
   `ID_Materia` int(11) DEFAULT NULL,
-  `Justificado` varchar(50) NOT NULL DEFAULT 'Não Justificado'
+  `Justificado` varchar(50) NOT NULL DEFAULT 'Não Justificado',
+  `docs` varchar(255) NOT NULL,
+  `Aula_Reposta` varchar(30) NOT NULL DEFAULT 'Não'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `aula_nao_ministrada`
 --
 
-INSERT INTO `aula_nao_ministrada` (`ID_Aula_Nao_Ministrada`, `Date_Time`, `Observacao`, `ID_Aula`, `ID_Professor`, `ID_Materia`, `Justificado`) VALUES
-(1, '2024-02-15', 'Aula cancelada', 1, 1, 1, 'Justificado'),
-(2, '2024-02-20', 'Professor ausente', 2, 2, NULL, 'Não Justificado'),
-(3, '2024-02-25', 'Problemas técnicos', 3, NULL, NULL, 'Não Justificado'),
-(4, '2024-03-01', 'Feriado', 4, NULL, NULL, 'Não Justificado'),
-(5, '2024-03-05', 'Conflito de horários', 5, NULL, NULL, 'Não Justificado'),
-(12, '0001-01-01', '123', 1, 1, 1, 'Justificado'),
-(13, '0001-01-01', '123', 2, 2, 2, 'Não Justificado'),
-(14, '0002-02-21', '4324', 1, 1, 1, 'Justificado'),
-(15, '0032-02-12', '213', 1, 1, 1, 'Não Justificado');
+INSERT INTO `aula_nao_ministrada` (`ID_Aula_Nao_Ministrada`, `Date_Time`, `Observacao`, `ID_Aula`, `ID_Professor`, `ID_Materia`, `Justificado`, `docs`, `Aula_Reposta`) VALUES
+(1, '2024-02-15', 'Aula cancelada', 1, 1, 1, 'Justificado', '', 'Não'),
+(2, '2024-02-20', 'Professor ausente', 2, 2, NULL, 'Não Justificado', '', 'Não'),
+(3, '2024-02-25', 'Problemas técnicos', 3, NULL, NULL, 'Não Justificado', '', 'Não'),
+(4, '2024-03-01', 'Feriado', 4, NULL, NULL, 'Não Justificado', '', 'Não'),
+(5, '2024-03-05', '1231231', 5, 3, 3, 'Justificado', '', 'Não'),
+(12, '0001-01-01', '123', 1, 1, 1, 'Justificado', '', 'Não'),
+(13, '0001-01-01', '123', 2, 2, 2, 'Não Justificado', '', 'Não'),
+(14, '0002-02-21', '4324', 1, 1, 1, 'Justificado', '', 'Não'),
+(15, '0032-02-12', '213', 1, 1, 1, 'Não Justificado', '', 'Não');
 
 -- --------------------------------------------------------
 
@@ -181,39 +183,6 @@ INSERT INTO `instituicao` (`ID_Instituicao`, `Nome`, `Endereco`, `Complemento`) 
 (3, 'Universidade de Medicina', 'Rua C, 300', 'Prédio D'),
 (4, 'Centro de Psicologia', 'Rua D, 400', 'Prédio E'),
 (5, 'Escola de Administração', 'Rua E, 500', 'Prédio F');
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `justificado`
---
-
-CREATE TABLE `justificado` (
-  `ID_Atestado` int(11) NOT NULL,
-  `ID_Professor` int(11) NOT NULL,
-  `Descricao` varchar(800) NOT NULL,
-  `Docs` varchar(255) NOT NULL,
-  `DateEmissao` date NOT NULL,
-  `Status` varchar(50) NOT NULL DEFAULT 'Pendente'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `justificado`
---
-
-INSERT INTO `justificado` (`ID_Atestado`, `ID_Professor`, `Descricao`, `Docs`, `DateEmissao`, `Status`) VALUES
-(1, 1, 'Atestado médico', '', '2024-01-01', 'Pendente'),
-(2, 2, 'Problema de saúde', '', '2024-01-05', 'Pendente'),
-(3, 3, 'Urgência familiar', '', '2024-01-10', 'Pendente'),
-(4, 4, 'Feriado', '', '2024-01-15', 'Pendente'),
-(5, 5, 'Atestado de vacinação', '', '2024-01-20', 'Pendente'),
-(6, 1, 'Outra', '', '0001-01-01', 'Pendente'),
-(17, 1, 'Licença Médica - Falta Médica', '', '2024-02-15', 'Pendente'),
-(18, 1, 'Falta Justificada - Falecimento de Ascendentes ou Descendentes', '', '2024-02-15', 'Pendente'),
-(19, 1, 'Licença Médica - Comparecimento ao Médico', 'uploads/Caio Souza.pdf', '0001-01-01', 'Pendente'),
-(20, 1, 'Licença Médica - Licença para Tratamento de Saúde', 'uploads/Caio Souza.pdf', '0001-01-01', 'Pendente'),
-(21, 1, 'Licença Médica - Falta Médica', '../docs/uploads/Caio Souza.pdf', '0002-02-21', 'Pendente'),
-(22, 1, 'Falta Justificada - Falecimento de Cônjuge, Pai, Mãe, Filho', '', '0001-01-01', 'Pendente');
 
 -- --------------------------------------------------------
 
@@ -331,7 +300,7 @@ CREATE TABLE `reposicao` (
   `ID_Aula_Nao_Ministrada` int(11) NOT NULL,
   `DataReposicao` date DEFAULT NULL,
   `Mensagem` varchar(255) NOT NULL,
-  `Status` varchar(20) NOT NULL,
+  `docs_plano_aula` varchar(255) DEFAULT NULL,
   `Status_Pedido` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -339,14 +308,14 @@ CREATE TABLE `reposicao` (
 -- Despejando dados para a tabela `reposicao`
 --
 
-INSERT INTO `reposicao` (`ID_Reposicao`, `ID_Aula_Nao_Ministrada`, `DataReposicao`, `Mensagem`, `Status`, `Status_Pedido`) VALUES
-(1, 1, '2024-02-20', '', 'Confirmada', 'Aguardando'),
-(2, 2, '2024-02-25', '', 'Cancelada', 'Aguardando'),
-(3, 3, '2024-03-01', '', 'Confirmada', 'Aprovada'),
-(4, 4, '2024-03-05', '', 'Aguardando', 'Aguardando'),
-(5, 5, '2024-03-10', '', 'Confirmada', 'Aguardando'),
-(6, 1, '0024-03-01', 'teste', 'Pendente', ''),
-(7, 1, '0001-01-01', 'teste', 'Aguardando', 'Pendente');
+INSERT INTO `reposicao` (`ID_Reposicao`, `ID_Aula_Nao_Ministrada`, `DataReposicao`, `Mensagem`, `docs_plano_aula`, `Status_Pedido`) VALUES
+(1, 1, '2024-02-20', '', '', 'Rejeitado'),
+(2, 2, '2024-02-25', '', '', 'Aguardando'),
+(3, 3, '2024-03-01', '', '', 'Aprovada'),
+(4, 4, '2024-03-05', '', '', 'Aguardando'),
+(5, 5, '2024-03-10', '1', 'Aula 06 - Comando SELECT - Parte 2.pdf', 'Pendente'),
+(6, 1, '0024-03-01', 'teste', '', ''),
+(7, 1, '0001-01-01', 'teste', '', 'Pendente');
 
 --
 -- Índices para tabelas despejadas
@@ -396,13 +365,6 @@ ALTER TABLE `cursoativo`
 --
 ALTER TABLE `instituicao`
   ADD PRIMARY KEY (`ID_Instituicao`);
-
---
--- Índices de tabela `justificado`
---
-ALTER TABLE `justificado`
-  ADD PRIMARY KEY (`ID_Atestado`),
-  ADD KEY `ID_Professor` (`ID_Professor`);
 
 --
 -- Índices de tabela `materias`
@@ -484,12 +446,6 @@ ALTER TABLE `instituicao`
   MODIFY `ID_Instituicao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT de tabela `justificado`
---
-ALTER TABLE `justificado`
-  MODIFY `ID_Atestado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
-
---
 -- AUTO_INCREMENT de tabela `materias`
 --
 ALTER TABLE `materias`
@@ -505,7 +461,7 @@ ALTER TABLE `professores`
 -- AUTO_INCREMENT de tabela `reposicao`
 --
 ALTER TABLE `reposicao`
-  MODIFY `ID_Reposicao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `ID_Reposicao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Restrições para tabelas despejadas
@@ -538,12 +494,6 @@ ALTER TABLE `curso`
 --
 ALTER TABLE `cursoativo`
   ADD CONSTRAINT `cursoativo_ibfk_1` FOREIGN KEY (`ID_Curso`) REFERENCES `curso` (`ID_Curso`) ON DELETE CASCADE;
-
---
--- Restrições para tabelas `justificado`
---
-ALTER TABLE `justificado`
-  ADD CONSTRAINT `justificado_ibfk_1` FOREIGN KEY (`ID_Professor`) REFERENCES `professores` (`ID_Professor`) ON DELETE CASCADE;
 
 --
 -- Restrições para tabelas `materias`
