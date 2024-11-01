@@ -36,12 +36,15 @@ if (isset($_SESSION['tipo'])) {
             <ul class="nav-menu nav-menu-border">
                 <li class="titulo">
                     <?php if (isset($_SESSION['tipo'])): ?>
-                    Olá, <?= ucfirst($_SESSION['tipo']); ?>!
                     <?php else: ?>
-                    Portal FATEC
+                           Portal FATEC
                     <?php endif; ?>
                 </li>
-
+                <li class="titulo1  saudacao">
+                     <?php if (isset($_SESSION['nome'])): ?>
+                    <h3><a href="dashboard.php">Olá, <?= htmlspecialchars($_SESSION['nome']); ?></a></h3>
+                    <?php endif; ?>
+                </li>
                 <!-- Exibir botão com base no estado de sessão -->
                 <li class="nav-item sair">
                     <?php if (isset($_SESSION['tipo'])): ?>
