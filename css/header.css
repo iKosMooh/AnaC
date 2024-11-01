@@ -247,7 +247,12 @@ header {
     margin-right: auto; /* Move os títulos para a direita */
     transition: max-width 0.3s ease-in-out; /* Transição suave para o ajuste do tamanho máximo */
 }
-
+.titulo1 {
+    text-align: center; /* Centraliza o conteúdo */
+    width: 100%; /* Garante que o elemento ocupe toda a largura disponível */
+    display: inline; /* Faz o <h3> se comportar como um elemento inline */
+    margin: 0; /* Remove margens para centralização precisa */
+}
 .header header .titulo:hover,
 .header header .titulo-menu:hover,
 .header header .titulo-fatec:hover {
