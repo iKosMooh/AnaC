@@ -1,20 +1,16 @@
-/* Estilos gerais */
 * {
     margin: 0;
     padding: 0;
     font-family: Arial, Helvetica, sans-serif;
 }
-
-body{
+body {
     height: 100%;
 }
-
 header {
     background-color: #b20000;
-    margin: 0;
     width: 100%;
+    position: relative;
 }
-
 .header::after {
     content: '';
     display: block;
@@ -23,10 +19,9 @@ header {
     left: 0;
     width: 100%;
     height: calc(100vh - 100%);
-    background-color: #000000; /* Definindo a cor de fundo fora do header */
+    background-color: #000000;
     z-index: -1;
 }
-
 .header header::before {
     content: '';
     position: absolute;
@@ -37,96 +32,48 @@ header {
     background: linear-gradient(to left, transparent, #000000, transparent);
     animation: fade 3s linear infinite;
 }
-
-.nav-menu {
+.navbar, .header .navbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    flex: 1;
-}
-
-.nav-menu li {
-    display: inline-block;
-    margin-right: 20px;
-}
-
-.navbar {
+    padding: 0 20px;
     min-height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 34px;
 }
-
-.logo {
-    width: 15%;
-    height: auto;
-    position: relative;
-}
-
 .logo img {
     width: 100%;
     height: auto;
-    filter: brightness(100);
     transition: transform 1s;
 }
-
-.header header a {
+.header header a, .header .nav-menu a {
     text-decoration: none;
     color: #fff;
+    padding: 20px;
 }
-
-.header header a:hover {
-    color: gray;
+.header header a:hover, .header .nav-link:hover, .user-link:hover {
+    opacity: 0.75;
     transition: 0.5s;
 }
-
-.header .logo img:hover {
-    transform: scale(1.1);
+.nav-menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    list-style: none;
+    width: 100%;
 }
-
-.header .logo {
-    flex: 0 0 auto; /* Mantém o tamanho original da logo */
+.nav-item {
+    padding: 10px 20px;
+    text-align: center;
+    transition: background-color 0.3s ease;
 }
-
-.header .logo b {
-    margin-top: 5px;
+.nav-item:hover {
+    background-color: #f0f0f0;
 }
-
-.header .nav-menu a {
-    padding: 20px;
-    color: #fff;
-}
-
-.header .nav-link {
-    transition: 0.5s ease;
-}
-
-.header .nav-link:hover {
-    opacity: 0.75;
-}
-
-.hamburguer {
-    display: none;
-}
-
 @media (max-width: 768px) {
     .navbar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
         padding: 15px;
-        background-color: #ffffff; /* Fundo branco */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+        background-color: #ffffff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
-
-    .logo {
-        margin-left: 15px; /* Margem esquerda */
-    }
-
     .nav-menu {
         display: none;
         flex-direction: column;
@@ -134,442 +81,87 @@ header {
         top: 60px;
         left: 0;
         right: 0;
-        background-color: #ffffff; /* Fundo branco */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+        background-color: #ffffff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         z-index: 1;
     }
-
     .nav-menu.active {
         display: flex;
     }
-
-    .nav-menu-border {
-        border-bottom: 1px solid #e0e0e0; /* Linha inferior */
-        padding: 10px 0; /* Espaçamento interno */
-    }
-
-    .nav-item {
-        padding: 10px 20px; /* Espaçamento interno */
-        text-align: center;
-        transition: background-color 0.3s ease; /* Transição suave */
-    }
-
-    .nav-item:hover {
-        background-color: #f0f0f0; /* Cor de fundo ao passar o mouse */
-    }
-
     .hamburguer {
         display: block;
         cursor: pointer;
-        margin-right: 15px; /* Margem direita */
+        margin-right: 15px;
     }
-
     .bar {
         display: block;
         width: 25px;
         height: 3px;
-        background-color: #333333; /* Cor das barras */
+        background-color: #333333;
         margin: 5px 0;
-        transition: 0.4s; /* Transição */
-    }
-
-    .bar.active:nth-child(1) {
-        transform: rotate(-45deg) translate(-5px, 6px); /* Rotação e translação */
-    }
-
-    .bar.active:nth-child(2) {
-        opacity: 0; /* Opacidade */
-    }
-
-    .bar.active:nth-child(3) {
-        transform: rotate(45deg) translate(-5px, -6px); /* Rotação e translação */
-    }
-
-    .nav-item .user-link {
-        display: flex;
-        align-items: center;
-    }
-
-    .nav-item .user-link img {
-        width: 20px;
-        margin-right: 5px;
+        transition: 0.4s;
     }
 }
-
-.header .hamburguer {
-    display: none;
-    cursor: pointer;
-}
-
-.nav-menu .titulo {
-    flex: 1;
-    text-align: center;
-}
-
-.header .navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px; /* Ajuste o padding conforme necessário */
-}
-
-.header .nav-menu {
-    display: flex;
-    align-items: center;
-    justify-content: center; /* Centraliza os itens */
-    width: 100%;
-}
-
-.header header .titulo,
-.header header .titulo-menu {
-    flex: 0 0 auto; /* Impede que os títulos cresçam */
-    text-align: center; /* Centraliza o texto */
-    white-space: nowrap; /* Impede que o texto quebre em várias linhas */
-    margin: 0; /* Remove a margem automática */
-    margin-left: 33%; /* Move os títulos para a esquerda */
-    margin-right: auto; /* Move os títulos para a direita */
-    transition: max-width 0.3s ease-in-out; /* Transição suave para o ajuste do tamanho máximo */
-}
-
-.header header .titulo:hover,
-.header header .titulo-menu:hover {
-    max-width: none; /* Remove o máximo de largura para expandir completamente */
-}
-
-.header header .titulo,
-.header header .titulo-menu,
-.header header .titulo-fatec {
-    flex: 0 0 auto; /* Impede que os títulos cresçam */
-    text-align: center; /* Centraliza o texto */
-    white-space: nowrap; /* Impede que o texto quebre em várias linhas */
-    margin: 0; /* Remove a margem automática */
-    margin-left: 33%; /* Move os títulos para a esquerda */
-    margin-right: auto; /* Move os títulos para a direita */
-    transition: max-width 0.3s ease-in-out; /* Transição suave para o ajuste do tamanho máximo */
-}
-.titulo1 {
-    text-align: center; /* Centraliza o conteúdo */
-    width: 100%; /* Garante que o elemento ocupe toda a largura disponível */
-    display: inline; /* Faz o <h3> se comportar como um elemento inline */
-    margin: 0; /* Remove margens para centralização precisa */
-}
-.header header .titulo:hover,
-.header header .titulo-menu:hover,
-.header header .titulo-fatec:hover {
-    max-width: none; /* Remove o máximo de largura para expandir completamente */
-}
-
-.header .nav-menu .titulo {
-    font-size: 24px;
-    color: #fff;
-    position: relative;
-    transition: color 0.3s, font-size 0.3s;
-}
-
-.header .nav-menu .titulo::before {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 2px;
-    background-color: white;
-    transition: width 0.3s ease;
-}
-
-.header .nav-menu .titulo:hover {
-    font-size: 28px;
-    transform: scale(1.1);
-    transition: font-size 0.3s ease, transform 0.3s ease;
-}
-
-.header .nav-menu .titulo:hover::before {
-    width: 50%;
-}
-
-.header .nav-item {
-    margin-left: 20px; /* Adiciona espaçamento entre os itens */
-}
-
-.header .nav-menu .titulo-menu {
-    font-size: 24px;
-    color: #fff;
-    text-align: center; /* Alinhamento central */
-    position: relative;
-    transition: color 0.3s, font-size 0.3s;
-    margin: 0 auto; /* Centraliza o elemento */
-    margin-left: 29%; /* Ajuste o valor para mover mais para a esquerda */
-}
-
-.header .nav-menu .titulo-menu::before {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 2px;
-    background-color: #000000;
-    transition: width 0.3s ease;
-}
-
-.header .nav-menu .titulo-menu:hover {
-    font-size: 28px;
-    transform: scale(1.1);
-    transition: font-size 0.3s ease, transform 0.3s ease;
-}
-
-.header .nav-menu .titulo-menu:hover::before {
-    width: 50%;
-}
-
-
-.header .bar {
-    display: block;
-    width: 28px;
-    height: 3px;
-    border-radius: 2px;
-    margin: 5px auto;
-    background-color: #fff;
-    transition: all 0.3s ease-in-out;
-}
-
-.header .header li {
-    list-style: none;
-}
-
-/* Centralizar Meus Dados */
-.header .nav-menu {
-    justify-content: center;
-}
-
-.header .nav-menu a {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-/* Ícone de pessoa */
-.person-icon {
-    width: 30px;
-    height: auto;
-    display: block;
-    margin: 0 auto;
-}
-
-/* Estilos para o modo móvel */
-.header .nav-menu .person-icon {
-    font-size: 18px;
-}
-
-.user-link {
-    text-decoration: none;
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 10px;
-    font-size: 20px;
-}
-
-.user-link:hover {
-    opacity: 0.6;
-    transition: 500ms;
-}
-
-.user-text {
-    margin-top: 5px;
-}
-
-.form-options {
+.form-options, .login-options {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 40px;
-    padding: 20px; /* Ajuste o padding conforme necessário */
+    padding: 20px;
     background-color: #f4f4f4;
     border-radius: 8px;
     text-align: center;
+    max-width: 1000px;
+    margin: 0 auto;
 }
-
-.form-options .option {
-    flex: 1 1 300px; /* Flex-grow, flex-shrink, flex-basis */
+.form-options .option, .login-options .option {
+    flex: 1 1 300px;
     background-color: #fff;
     padding: 30px;
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
+    max-width: 300px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    max-width: 300px; /* Máximo para o conteúdo não se esticar muito */
 }
-
-.form-options .option img {
-    width: 100px; /* Tamanho maior para os ícones */
-    height: 100px;
-    margin-bottom: 20px; /* Espaçamento abaixo do ícone */
-}
-
-.form-options .option span {
-    display: block;
-    font-size: 20px; /* Tamanho da fonte aumentado */
-    color: #333;
-    margin-bottom: 10px; /* Espaçamento abaixo do texto */
-}
-
-.form-options .option p {
-    font-size: 16px; /* Tamanho da fonte para o parágrafo */
-    color: #666;
-    line-height: 1.4; /* Espaçamento entre linhas para melhor legibilidade */
-}
-
-.form-options .option:hover {
+.form-options .option:hover, .login-options .option:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
-
-.option.top {
-    order: -1; /* Coloca os dois primeiros options acima */
-}
-
-.option.bottom {
-    order: 1; /* Coloca o último option mais abaixo */
-    margin-top: 40px; /* Espaçamento superior maior para o último option */
-}
-
-@media (max-width: 768px) {
-    .form-options {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        padding: 20px;
-        background-color: #ffffff; /* Fundo branco */
-    }
-
-    .option {
-        flex-basis: calc(50% - 20px); /* Base flexível */
-        max-width: calc(50% - 20px); /* Largura máxima */
-        margin: 10px;
-        padding: 15px;
-        text-align: center;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
-        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transições */
-    }
-
-    .option:hover {
-        transform: translateY(-5px); /* Transformação ao passar o mouse */
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra suave ao passar o mouse */
-    }
-
-    .option img {
-        width: 60px; /* Tamanho do ícone */
-        height: 60px;
-        margin-bottom: 10px; /* Margem inferior */
-    }
-
-    .option span {
-        display: block;
-        font-size: 16px; /* Tamanho da fonte */
-        margin-bottom: 5px; /* Margem inferior */
-    }
-
-    .option p {
-        font-size: 14px; /* Tamanho da fonte */
-        color: #666666; /* Cor do texto */
-    }
-}
-
-.login-options {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 40px;
-    padding: 40px;
-    background-color: #f4f4f4;
-    margin-top: 40px;
-    border-radius: 12px;
-    width: 80%; /* Ajuste a largura conforme necessário */
-    max-width: 1000px; /* Defina um máximo para a largura */
-    margin: 0 auto; /* Centraliza horizontalmente */
-}
-
-.login-options .option {
-    flex: 1 1 300px; /* Flex-grow, flex-shrink, flex-basis */
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    max-width: 300px; /* Máximo para o conteúdo não se esticar muito */
-}
-
-.login-options .option img {
-    width: 100px; /* Tamanho maior para os ícones */
+.option img {
+    width: 100px;
     height: 100px;
-    margin-bottom: 20px; /* Espaçamento abaixo do ícone */
+    margin-bottom: 20px;
 }
-
-.login-options .option span {
+.option span {
     display: block;
-    font-size: 20px; /* Tamanho da fonte aumentado */
+    font-size: 20px;
     color: #333;
-    margin-bottom: 10px; /* Espaçamento abaixo do texto */
+    margin-bottom: 10px;
 }
 
-.login-options .option p {
-    font-size: 16px; /* Tamanho da fonte para o parágrafo */
+.option p {
+    font-size: 16px;
     color: #666;
-    line-height: 1.4; /* Espaçamento entre linhas para melhor legibilidade */
+    line-height: 1.4;
 }
-
-.login-options .option:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
 @media (max-width: 768px) {
-    .login-options {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        padding: 20px;
-        background-color: #ffffff; /* Fundo branco */
-    }
-
-    .option {
-        flex-basis: calc(50% - 20px); /* Base flexível */
-        max-width: calc(50% - 20px); /* Largura máxima */
+    .form-options .option, .login-options .option {
+        flex-basis: calc(50% - 20px);
+        max-width: calc(50% - 20px);
         margin: 10px;
         padding: 15px;
-        text-align: center;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
-        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transições */
     }
-
-    .option:hover {
-        transform: translateY(-5px); /* Transformação ao passar o mouse */
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra suave ao passar o mouse */
-    }
-
     .option img {
-        width: 60px; /* Tamanho do ícone */
+        width: 60px;
         height: 60px;
-        margin-bottom: 10px; /* Margem inferior */
+        margin-bottom: 10px;
     }
-
     .option span {
-        display: block;
-        font-size: 16px; /* Tamanho da fonte */
-        margin-bottom: 5px; /* Margem inferior */
+        font-size: 16px;
+        margin-bottom: 5px;
     }
-
     .option p {
-        font-size: 14px; /* Tamanho da fonte */
-        color: #666666; /* Cor do texto */
+        font-size: 14px;
     }
 }
-
-
