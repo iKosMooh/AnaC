@@ -54,11 +54,7 @@ if (isset($_SESSION['tipo'])) {
                     <?php endif; ?>
                 </li>
             </ul>
-            <div class="hamburguer">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
+
         </nav>
     </header>
 
@@ -76,3 +72,5 @@ if (isset($_SESSION['tipo'])) {
 </body>
 
 </html>
+
+
