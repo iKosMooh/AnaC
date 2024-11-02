@@ -110,9 +110,3 @@ footer {
     }
 }
 
-
-    .footer-logo {
-        max-width: 80px; /* Ajusta o tamanho dos logos em telas menores */
-        margin: 0.5rem 0; /* Ajusta o espaço entre os logos no celular */
-    }
-}
