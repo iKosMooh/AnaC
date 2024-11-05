@@ -76,14 +76,14 @@ if ($is_coordenador) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Aula Não Ministrada</title>
-    <link rel="stylesheet" href="../css/naoministrada.css"> <!-- CSS para estilização -->
+    <link rel="stylesheet" href="../css/naoministrada.css"> 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <?php include_once 'header.php'; ?>
     <div class="container">
         <div class="formContainer">
-            <h1>Cadastro de Aulas Não Ministradas</h1>
+            <h1>Cadastro de Aulas Não Ministradas</h1><br>
 
             <form id="reposicaoForm" method="post">
                 <input type="hidden" id="id_professor" name="id_professor" value="<?php echo $id_professor; ?>">
