@@ -11,7 +11,7 @@ require_once '../php/connect.php';
 
 function buscarPedidosReposicao($pdo, $id_professor) {
     $sql = "
-        SELECT r.ID_Reposicao, a.Date_Time, r.DataReposicao, r.Mensagem, r.docs_plano_aula, r.Status_Pedido, a.ID_Aula_Nao_Ministrada
+        SELECT r.ID_Reposicao, a.Date_Time, r.DataReposicao, r.Mensagem, r.docs_plano_aula, r.Status_Pedido,r.Motivo, a.ID_Aula_Nao_Ministrada
         FROM reposicao r
         JOIN aula_nao_ministrada a ON r.ID_Aula_Nao_Ministrada = a.ID_Aula_Nao_Ministrada
         WHERE a.ID_Professor = :id_professor";
@@ -58,6 +58,7 @@ $pedidos = buscarPedidosReposicao($pdo, $id_professor);
                         <th>Mensagem</th>
                         <th>Documento do Plano de Aula</th>
                         <th>Status</th>
+                        <th>Motivo</th>
                         <th>Ação</th>
                     </tr>
                 </thead>
@@ -76,6 +77,7 @@ $pedidos = buscarPedidosReposicao($pdo, $id_professor);
                                 <?php endif; ?>
                             </td>
                             <td><?php echo htmlspecialchars($pedido['Status_Pedido']); ?></td>
+                            <td><?php echo htmlspecialchars($pedido['Motivo']); ?></td>
                             <td>
                                 <?php if ($pedido['Status_Pedido'] == 'Rejeitado'): ?>
                                     <button onclick="openModal(<?php echo $pedido['ID_Reposicao']; ?>, '<?php echo htmlspecialchars($pedido['Mensagem']); ?>', '<?php echo $pedido['DataReposicao']; ?>', '<?php echo htmlspecialchars($pedido['docs_plano_aula']); ?>','<?php echo htmlspecialchars($pedido['ID_Aula_Nao_Ministrada']); ?>')">Editar</button>

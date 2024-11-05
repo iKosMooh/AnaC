@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 31/10/2024 às 01:12
+-- Tempo de geração: 05/11/2024 às 23:27
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -301,21 +301,22 @@ CREATE TABLE `reposicao` (
   `DataReposicao` date DEFAULT NULL,
   `Mensagem` varchar(255) NOT NULL,
   `docs_plano_aula` varchar(255) DEFAULT NULL,
-  `Status_Pedido` varchar(20) NOT NULL
+  `Status_Pedido` varchar(20) NOT NULL,
+  `Motivo` varchar(1000) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `reposicao`
 --
 
-INSERT INTO `reposicao` (`ID_Reposicao`, `ID_Aula_Nao_Ministrada`, `DataReposicao`, `Mensagem`, `docs_plano_aula`, `Status_Pedido`) VALUES
-(1, 1, '2024-02-20', '', '', 'Rejeitado'),
-(2, 2, '2024-02-25', '', '', 'Aguardando'),
-(3, 3, '2024-03-01', '', '', 'Aprovada'),
-(4, 4, '2024-03-05', '', '', 'Aguardando'),
-(5, 5, '2024-03-10', '1', 'Aula 06 - Comando SELECT - Parte 2.pdf', 'Pendente'),
-(6, 1, '0024-03-01', 'teste', '', ''),
-(7, 1, '0001-01-01', 'teste', '', 'Pendente');
+INSERT INTO `reposicao` (`ID_Reposicao`, `ID_Aula_Nao_Ministrada`, `DataReposicao`, `Mensagem`, `docs_plano_aula`, `Status_Pedido`, `Motivo`) VALUES
+(1, 1, '2024-02-20', 'Ahhh', '', 'Rejeitado', 'Pq eu quis'),
+(2, 2, '2024-02-25', '', '', 'Aguardando', ''),
+(3, 3, '2024-03-01', '', '', 'Aprovada', ''),
+(4, 4, '2024-03-05', '', '', 'Aguardando', ''),
+(5, 5, '2024-03-10', '1', 'Aula 06 - Comando SELECT - Parte 2.pdf', 'Pendente', ''),
+(6, 1, '0024-03-01', 'teste', '', 'Rejeitado', '...'),
+(7, 1, '0001-01-01', 'teste', '', 'Pendente', '');
 
 --
 -- Índices para tabelas despejadas

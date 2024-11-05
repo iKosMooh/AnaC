@@ -9,7 +9,7 @@ if (!isset($_SESSION['id'])) {
 }
 
 // Recuperar pedidos de reposição com matéria e nome do professor
-$sql = "SELECT r.ID_Reposicao, r.DataReposicao, r.Mensagem, r.docs_plano_aula, r.Status_Pedido, 
+$sql = "SELECT r.ID_Reposicao, r.DataReposicao, r.Mensagem, r.docs_plano_aula, r.Status_Pedido,r.Motivo, 
                a.ID_Aula_Nao_Ministrada, m.Nome AS Materia, p.Nome AS Professor
         FROM reposicao r 
         JOIN aula_nao_ministrada a ON r.ID_Aula_Nao_Ministrada = a.ID_Aula_Nao_Ministrada
@@ -271,6 +271,7 @@ $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <th>Mensagem</th>
                         <th>Arquivo</th>
                         <th>Status</th>
+                        <th>Motivo</th>
                         <th>Matéria</th>
                         <th>Professor</th>
                         <th>Ações</th>
@@ -306,6 +307,7 @@ $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <b class="<?php echo $statusClass; ?>"><?php echo $status; ?></b>
                             </td>
 
+                            <td data-label="Matéria"><?php echo htmlspecialchars($pedido['Motivo']); ?></td>
                             <td data-label="Matéria"><?php echo htmlspecialchars($pedido['Materia']); ?></td>
                             <td data-label="Professor"><?php echo htmlspecialchars($pedido['Professor']); ?></td>
                             <td data-label="Ações">
