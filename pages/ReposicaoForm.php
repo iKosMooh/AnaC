@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 // Verificar se o usuário está logado
 if (!isset($_SESSION['id'])) {
     header('Location: login.php'); // Redireciona se não estiver logado
@@ -29,12 +30,10 @@ function buscarAulasNaoMinistradas($pdo, $id_professor) {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        // Exibe o erro específico no console
         echo "<script>console.log('Erro SQL: " . $e->getMessage() . "');</script>";
         return [];
     }
 }
-
 
 $aulas = buscarAulasNaoMinistradas($pdo, $id_professor);
 $nenhumaAula = empty($aulas);
@@ -47,44 +46,46 @@ $nenhumaAula = empty($aulas);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pedido de Reposição</title>
+    <link rel="stylesheet" href="../css/reposi.css"> 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 
 <body>
-    <h1>Solicitar Reposição de Aula</h1>
-    <?php if ($nenhumaAula): ?>
-        <p id="mensagemNenhumaAula">Nenhuma aula não ministrada encontrada para justificar.</p>
-    <?php else: ?>
-        <form id="form-reposicao" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="id_professor" value="<?php echo $id_professor; ?>">
+    <?php include_once 'header.php'; ?>
 
-            <label for="id_aula_nao_ministrada">Selecione a Aula Não Ministrada:</label>
-            <select id="id_aula_nao_ministrada" name="id_aula_nao_ministrada" required>
-                <option value="">-- Selecione uma aula --</option>
-                <?php foreach ($aulas as $aula): ?>
-                    <option value="<?php echo $aula['ID_Aula_Nao_Ministrada']; ?>">
-                        Aula em <?php echo $aula['Date_Time']; ?>: <?php echo $aula['Observacao']; ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-            <br><br>
+    <div class="container">
+        <h1>Solicitar Reposição de Aula</h1>
+        <?php if ($nenhumaAula): ?>
+            <p id="mensagemNenhumaAula">Nenhuma aula não ministrada encontrada para justificar.</p>
+        <?php else: ?>
+            <form id="form-reposicao" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="id_professor" value="<?php echo htmlspecialchars($id_professor); ?>">
 
-            <label for="data_reposicao">Data da Reposição:</label>
-            <input type="date" id="data_reposicao" name="data_reposicao" required>
-            <br><br>
+                <label for="id_aula_nao_ministrada">Selecione a Aula Não Ministrada:</label>
+                <select id="id_aula_nao_ministrada" name="id_aula_nao_ministrada" required>
+                    <option value="">-- Selecione uma aula --</option>
+                    <?php foreach ($aulas as $aula): ?>
+                        <option value="<?php echo htmlspecialchars($aula['ID_Aula_Nao_Ministrada']); ?>">
+                            Aula em <?php echo htmlspecialchars($aula['Date_Time']); ?>: <?php echo htmlspecialchars($aula['Observacao']); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
 
-            <label for="mensagem">Mensagem:</label>
-            <textarea id="mensagem" name="mensagem" required></textarea>
-            <br><br>
+                <label for="data_reposicao">Data da Reposição:</label>
+                <input type="date" id="data_reposicao" name="data_reposicao" required>
 
-            <label for="docs_plano_aula">Documento do Plano de Aula:</label>
-            <input type="file" id="docs_plano_aula" name="docs_plano_aula" accept=".pdf,.doc,.docx">
-            <br><br>
+                <label for="mensagem">Mensagem:</label>
+                <textarea id="mensagem" name="mensagem" required></textarea>
 
-            <input type="submit" value="Enviar Pedido de Reposição">
-        </form>
-        <div id="resultado"></div>
-    <?php endif; ?>
+                <label for="docs_plano_aula">Documento do Plano de Aula:</label>
+                <input type="file" id="docs_plano_aula" name="docs_plano_aula" accept=".pdf,.doc,.docx">
+
+                <input type="submit" value="Enviar Pedido de Reposição">
+            </form>
+            <div id="resultado"></div>
+        <?php endif; ?>
+    </div>
 
     <script>
         $(document).ready(function() {
@@ -103,12 +104,14 @@ $nenhumaAula = empty($aulas);
                         alert(response); // Exibe a resposta na div
                     },
                     error: function() {
-                        alert('<p>Ocorreu um erro ao processar seu pedido.</p>');
+                        alert('Ocorreu um erro ao processar seu pedido.');
                     }
                 });
             });
         });
     </script>
+    <?php include_once 'footer.php'; ?>
+
 </body>
 
 </html>
