@@ -23,203 +23,239 @@ $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <title>Gerenciar Pedidos de Reposição</title>
-    <link rel="stylesheet" href="../css/reposicao.css"> 
+    <link rel="stylesheet" href="../css/reposicao.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <style>
-/* Estilos gerais */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Arial', 'Helvetica', sans-serif;
-}
+        /* Estilos gerais */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', 'Helvetica', sans-serif;
+        }
 
-body {
-    background-color: #f0f4f8;
-    color: #333;
-    background-image: url("../img/formBG.jpg");
-    background-repeat: repeat;
-}
+        body {
+            background-color: #f0f4f8;
+            color: #333;
+            background-image: url("../img/formBG.jpg");
+            background-repeat: repeat;
+        }
 
-.wrapper {
-    padding: 20px;
-}
+        .wrapper {
+            padding: 20px;
+        }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
-}
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+        }
 
-/* Estilos gerais */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-}
+        /* Estilos gerais */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
 
-table th, table td {
-    padding: 10px;
-    text-align: left;
-    border: 1px solid #ddd;
-}
+        table th,
+        table td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
 
-table th {
-    background-color: #f2f2f2;
-}
+        table th {
+            background-color: #f2f2f2;
+        }
 
-/* Estilo para o modal */
-#modal {
-    position: fixed;
-    z-index: 999;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+        /* Estilo para o modal */
+        #modal {
+            position: fixed;
+            z-index: 999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-.modal-content {
-    background-color: #fefefe;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 500px;
-    border-radius: 8px;
-    position: relative;
-}
+        .modal-content {
+            background-color: #fefefe;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+            position: relative;
+        }
 
-.close-modal {
-    color: #aaa;
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 28px;
-    font-weight: bold;
-}
+        .close-modal {
+            color: #aaa;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 28px;
+            font-weight: bold;
+        }
 
-.close-modal:hover,
-.close-modal:focus {
-    color: black;
-    cursor: pointer;
-}
+        .close-modal:hover,
+        .close-modal:focus {
+            color: black;
+            cursor: pointer;
+        }
 
-@media (max-width: 768px) {
-    /* Ocultar cabeçalho da tabela */
-    thead, thead tr, thead th {
-        display: none !important;
-    }
+        @media (max-width: 768px) {
 
-    /* Estrutura para exibir rótulos ao lado dos valores */
-    .container {
-        overflow-x: auto;
-    }
+            /* Ocultar cabeçalho da tabela */
+            thead,
+            thead tr,
+            thead th {
+                display: none !important;
+            }
 
-    table, thead, tbody, th, td, tr {
-        display: block;
-        width: 100%;
-    }
+            /* Estrutura para exibir rótulos ao lado dos valores */
+            .container {
+                overflow-x: auto;
+            }
 
-    tbody tr {
-        margin-bottom: 15px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        padding: 10px;
-    }
+            table,
+            thead,
+            tbody,
+            th,
+            td,
+            tr {
+                display: block;
+                width: 100%;
+            }
 
-    tbody td {
-        display: flex;
-        justify-content: space-between;
-        padding: 8px 10px;
-        border: none;
-        border-bottom: 1px solid #ddd;
-    }
+            tbody tr {
+                margin-bottom: 15px;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                padding: 10px;
+            }
 
-    tbody td:before {
-        content: attr(data-label);
-        font-weight: bold;
-        flex-basis: 50%;
-        text-align: left;
-    }
-}
+            tbody td {
+                display: flex;
+                justify-content: space-between;
+                padding: 8px 10px;
+                border: none;
+                border-bottom: 1px solid #ddd;
+            }
 
-@media (max-width: 480px) {
-    /* Estilos específicos para telas muito pequenas */
-    tbody tr {
-        padding: 8px;
-        margin-bottom: 10px;
-    }
+            tbody td:before {
+                content: attr(data-label);
+                font-weight: bold;
+                flex-basis: 50%;
+                text-align: left;
+            }
+        }
 
-    tbody td {
-        padding: 6px 8px;
-        font-size: 14px;
-    }
+        @media (max-width: 480px) {
 
-    .modal-content {
-        width: 90%;
-    }
+            /* Estilos específicos para telas muito pequenas */
+            tbody tr {
+                padding: 8px;
+                margin-bottom: 10px;
+            }
 
-    .modal-content h2 {
-        font-size: 1.2em;
-    }
+            tbody td {
+                padding: 6px 8px;
+                font-size: 14px;
+            }
 
-    .abrir-modal {
-        font-size: 14px;
-        padding: 6px 10px;
-    }
+            .modal-content {
+                width: 90%;
+            }
 
-    /* Ajuste no botão e no formulário */
-    button, select, input {
-        font-size: 14px;
-    }
-}
+            .modal-content h2 {
+                font-size: 1.2em;
+            }
 
-@media (max-width: 352px) {
-    /* Estilos específicos para telas com 352px ou menos */
-    tbody tr {
-        padding: 6px;
-        margin-bottom: 8px;
-    }
+            .abrir-modal {
+                font-size: 14px;
+                padding: 6px 10px;
+            }
 
-    tbody td {
-        font-size: 12px; /* Tamanho da fonte reduzido */
-        padding: 4px 6px; /* Reduzir o padding */
-        display: block; /* Cada célula ocupar a linha inteira */
-    }
+            /* Ajuste no botão e no formulário */
+            button,
+            select,
+            input {
+                font-size: 14px;
+            }
+        }
 
-    tbody td:before {
-        flex-basis: 100%; /* Rótulo ocupa toda a linha */
-        text-align: left; /* Alinhamento à esquerda */
-        margin-bottom: 4px; /* Espaçamento entre rótulo e valor */
-    }
+        @media (max-width: 352px) {
 
-    .modal-content {
-        width: 95%; /* Reduzir a largura do modal para se adaptar a telas pequenas */
-    }
+            /* Estilos específicos para telas com 352px ou menos */
+            tbody tr {
+                padding: 6px;
+                margin-bottom: 8px;
+            }
 
-    .modal-content h2 {
-        font-size: 1.1em; /* Reduzir tamanho do título */
-    }
+            tbody td {
+                font-size: 12px;
+                /* Tamanho da fonte reduzido */
+                padding: 4px 6px;
+                /* Reduzir o padding */
+                display: block;
+                /* Cada célula ocupar a linha inteira */
+            }
 
-    .abrir-modal {
-        font-size: 12px; /* Tamanho do botão reduzido */
-        padding: 4px 8px; /* Reduzir o padding do botão */
-    }
-}
+            tbody td:before {
+                flex-basis: 100%;
+                /* Rótulo ocupa toda a linha */
+                text-align: left;
+                /* Alinhamento à esquerda */
+                margin-bottom: 4px;
+                /* Espaçamento entre rótulo e valor */
+            }
 
+            .modal-content {
+                width: 95%;
+                /* Reduzir a largura do modal para se adaptar a telas pequenas */
+            }
+
+            .modal-content h2 {
+                font-size: 1.1em;
+                /* Reduzir tamanho do título */
+            }
+
+            .abrir-modal {
+                font-size: 12px;
+                /* Tamanho do botão reduzido */
+                padding: 4px 8px;
+                /* Reduzir o padding do botão */
+            }
+        }
+
+        .status-aprovado{
+            color: green;
+        }
+
+        .status-rejeitado{
+            color: red;
+        }
+
+        .status-pendente{
+            color: orange;
+        }
     </style>
 </head>
+
 <body>
     <?php include_once 'header.php'; ?>
 
@@ -253,7 +289,23 @@ table th {
                                     Nenhum arquivo
                                 <?php endif; ?>
                             </td>
-                            <td data-label="Status"><?php echo htmlspecialchars($pedido['Status_Pedido']); ?></td>
+                            <td data-label="Status">
+                                <?php
+                                $status = htmlspecialchars($pedido['Status_Pedido']);
+                                $statusClass = '';
+
+                                // Define a classe CSS com base no status
+                                if ($status === 'Aprovado') {
+                                    $statusClass = 'status-aprovado';
+                                } elseif ($status === 'Rejeitado') {
+                                    $statusClass = 'status-rejeitado';
+                                } else {
+                                    $statusClass = 'status-pendente';
+                                }
+                                ?>
+                                <b class="<?php echo $statusClass; ?>"><?php echo $status; ?></b>
+                            </td>
+
                             <td data-label="Matéria"><?php echo htmlspecialchars($pedido['Materia']); ?></td>
                             <td data-label="Professor"><?php echo htmlspecialchars($pedido['Professor']); ?></td>
                             <td data-label="Ações">
@@ -273,15 +325,24 @@ table th {
                     <h2>Alterar Status do Pedido</h2>
                     <form id="form-status">
                         <input type="hidden" name="id_reposicao" id="id_reposicao">
-                        <label for="status">Novo Status:</label>
+                        <label for="status">Gerenciar Reposição:</label>
                         <select name="status" id="status" required>
+                            <option value="" disabled selected>Selecione uma opção</option>
                             <option value="Aprovado">Aprovado</option>
                             <option value="Rejeitado">Rejeitado</option>
+                            <option value="Pendente">Pendente</option>
                         </select>
+
+                        <!-- Campo para o motivo da reprovação -->
+                        <div id="motivo-container" style="display: none;">
+                            <label for="motivo">Motivo da Rejeição:</label>
+                            <textarea name="motivo" id="motivo" rows="4"></textarea>
+                        </div>
                         <button type="submit">Atualizar</button>
                     </form>
                 </div>
             </div>
+
         </div>
     </div>
 
@@ -296,7 +357,24 @@ table th {
                 $('#id_reposicao').val(id);
                 $('#status').val(status === 'Pendente' ? 'Aprovado' : status);
                 $('#modal').show();
+
+                // Controlar exibição do campo "Motivo"
+                toggleMotivoField();
             });
+
+            // Monitorar mudanças no campo status
+            $('#status').on('change', toggleMotivoField);
+
+            // Função para exibir ou ocultar o campo "Motivo"
+            function toggleMotivoField() {
+                if ($('#status').val() === 'Rejeitado') {
+                    $('#motivo-container').show();
+                    $('#motivo').attr('required', true); // Tornar o campo obrigatório
+                } else {
+                    $('#motivo-container').hide();
+                    $('#motivo').removeAttr('required');
+                }
+            }
 
             // Fechar modal
             $('.close-modal').on('click', function() {
@@ -329,5 +407,5 @@ table th {
         });
     </script>
 </body>
-</html>
 
+</html>
