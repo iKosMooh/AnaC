@@ -1,14 +1,15 @@
 .container {
     display: flex;
     background: rgba(255, 255, 255, 0.9);
-    margin-top: 150px;
-    width: 1300px;
-    margin-left: 300px;
+    margin: 150px auto 0; 
+    width: 90%; 
+    max-width: 1300px; 
     border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Sombra mais suave */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
     padding: 20px;
     position: relative;
 }
+
 
 .pa {
     color: #333;
@@ -20,7 +21,7 @@ body {
     background-color: #f5f5f5;
     color: #333;
     background-image: url("../img/formBG.jpg");
-    background-size: auto; /* Ou um valor específico, como 100px 100px */
+    background-size: auto; 
     background-repeat: repeat;
     background-position: center;
     min-height: 100vh;
@@ -37,9 +38,9 @@ body {
 
 h1 {
     text-align: center;
-    margin-top: 10px;
+    margin-top: 50px; 
     color: #a31e22;
-    font-size: 28px; /* Aumentado para melhor legibilidade */
+    font-size: 28px; 
 }
 
 table {
@@ -87,7 +88,7 @@ input[type="text"], input[type="date"], select {
 #adicionarAulaBtn {
     width: 150px;
     position: absolute;
-    top: 150px;
+    top: 105px; 
     right: 20px;
     padding: 10px 15px;
     background-color: #a31e22;
@@ -128,67 +129,74 @@ button:hover {
         padding-right: 15rem;
     }
     #adicionarAulaBtn {
-        padding: 8px 12px; /* Ajusta o tamanho do botão */
-        width: auto; /* Deixa o botão no tamanho automático */
+        padding: 8px 12px; 
+        width: auto; 
         
     }
 }
 
-@media (max-width: 800px) {
+@media (max-width: 768px) {
     .container {
         flex-direction: column;
-        max-width: 700px; /* Largura máxima do contêiner */
+        max-width: 700px; 
         margin-left: auto;
-        margin-right: auto; /* Centraliza o contêiner */
+        margin-right: auto; 
         padding: 10px;
     }
 
     table {
-        width: 90%; /* Ocupa toda a largura do contêiner */
-        border-collapse: collapse; /* Remove espaços entre as bordas */
+        width: 100%; 
+        border-collapse: collapse; 
     }
 
     thead {
-        display: none; /* Oculta o cabeçalho da tabela em telas pequenas */
+        display: none; 
     }
 
     tbody, tr {
-        display: block; /* Cada linha será um bloco */
-        width: 97%;
+        display: block; 
+        width: 100%;
+        margin-bottom: 10px; 
     }
-
-  
 
     td {
-        display: flex;
-        padding: 0px;
-        text-align: left;
+        display: block; 
+        width: 100%; 
+        padding: 10px;
+        text-align: left; 
+        border: none; 
     }
 
-    /* Remover a borda inferior da célula Ordem */
     td.ordem {
-        padding-left: 92%;
-        text-align: center; /* Centraliza o texto */
+        border: none; 
+        text-align: left; 
     }
 
     td:before {
-        content: attr(data-label); /* Usa o valor do atributo data-label para criar rótulos */
+        content: attr(data-label); 
         font-weight: bold;
-        margin-bottom: 5px;
+        margin-bottom: 5px; 
     }
 
-    /* Se houver borda inferior em todas as células */
     td {
-        border-bottom: none; /* Remove a borda inferior de todas as células */
+        border-bottom: none; 
     }
 
     table, th, td {
-        font-size: 14px; /* Tamanho da fonte */
+        font-size: 14px; 
     }
+
 }
 
+@media (max-width: 505px) {
+    #adicionarAulaBtn {
+        margin-top: 20px; 
+    }
 
-
+    h1 {
+        margin-top: 10px; 
+    }
+}
 
 
 .upload-documento {
