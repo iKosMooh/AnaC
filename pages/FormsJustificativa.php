@@ -93,10 +93,7 @@
                                     <thead>
                                         <tr>
                                             <th>Ordem</th>
-                                            <th>Aula</th>
-                                            <th>Data da Aula Não Ministrada</th>
-                                            <th>Disciplina</th>
-                                            <th>Curso</th>
+                                            <th>Aula Não Ministrada</th>
                                             <th>Justificativa</th>
                                             <th>Upload PDF</th> <!-- Nova coluna -->
                                             <th>Ação</th>
@@ -110,22 +107,13 @@
                                                     <option value="">Selecione a aula</option>
                                                     <?php foreach ($aulas as $aula): ?>
                                                         <option value="<?php echo $aula['ID_Aula_Nao_Ministrada']; ?>"
+                                                        data-nome-curso="<?php echo $aula['Nome_Curso']; ?>"
                                                             data-nome-disciplina="<?php echo $aula['Nome_Materia']; ?>"
-                                                            data-nome-curso="<?php echo $aula['Nome_Curso']; ?>"
                                                             data-date-aula="<?php echo $aula['Date_Aula_Nao_Ministrada']; ?>">
-                                                            <?php echo $aula['Date_Aula_Nao_Ministrada'] . ' - ' . $aula['Nome_Curso'] . ' - ' . $aula['Nome_Materia']; ?>
+                                                            <?php echo $aula['Nome_Curso'] . ' - ' . $aula['Nome_Materia'] . ' - ' . $aula['Date_Aula_Nao_Ministrada'];?>
                                                         </option>
                                                     <?php endforeach; ?>
                                                 </select>
-                                            </td>
-                                            <td>
-                                                <input type="datetime-local" name="date-aula[]" required readonly>
-                                            </td>
-                                            <td>
-                                                <input type="text" class="nome-disciplina" disabled>
-                                            </td>
-                                            <td>
-                                                <input type="text" class="nome-curso" disabled>
                                             </td>
                                             <td>
                                                 <select class="justificativa" name="justificativa[]" required>
@@ -160,7 +148,7 @@
                             </div>
 
                             <div class="inputlabel">
-                                <label for="observacao">Observações</label>
+                                <label for="observacao">Justificativa (Opcional)</label>
                                 <textarea name="observacao" id="observacao" rows="4"></textarea>
                             </div>
 

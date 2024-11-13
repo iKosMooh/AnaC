@@ -3,13 +3,13 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 05/11/2024 às 23:27
+-- Tempo de geração: 13/11/2024 às 00:46
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
-SET time_zone = "+00:00";
+SET time_zone = "-03:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -35,17 +35,6 @@ CREATE TABLE `aula` (
   `Horario_Termino` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Despejando dados para a tabela `aula`
---
-
-INSERT INTO `aula` (`ID_Aula`, `ID_Materia`, `Horario_Inicio`, `ID_Curso`, `Horario_Termino`) VALUES
-(1, 1, '08:00:00', 1, '09:00:00'),
-(2, 2, '10:00:00', 2, '11:00:00'),
-(3, 3, '14:00:00', 3, '15:00:00'),
-(4, 4, '16:00:00', 4, '17:00:00'),
-(5, 5, '18:00:00', 5, '19:00:00');
-
 -- --------------------------------------------------------
 
 --
@@ -63,21 +52,6 @@ CREATE TABLE `aula_nao_ministrada` (
   `docs` varchar(255) NOT NULL,
   `Aula_Reposta` varchar(30) NOT NULL DEFAULT 'Não'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `aula_nao_ministrada`
---
-
-INSERT INTO `aula_nao_ministrada` (`ID_Aula_Nao_Ministrada`, `Date_Time`, `Observacao`, `ID_Aula`, `ID_Professor`, `ID_Materia`, `Justificado`, `docs`, `Aula_Reposta`) VALUES
-(1, '2024-02-15', 'Aula cancelada', 1, 1, 1, 'Justificado', '', 'Não'),
-(2, '2024-02-20', 'Professor ausente', 2, 2, NULL, 'Não Justificado', '', 'Não'),
-(3, '2024-02-25', 'Problemas técnicos', 3, NULL, NULL, 'Não Justificado', '', 'Não'),
-(4, '2024-03-01', 'Feriado', 4, NULL, NULL, 'Não Justificado', '', 'Não'),
-(5, '2024-03-05', '1231231', 5, 3, 3, 'Justificado', '', 'Não'),
-(12, '0001-01-01', '123', 1, 1, 1, 'Justificado', '', 'Não'),
-(13, '0001-01-01', '123', 2, 2, 2, 'Não Justificado', '', 'Não'),
-(14, '0002-02-21', '4324', 1, 1, 1, 'Justificado', '', 'Não'),
-(15, '0032-02-12', '213', 1, 1, 1, 'Não Justificado', '', 'Não');
 
 -- --------------------------------------------------------
 
@@ -129,11 +103,7 @@ CREATE TABLE `curso` (
 --
 
 INSERT INTO `curso` (`ID_Curso`, `Nome`, `Turno`, `CargaHR`, `Grade`, `ID_Coordenador`, `ID_Instituicao`) VALUES
-(1, 'Matemática', 'Manhã', 1600, 'Grade 1', 1, 1),
-(2, 'História', 'Tarde', 1400, 'Grade 2', 2, 2),
-(3, 'Física', 'Noite', 1500, 'Grade 3', 3, 3),
-(4, 'Química', 'Manhã', 1600, 'Grade 4', 4, 4),
-(5, 'Geografia', 'Tarde', 1400, 'Grade 5', 5, 5);
+(1, 'Desenvolvimento de Software Multiplataforma', 'Noturno', 2800, 'Grade 1', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -154,11 +124,7 @@ CREATE TABLE `cursoativo` (
 --
 
 INSERT INTO `cursoativo` (`ID_CursoA`, `ID_Curso`, `Nome`, `DataInicio`, `DataFim`) VALUES
-(1, 1, 'Matemática', '2024-01-01', '2024-12-31'),
-(2, 2, 'História', '2024-01-01', '2024-12-31'),
-(3, 3, 'Física', '2024-01-01', '2024-12-31'),
-(4, 4, 'Química', '2024-01-01', '2024-12-31'),
-(5, 5, 'Geografia', '2024-01-01', '2024-12-31');
+(1, 1, 'DSM 1º Semestre 2024', '2024-02-01', '2026-12-11');
 
 -- --------------------------------------------------------
 
@@ -178,11 +144,7 @@ CREATE TABLE `instituicao` (
 --
 
 INSERT INTO `instituicao` (`ID_Instituicao`, `Nome`, `Endereco`, `Complemento`) VALUES
-(1, 'Instituto de Ciências Exatas', 'Rua A, 100', 'Prédio B'),
-(2, 'Faculdade de Humanidades', 'Rua B, 200', 'Prédio C'),
-(3, 'Universidade de Medicina', 'Rua C, 300', 'Prédio D'),
-(4, 'Centro de Psicologia', 'Rua D, 400', 'Prédio E'),
-(5, 'Escola de Administração', 'Rua E, 500', 'Prédio F');
+(1, 'Fatec Itapira - \"Dr. Ogari de Castro Pacheco\"', 'R. Tereza Lera Paoletti, 590 - Bela Vista, Itapira - SP, 13974-080', NULL);
 
 -- --------------------------------------------------------
 
@@ -197,42 +159,6 @@ CREATE TABLE `materias` (
   `ID_Curso` int(11) NOT NULL,
   `ID_Professor` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `materias`
---
-
-INSERT INTO `materias` (`ID_Materia`, `Nome`, `CargaHR`, `ID_Curso`, `ID_Professor`) VALUES
-(1, 'Álgebra', 80, 1, 1),
-(2, 'História Antiga', 60, 2, 2),
-(3, 'Cinemática', 90, 3, 3),
-(4, 'Química Orgânica', 70, 4, 4),
-(5, 'Geopolítica', 80, 5, 5);
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `presenca`
---
-
-CREATE TABLE `presenca` (
-  `ID_Materia` int(11) NOT NULL,
-  `Data` date NOT NULL,
-  `Status` varchar(20) NOT NULL,
-  `ID_Professor` int(11) NOT NULL,
-  `ID_CursoA` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `presenca`
---
-
-INSERT INTO `presenca` (`ID_Materia`, `Data`, `Status`, `ID_Professor`, `ID_CursoA`) VALUES
-(1, '2024-01-10', 'Presente', 1, 1),
-(2, '2024-01-15', 'Ausente', 2, 2),
-(3, '2024-01-20', 'Presente', 3, 3),
-(4, '2024-01-25', 'Presente', 4, 4),
-(5, '2024-01-30', 'Ausente', 5, 5);
 
 -- --------------------------------------------------------
 
@@ -283,11 +209,7 @@ CREATE TABLE `professores_cursos` (
 --
 
 INSERT INTO `professores_cursos` (`ID_Professor`, `ID_Curso`) VALUES
-(1, 1),
-(2, 2),
-(3, 3),
-(4, 4),
-(5, 5);
+(1, 1);
 
 -- --------------------------------------------------------
 
@@ -299,24 +221,17 @@ CREATE TABLE `reposicao` (
   `ID_Reposicao` int(11) NOT NULL,
   `ID_Aula_Nao_Ministrada` int(11) NOT NULL,
   `DataReposicao` date DEFAULT NULL,
-  `Mensagem` varchar(255) NOT NULL,
   `docs_plano_aula` varchar(255) DEFAULT NULL,
   `Status_Pedido` varchar(20) NOT NULL,
-  `Motivo` varchar(1000) DEFAULT NULL
+  `Resposta_Coordenador` varchar(1000) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `reposicao`
 --
 
-INSERT INTO `reposicao` (`ID_Reposicao`, `ID_Aula_Nao_Ministrada`, `DataReposicao`, `Mensagem`, `docs_plano_aula`, `Status_Pedido`, `Motivo`) VALUES
-(1, 1, '2024-02-20', 'Ahhh', '', 'Rejeitado', 'Pq eu quis'),
-(2, 2, '2024-02-25', '', '', 'Aguardando', ''),
-(3, 3, '2024-03-01', '', '', 'Aprovada', ''),
-(4, 4, '2024-03-05', '', '', 'Aguardando', ''),
-(5, 5, '2024-03-10', '1', 'Aula 06 - Comando SELECT - Parte 2.pdf', 'Pendente', ''),
-(6, 1, '0024-03-01', 'teste', '', 'Rejeitado', '...'),
-(7, 1, '0001-01-01', 'teste', '', 'Pendente', '');
+INSERT INTO `reposicao` (`ID_Reposicao`, `ID_Aula_Nao_Ministrada`, `DataReposicao`, `docs_plano_aula`, `Status_Pedido`, `Resposta_Coordenador`) VALUES
+(2, 18, '2005-01-01', NULL, 'Pendente', NULL);
 
 --
 -- Índices para tabelas despejadas
@@ -376,14 +291,6 @@ ALTER TABLE `materias`
   ADD KEY `ID_Professor` (`ID_Professor`);
 
 --
--- Índices de tabela `presenca`
---
-ALTER TABLE `presenca`
-  ADD KEY `ID_Materia` (`ID_Materia`),
-  ADD KEY `ID_Professor` (`ID_Professor`),
-  ADD KEY `ID_CursoA` (`ID_CursoA`);
-
---
 -- Índices de tabela `professores`
 --
 ALTER TABLE `professores`
@@ -414,13 +321,13 @@ ALTER TABLE `reposicao`
 -- AUTO_INCREMENT de tabela `aula`
 --
 ALTER TABLE `aula`
-  MODIFY `ID_Aula` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `ID_Aula` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `aula_nao_ministrada`
 --
 ALTER TABLE `aula_nao_ministrada`
-  MODIFY `ID_Aula_Nao_Ministrada` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `ID_Aula_Nao_Ministrada` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `coordenadores`
@@ -432,25 +339,25 @@ ALTER TABLE `coordenadores`
 -- AUTO_INCREMENT de tabela `curso`
 --
 ALTER TABLE `curso`
-  MODIFY `ID_Curso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `ID_Curso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `cursoativo`
 --
 ALTER TABLE `cursoativo`
-  MODIFY `ID_CursoA` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `ID_CursoA` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `instituicao`
 --
 ALTER TABLE `instituicao`
-  MODIFY `ID_Instituicao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `ID_Instituicao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `materias`
 --
 ALTER TABLE `materias`
-  MODIFY `ID_Materia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `ID_Materia` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `professores`
@@ -462,7 +369,7 @@ ALTER TABLE `professores`
 -- AUTO_INCREMENT de tabela `reposicao`
 --
 ALTER TABLE `reposicao`
-  MODIFY `ID_Reposicao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `ID_Reposicao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restrições para tabelas despejadas
@@ -502,14 +409,6 @@ ALTER TABLE `cursoativo`
 ALTER TABLE `materias`
   ADD CONSTRAINT `materias_ibfk_1` FOREIGN KEY (`ID_Curso`) REFERENCES `curso` (`ID_Curso`) ON DELETE CASCADE,
   ADD CONSTRAINT `materias_ibfk_2` FOREIGN KEY (`ID_Professor`) REFERENCES `professores` (`ID_Professor`) ON DELETE CASCADE;
-
---
--- Restrições para tabelas `presenca`
---
-ALTER TABLE `presenca`
-  ADD CONSTRAINT `presenca_ibfk_1` FOREIGN KEY (`ID_Materia`) REFERENCES `materias` (`ID_Materia`) ON DELETE CASCADE,
-  ADD CONSTRAINT `presenca_ibfk_2` FOREIGN KEY (`ID_Professor`) REFERENCES `professores` (`ID_Professor`) ON DELETE CASCADE,
-  ADD CONSTRAINT `presenca_ibfk_3` FOREIGN KEY (`ID_CursoA`) REFERENCES `cursoativo` (`ID_CursoA`) ON DELETE CASCADE;
 
 --
 -- Restrições para tabelas `professores_cursos`

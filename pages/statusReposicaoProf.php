@@ -11,7 +11,7 @@ require_once '../php/connect.php';
 
 function buscarPedidosReposicao($pdo, $id_professor) {
     $sql = "
-        SELECT r.ID_Reposicao, a.Date_Time, r.DataReposicao, r.Mensagem, r.docs_plano_aula, r.Status_Pedido,r.Motivo, a.ID_Aula_Nao_Ministrada
+        SELECT r.ID_Reposicao, a.Date_Time, r.DataReposicao, a.Observacao, r.docs_plano_aula, r.Status_Pedido,r.Resposta_Coordenador, a.ID_Aula_Nao_Ministrada
         FROM reposicao r
         JOIN aula_nao_ministrada a ON r.ID_Aula_Nao_Ministrada = a.ID_Aula_Nao_Ministrada
         WHERE a.ID_Professor = :id_professor";
@@ -55,10 +55,10 @@ $pedidos = buscarPedidosReposicao($pdo, $id_professor);
                         <th>ID</th>
                         <th>Aula Não Ministrada</th>
                         <th>Data da Reposição</th>
-                        <th>Mensagem</th>
+                        <th>Observação Prof.</th>
                         <th>Documento do Plano de Aula</th>
                         <th>Status</th>
-                        <th>Motivo</th>
+                        <th>Resposta Coordenador</th>
                         <th>Ação</th>
                     </tr>
                 </thead>
@@ -68,7 +68,7 @@ $pedidos = buscarPedidosReposicao($pdo, $id_professor);
                             <td><?php echo $pedido['ID_Reposicao']; ?></td>
                             <td><?php echo $pedido['Date_Time']; ?></td>
                             <td><?php echo $pedido['DataReposicao']; ?></td>
-                            <td><?php echo htmlspecialchars($pedido['Mensagem']); ?></td>
+                            <td><?php echo htmlspecialchars($pedido['Observacao']); ?></td>
                             <td>
                                 <?php if ($pedido['docs_plano_aula']): ?>
                                     <a href="../uploads/<?php echo htmlspecialchars($pedido['docs_plano_aula']); ?>" target="_blank">Ver Documento</a>
@@ -77,10 +77,10 @@ $pedidos = buscarPedidosReposicao($pdo, $id_professor);
                                 <?php endif; ?>
                             </td>
                             <td><?php echo htmlspecialchars($pedido['Status_Pedido']); ?></td>
-                            <td><?php echo htmlspecialchars($pedido['Motivo']); ?></td>
+                            <td><?php echo htmlspecialchars($pedido['Resposta_Coordenador']); ?></td>
                             <td>
                                 <?php if ($pedido['Status_Pedido'] == 'Rejeitado'): ?>
-                                    <button onclick="openModal(<?php echo $pedido['ID_Reposicao']; ?>, '<?php echo htmlspecialchars($pedido['Mensagem']); ?>', '<?php echo $pedido['DataReposicao']; ?>', '<?php echo htmlspecialchars($pedido['docs_plano_aula']); ?>','<?php echo htmlspecialchars($pedido['ID_Aula_Nao_Ministrada']); ?>')">Editar</button>
+                                    <button onclick="openModal(<?php echo $pedido['ID_Reposicao']; ?>, '<?php echo htmlspecialchars($pedido['Observacao']); ?>', '<?php echo $pedido['DataReposicao']; ?>', '<?php echo htmlspecialchars($pedido['docs_plano_aula']); ?>','<?php echo htmlspecialchars($pedido['ID_Aula_Nao_Ministrada']); ?>')">Editar</button>
                                 <?php else: ?>
                                     <button disabled>Ação não permitida</button>
                                 <?php endif; ?>
@@ -105,8 +105,8 @@ $pedidos = buscarPedidosReposicao($pdo, $id_professor);
                 <input type="date" id="data_reposicao" name="data_reposicao" required>
                 <br><br>
 
-                <label for="mensagem">Mensagem:</label>
-                <textarea id="mensagem" name="mensagem" required></textarea>
+                <label for="Observacao">Observação:</label>
+                <textarea id="Observacao" name="Observacao" required></textarea>
                 <br><br>
 
                 <label for="docs_plano_aula">Documento do Plano de Aula:</label>
@@ -123,9 +123,9 @@ $pedidos = buscarPedidosReposicao($pdo, $id_professor);
     </div>
 
     <script>
-        function openModal(id, mensagem, dataReposicao, docs, idAulaNaoMinistrada) {
+        function openModal(id, Observacao, dataReposicao, docs, idAulaNaoMinistrada) {
             document.getElementById("id_reposicao").value = id;
-            document.getElementById("mensagem").value = mensagem;
+            document.getElementById("Observacao").value = Observacao;
             document.getElementById("data_reposicao").value = dataReposicao;
             document.getElementById("id_aula_nao_ministrada").value = idAulaNaoMinistrada;
             document.getElementById("myModal").style.display = "block";

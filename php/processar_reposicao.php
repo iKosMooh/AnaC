@@ -5,7 +5,6 @@ require_once '../php/connect.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id_aula_nao_ministrada = $_POST['id_aula_nao_ministrada'];
     $data_reposicao = $_POST['data_reposicao'];
-    $mensagem = $_POST['mensagem'];
     $id_professor = $_POST['id_professor'];
 
     // Verificar se o ID da aula não ministrada existe
@@ -47,13 +46,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 }
 
                 // Atualização do pedido no banco de dados
-                $sqlUpdate = "UPDATE reposicao SET DataReposicao = :data_reposicao, Mensagem = :mensagem, 
+                $sqlUpdate = "UPDATE reposicao SET DataReposicao = :data_reposicao, 
                               docs_plano_aula = COALESCE(:docs_plano_aula, docs_plano_aula), Status_Pedido = 'Pendente' 
                               WHERE ID_Reposicao = :id_reposicao";
 
                 $stmtUpdate = $pdo->prepare($sqlUpdate);
                 $stmtUpdate->bindParam(':data_reposicao', $data_reposicao);
-                $stmtUpdate->bindParam(':mensagem', $mensagem);
                 $stmtUpdate->bindParam(':docs_plano_aula', $docs_plano_aula, PDO::PARAM_STR | PDO::PARAM_NULL); // Permite null
                 $stmtUpdate->bindParam(':id_reposicao', $id_reposicao, PDO::PARAM_INT);
 
@@ -74,17 +72,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
 
             // Inserção no banco de dados
-            $sqlInsert = "INSERT INTO reposicao (ID_Aula_Nao_Ministrada, DataReposicao, Mensagem, docs_plano_aula, Status_Pedido) 
-                          VALUES (:id_aula_nao_ministrada, :data_reposicao, :mensagem, :docs_plano_aula, 'Pendente')";
+            $sqlInsert = "INSERT INTO reposicao (ID_Aula_Nao_Ministrada, DataReposicao, docs_plano_aula, Status_Pedido) 
+                          VALUES (:id_aula_nao_ministrada, :data_reposicao, :docs_plano_aula, 'Pendente')";
 
             $stmtInsert = $pdo->prepare($sqlInsert);
             $stmtInsert->bindParam(':id_aula_nao_ministrada', $id_aula_nao_ministrada, PDO::PARAM_INT);
             $stmtInsert->bindParam(':data_reposicao', $data_reposicao);
-            $stmtInsert->bindParam(':mensagem', $mensagem);
             $stmtInsert->bindParam(':docs_plano_aula', $docs_plano_aula, PDO::PARAM_STR | PDO::PARAM_NULL); // Permite null
 
             if ($stmtInsert->execute()) {
-                echo "Pedido de reposição enviado com sucesso!";
+                echo "Pedido de reposição criado com sucesso!";
             } else {
                 echo "Erro ao enviar o pedido de reposição.";
             }

@@ -32,6 +32,14 @@ if ($_SESSION['tipo'] === 'professor') {
         echo '</div>';
 
         echo '<div class="option">';
+            echo '<a href="/pages/ReposicaoForm.php">';
+                echo '<img src="../img/repos.png" alt="Formulário de Reposição">';
+                echo '<span>Formulário de Reposição</span>';
+            echo '</a>';
+            echo '<p>Preencha o formulário para marcar uma aula para repo-la.</p>';
+        echo '</div>';
+
+        echo '<div class="option">';
             echo '<a href="/pages/statusReposicaoProf.php">';
                 echo '<img src="../img/status.png" alt="Ver Status dos pedidos de Reposições">';
                 echo '<span>Ver Status dos pedidos de Reposições</span>';

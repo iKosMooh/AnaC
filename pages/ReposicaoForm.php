@@ -75,9 +75,6 @@ $nenhumaAula = empty($aulas);
                 <label for="data_reposicao">Data da Reposição:</label>
                 <input type="date" id="data_reposicao" name="data_reposicao" required>
 
-                <label for="mensagem">Mensagem:</label>
-                <textarea id="mensagem" name="mensagem" required></textarea>
-
                 <label for="docs_plano_aula">Documento do Plano de Aula:</label>
                 <input type="file" id="docs_plano_aula" name="docs_plano_aula" accept=".pdf,.doc,.docx">
 

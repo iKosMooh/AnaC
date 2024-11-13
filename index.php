@@ -16,17 +16,7 @@
 </head>
 
 <body>
-    <?php include_once './pages/header.php' ?>
-    <div class="login-options">
-        <div class="option">
-            <a href="/pages/login.php">
-                <img src="/img/login prof.png" alt="Login Professor">
-                <span>Login Professor</span>
-            </a>
-            <p>Acesse o portal de login para Professores.</p>
-        </div>
-    </div>
-    <?php include_once './pages/footer.php' ?>
+    <?php header('Location: ./pages/login.php') ?>
 </body>
 
 </html>

@@ -107,11 +107,10 @@ if ($is_coordenador) {
                             <tr>
                                 <th>Ordem</th>
                                 <th>Data da Aula Não Ministrada</th>
-                                <th>Aula</th>
+                                <th>Curso</th>
                                 <th>Horário Início</th>
                                 <th>Horário Término</th>
                                 <th>Disciplina</th>
-                                <th>Observação</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -127,7 +126,7 @@ if ($is_coordenador) {
                                                 data-horario-termino="<?php echo $aula['Horario_Termino']; ?>"
                                                 data-nome-disciplina="<?php echo $aula['Nome_Materia']; ?>"
                                                 data-id-materia="<?php echo isset($aula['ID_Materia']) ? $aula['ID_Materia'] : ''; ?>">
-                                                <?php echo $aula['Nome_Curso'] . ' - ' . $aula['Nome_Materia']; ?>
+                                                <?php echo $aula['Nome_Curso']?>
                                             </option>
                                         <?php endforeach; ?>
                                     </select>
@@ -135,7 +134,6 @@ if ($is_coordenador) {
                                 <td data-label="Horário Início"><input type="text" class="horario-inicio" disabled></td>
                                 <td data-label="Horário Término"><input type="text" class="horario-termino" disabled></td>
                                 <td data-label="Disciplina"><input type="text" class="nome-disciplina" disabled></td>
-                                <td data-label="Observação"><input type="text" name="observacaoAula[]" placeholder="Motivo da aula não ministrada"></td>
                             </tr>
                         </tbody>
                     </table>

@@ -32,7 +32,7 @@ if (isset($_SESSION['tipo'])) {
 <body>
     <header class="header">
         <nav class="navbar">
-            <a href="#" class="logo"><img src="../img/Logo-Fatec-1200x800-1-removebg-preview.png" alt="Logo"></a>
+            <a href="/" class="logo"><img src="../img/Logo-Fatec-1200x800-1-removebg-preview.png" alt="Logo"></a>
             <ul class="nav-menu nav-menu-border">
                 <li class="titulo">
                     <?php if (isset($_SESSION['tipo'])): ?>

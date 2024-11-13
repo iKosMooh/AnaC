@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="../css/footer.css">
 </head>
 <body>
-    <main></main>
     <footer>
         <div id="footer_content">
             <div id="footer_contacts">
