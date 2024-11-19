@@ -40,7 +40,7 @@ function buscarAulas($pdo, $id_professor)
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':id_professor', $id_professor, PDO::PARAM_INT);
         $stmt->execute();
-        
+
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         // Verifique se o resultado está vazio
@@ -49,7 +49,7 @@ function buscarAulas($pdo, $id_professor)
         } else {
             //echo "<script>console.log(" . json_encode($result) . ");</script>";
         }
-        
+
         return $result;
     } catch (PDOException $e) {
         // Exibe o erro específico no console
@@ -72,13 +72,15 @@ if ($is_coordenador) {
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Aula Não Ministrada</title>
-    <link rel="stylesheet" href="../css/naoministrada.css"> 
+    <link rel="stylesheet" href="../css/naoministrada.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
+
 <body>
     <?php include_once 'header.php'; ?>
     <div class="container">
@@ -101,7 +103,7 @@ if ($is_coordenador) {
                 <?php endif; ?>
 
                 <div class="inputlabel">
-                   <div class="pa"><label for="aulasNaoMinistradas">Dados da(s) aula(s) não ministrada(s)</label></div> 
+                    <div class="pa"><label for="aulasNaoMinistradas">Dados da(s) aula(s) não ministrada(s)</label></div>
                     <table>
                         <thead>
                             <tr>
@@ -117,7 +119,7 @@ if ($is_coordenador) {
                             <tr class="aulaRow">
                                 <td class="ordem" data-label="Ordem">1</td>
                                 <td data-label="Data da Aula Não Ministrada"><input type="date" name="dataAula[]"></td>
-                                 <td data-label="Aula">
+                                <td data-label="Aula">
                                     <select name="id_aula[]" class="select-aula">
                                         <option value="">Selecione a aula</option>
                                         <?php foreach ($aulas as $aula): ?>
@@ -126,7 +128,7 @@ if ($is_coordenador) {
                                                 data-horario-termino="<?php echo $aula['Horario_Termino']; ?>"
                                                 data-nome-disciplina="<?php echo $aula['Nome_Materia']; ?>"
                                                 data-id-materia="<?php echo isset($aula['ID_Materia']) ? $aula['ID_Materia'] : ''; ?>">
-                                                <?php echo $aula['Nome_Curso']?>
+                                                <?php echo $aula['Nome_Curso'] ?>
                                             </option>
                                         <?php endforeach; ?>
                                     </select>
@@ -137,14 +139,13 @@ if ($is_coordenador) {
                             </tr>
                         </tbody>
                     </table>
-                    </div>
-                    <div class="button.container"> 
-                        <button type="button" id="adicionarAulaBtn">Adicionar Aula</button>
-                    </div>
-
-                <button type="submit" id="enviarAulasBtn">Enviar Aulas</button></div>
-            </form>
+                </div>
+                <button type="button" id="adicionarAulaBtn">Adicionar Aula</button>
+                <button type="submit" id="enviarAulasBtn">Enviar Aulas</button>
         </div>
+
+        </form>
+    </div>
     </div>
     <?php include_once 'footer.php'; ?>
 
@@ -214,27 +215,27 @@ if ($is_coordenador) {
         });
 
         $('#reposicaoForm').on('submit', function(e) {
-        e.preventDefault(); // Impede o envio normal do formulário
+            e.preventDefault(); // Impede o envio normal do formulário
 
-        $.ajax({
-            url: '../php/Nao_Ministrada_Cadastro.php', // URL do arquivo que processa o formulário
-            type: 'POST',
-            data: $(this).serialize(), // Serializa os dados do formulário
-            dataType: 'json',
-            success: function(response) {
-                if (response.status === 'success') {
-                    alert(response.message); // Mensagem de sucesso
-                    // Aqui você pode também limpar o formulário ou redirecionar
-                } else {
-                    alert(response.message); // Mensagem de erro
+            $.ajax({
+                url: '../php/Nao_Ministrada_Cadastro.php', // URL do arquivo que processa o formulário
+                type: 'POST',
+                data: $(this).serialize(), // Serializa os dados do formulário
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status === 'success') {
+                        alert(response.message); // Mensagem de sucesso
+                        // Aqui você pode também limpar o formulário ou redirecionar
+                    } else {
+                        alert(response.message); // Mensagem de erro
+                    }
+                },
+                error: function() {
+                    alert('Ocorreu um erro ao enviar o formulário.'); // Mensagem de erro de AJAX
                 }
-            },
-            error: function() {
-                alert('Ocorreu um erro ao enviar o formulário.'); // Mensagem de erro de AJAX
-            }
+            });
         });
-    });
-
     </script>
 </body>
+
 </html>

@@ -3,13 +3,13 @@ session_start();
 require_once '../php/connect.php';
 
 // Verifica se o usuário está autenticado
-if (!isset($_SESSION['id'])) {
+if ($_SESSION['tipo'] != 'coordenador') {
     header("Location: login.php");
     exit();
 }
 
 // Recuperar pedidos de reposição com matéria e nome do professor
-$sql = "SELECT r.ID_Reposicao, r.DataReposicao, r.Mensagem, r.docs_plano_aula, r.Status_Pedido,r.Motivo, 
+$sql = "SELECT r.ID_Reposicao, r.DataReposicao, a.Observacao , r.docs_plano_aula, r.Status_Pedido,r.Resposta_Coordenador, 
                a.ID_Aula_Nao_Ministrada, m.Nome AS Materia, p.Nome AS Professor
         FROM reposicao r 
         JOIN aula_nao_ministrada a ON r.ID_Aula_Nao_Ministrada = a.ID_Aula_Nao_Ministrada
@@ -268,10 +268,10 @@ $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <tr>
                         <th>ID</th>
                         <th>Data de Reposição</th>
-                        <th>Mensagem</th>
+                        <th>Observação</th>
                         <th>Arquivo</th>
                         <th>Status</th>
-                        <th>Motivo</th>
+                        <th>Resposta_Coordenador</th>
                         <th>Matéria</th>
                         <th>Professor</th>
                         <th>Ações</th>
@@ -282,7 +282,7 @@ $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <tr>
                             <td data-label="ID"><?php echo htmlspecialchars($pedido['ID_Reposicao']); ?></td>
                             <td data-label="Data de Reposição"><?php echo htmlspecialchars($pedido['DataReposicao']); ?></td>
-                            <td data-label="Mensagem"><?php echo htmlspecialchars($pedido['Mensagem']); ?></td>
+                            <td data-label="Observacao"><?php echo htmlspecialchars($pedido['Observacao']); ?></td>
                             <td data-label="Arquivo">
                                 <?php if ($pedido['docs_plano_aula']): ?>
                                     <a href="../uploads/<?php echo htmlspecialchars($pedido['docs_plano_aula']); ?>" target="_blank">Ver Arquivo</a>
@@ -307,7 +307,7 @@ $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <b class="<?php echo $statusClass; ?>"><?php echo $status; ?></b>
                             </td>
 
-                            <td data-label="Matéria"><?php echo htmlspecialchars($pedido['Motivo']); ?></td>
+                            <td data-label="Matéria"><?php echo htmlspecialchars($pedido['Resposta_Coordenador']); ?></td>
                             <td data-label="Matéria"><?php echo htmlspecialchars($pedido['Materia']); ?></td>
                             <td data-label="Professor"><?php echo htmlspecialchars($pedido['Professor']); ?></td>
                             <td data-label="Ações">
@@ -337,8 +337,8 @@ $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                         <!-- Campo para o motivo da reprovação -->
                         <div id="motivo-container" style="display: none;">
-                            <label for="motivo">Motivo da Rejeição:</label>
-                            <textarea name="motivo" id="motivo" rows="4"></textarea>
+                            <label for="Resposta_Coordenador">Motivo da Rejeição:</label>
+                            <textarea name="Resposta_Coordenador" id="Resposta_Coordenador" rows="4"></textarea>
                         </div>
                         <button type="submit">Atualizar</button>
                     </form>

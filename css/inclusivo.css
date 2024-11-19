@@ -1,0 +1,64 @@
+.accessibility-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #b20000;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.accessibility-menu {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    background: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    width: 200px;
+    display: none;
+    z-index: 1000;
+}
+
+.accessibility-menu h3 {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    text-align: center;
+    color: #333;
+}
+
+.accessibility-option {
+    display: block;
+    width: 100%;
+    margin: 5px 0;
+    padding: 10px;
+    background-color: #b20000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 14px;
+}
+
+.accessibility-option:hover {
+    opacity: 0.75;
+    transition: 0.5s;
+}
+
+.accessibility-option option {
+    background-color: #fff;
+    color: #333;
+    border: solid #333 1px;
+}
+
