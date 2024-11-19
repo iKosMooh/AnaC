@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 14/11/2024 às 23:20
+-- Tempo de geração: 20/11/2024 às 00:08
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -35,6 +35,27 @@ CREATE TABLE `aula` (
   `Horario_Termino` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Despejando dados para a tabela `aula`
+--
+
+INSERT INTO `aula` (`ID_Aula`, `ID_Materia`, `Horario_Inicio`, `ID_Curso`, `Horario_Termino`) VALUES
+(1, 1, '08:00:00', 1, '10:00:00'),
+(2, 2, '10:00:00', 1, '12:00:00'),
+(3, 3, '12:00:00', 1, '14:00:00'),
+(4, 4, '14:00:00', 1, '16:00:00'),
+(5, 5, '16:00:00', 1, '18:00:00'),
+(6, 16, '08:00:00', 1, '10:00:00'),
+(7, 17, '10:00:00', 1, '12:00:00'),
+(8, 18, '12:00:00', 1, '14:00:00'),
+(9, 19, '14:00:00', 1, '16:00:00'),
+(10, 20, '16:00:00', 1, '18:00:00'),
+(11, 11, '08:00:00', 3, '10:00:00'),
+(12, 12, '10:00:00', 3, '12:00:00'),
+(13, 13, '12:00:00', 3, '14:00:00'),
+(14, 14, '14:00:00', 3, '16:00:00'),
+(15, 15, '16:00:00', 3, '18:00:00');
+
 -- --------------------------------------------------------
 
 --
@@ -52,6 +73,13 @@ CREATE TABLE `aula_nao_ministrada` (
   `docs` varchar(255) NOT NULL,
   `Aula_Reposta` varchar(30) NOT NULL DEFAULT 'Não'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `aula_nao_ministrada`
+--
+
+INSERT INTO `aula_nao_ministrada` (`ID_Aula_Nao_Ministrada`, `Date_Time`, `Observacao`, `ID_Aula`, `ID_Professor`, `ID_Materia`, `Justificado`, `docs`, `Aula_Reposta`) VALUES
+(1, '0001-01-01', 'teste', 2, 1, NULL, 'Justificado', '', 'Não');
 
 -- --------------------------------------------------------
 
@@ -103,7 +131,10 @@ CREATE TABLE `curso` (
 --
 
 INSERT INTO `curso` (`ID_Curso`, `Nome`, `Turno`, `CargaHR`, `Grade`, `ID_Coordenador`, `ID_Instituicao`) VALUES
-(1, 'Desenvolvimento de Software Multiplataforma', 'Noturno', 2800, 'Grade 1', 1, 1);
+(1, 'Desenvolvimento de Software Multiplataforma - 1°', 'Noturno', 2800, 'Grade 1', 1, 1),
+(2, 'Gestão Empresarial - 1°', 'Noturno', 2700, 'Grade 2', 2, 1),
+(3, 'Desenvolvimento de Software - 2°', 'Noturno', 2800, 'Grade 3', 1, 1),
+(4, 'Gestão de Produção Indústrial - 1° ', 'Noturno', 2700, 'Grade 4', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -124,7 +155,21 @@ CREATE TABLE `cursoativo` (
 --
 
 INSERT INTO `cursoativo` (`ID_CursoA`, `ID_Curso`, `Nome`, `DataInicio`, `DataFim`) VALUES
-(1, 1, 'DSM 1º Semestre 2024', '2024-02-01', '2026-12-11');
+(1, 1, 'DSM 1º Semestre 2024', '2024-02-01', '2026-12-11'),
+(2, 2, 'GE 1° Semestre 2024', '2024-02-01', '2026-12-11'),
+(3, 3, 'DSM 2° Semestre 2024', '2024-02-01', '2026-12-11'),
+(4, 4, 'GPI 1° Semestre 2024', '2024-02-01', '2026-12-11');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `curso_materia`
+--
+
+CREATE TABLE `curso_materia` (
+  `ID_Curso` int(11) NOT NULL,
+  `ID_Materia` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -159,6 +204,32 @@ CREATE TABLE `materias` (
   `ID_Curso` int(11) NOT NULL,
   `ID_Professor` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `materias`
+--
+
+INSERT INTO `materias` (`ID_Materia`, `Nome`, `CargaHR`, `ID_Curso`, `ID_Professor`) VALUES
+(1, 'Desenvolvimento web', 400, 1, 1),
+(2, 'Algoritimo', 400, 1, 5),
+(3, 'Design Digital', 400, 1, 1),
+(4, 'Engenharia de Software', 400, 1, 5),
+(5, 'Redes e SO', 400, 1, 1),
+(6, 'Introdução à Administração', 60, 2, 2),
+(7, 'Contabilidade Geral', 80, 2, 3),
+(8, 'Gestão de Pessoas', 100, 2, 2),
+(9, 'Marketing Empresarial', 90, 2, 3),
+(10, 'Finanças Corporativas', 70, 2, 2),
+(11, 'Gestão da Produção', 80, 4, 2),
+(12, 'Logística e Cadeia de Suprimentos', 90, 4, 4),
+(13, 'Gestão da Qualidade', 100, 4, 2),
+(14, 'Tecnologia de Produção', 70, 4, 3),
+(15, 'Engenharia de Processos', 110, 4, 4),
+(16, 'Estruturas de Dados', 80, 3, 5),
+(17, 'Programação Orientada a Objetos', 90, 3, 1),
+(18, 'Algoritmos e Lógica de Programação', 100, 3, 5),
+(19, 'Desenvolvimento Web 2', 90, 3, 1),
+(20, 'Banco de Dados I', 80, 3, 5);
 
 -- --------------------------------------------------------
 
@@ -209,7 +280,45 @@ CREATE TABLE `professores_cursos` (
 --
 
 INSERT INTO `professores_cursos` (`ID_Professor`, `ID_Curso`) VALUES
-(1, 1);
+(1, 1),
+(1, 3),
+(2, 2),
+(3, 4),
+(4, 4),
+(5, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `professores_materia`
+--
+
+CREATE TABLE `professores_materia` (
+  `ID_Professor` int(11) NOT NULL,
+  `ID_Materia` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `professores_materia`
+--
+
+INSERT INTO `professores_materia` (`ID_Professor`, `ID_Materia`) VALUES
+(1, 1),
+(1, 3),
+(1, 5),
+(2, 6),
+(2, 8),
+(2, 10),
+(3, 7),
+(3, 11),
+(3, 13),
+(4, 12),
+(4, 15),
+(5, 16),
+(5, 17),
+(5, 18),
+(5, 19),
+(5, 20);
 
 -- --------------------------------------------------------
 
@@ -277,6 +386,13 @@ ALTER TABLE `cursoativo`
   ADD KEY `ID_Curso` (`ID_Curso`);
 
 --
+-- Índices de tabela `curso_materia`
+--
+ALTER TABLE `curso_materia`
+  ADD PRIMARY KEY (`ID_Curso`,`ID_Materia`),
+  ADD KEY `ID_Materia` (`ID_Materia`);
+
+--
 -- Índices de tabela `instituicao`
 --
 ALTER TABLE `instituicao`
@@ -307,6 +423,13 @@ ALTER TABLE `professores_cursos`
   ADD KEY `ID_Curso` (`ID_Curso`);
 
 --
+-- Índices de tabela `professores_materia`
+--
+ALTER TABLE `professores_materia`
+  ADD PRIMARY KEY (`ID_Professor`,`ID_Materia`),
+  ADD KEY `ID_Materia` (`ID_Materia`);
+
+--
 -- Índices de tabela `reposicao`
 --
 ALTER TABLE `reposicao`
@@ -321,13 +444,13 @@ ALTER TABLE `reposicao`
 -- AUTO_INCREMENT de tabela `aula`
 --
 ALTER TABLE `aula`
-  MODIFY `ID_Aula` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_Aula` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de tabela `aula_nao_ministrada`
 --
 ALTER TABLE `aula_nao_ministrada`
-  MODIFY `ID_Aula_Nao_Ministrada` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_Aula_Nao_Ministrada` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `coordenadores`
@@ -339,13 +462,13 @@ ALTER TABLE `coordenadores`
 -- AUTO_INCREMENT de tabela `curso`
 --
 ALTER TABLE `curso`
-  MODIFY `ID_Curso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID_Curso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de tabela `cursoativo`
 --
 ALTER TABLE `cursoativo`
-  MODIFY `ID_CursoA` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID_CursoA` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de tabela `instituicao`
@@ -357,7 +480,7 @@ ALTER TABLE `instituicao`
 -- AUTO_INCREMENT de tabela `materias`
 --
 ALTER TABLE `materias`
-  MODIFY `ID_Materia` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_Materia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de tabela `professores`
@@ -404,6 +527,13 @@ ALTER TABLE `cursoativo`
   ADD CONSTRAINT `cursoativo_ibfk_1` FOREIGN KEY (`ID_Curso`) REFERENCES `curso` (`ID_Curso`) ON DELETE CASCADE;
 
 --
+-- Restrições para tabelas `curso_materia`
+--
+ALTER TABLE `curso_materia`
+  ADD CONSTRAINT `curso_materia_ibfk_1` FOREIGN KEY (`ID_Curso`) REFERENCES `curso` (`ID_Curso`),
+  ADD CONSTRAINT `curso_materia_ibfk_2` FOREIGN KEY (`ID_Materia`) REFERENCES `materias` (`ID_Materia`);
+
+--
 -- Restrições para tabelas `materias`
 --
 ALTER TABLE `materias`
@@ -418,10 +548,11 @@ ALTER TABLE `professores_cursos`
   ADD CONSTRAINT `professores_cursos_ibfk_2` FOREIGN KEY (`ID_Curso`) REFERENCES `curso` (`ID_Curso`) ON DELETE CASCADE;
 
 --
--- Restrições para tabelas `reposicao`
+-- Restrições para tabelas `professores_materia`
 --
-ALTER TABLE `reposicao`
-  ADD CONSTRAINT `reposicao_ibfk_1` FOREIGN KEY (`ID_Aula_Nao_Ministrada`) REFERENCES `aula_nao_ministrada` (`ID_Aula_Nao_Ministrada`) ON DELETE CASCADE;
+ALTER TABLE `professores_materia`
+  ADD CONSTRAINT `professores_materia_ibfk_1` FOREIGN KEY (`ID_Professor`) REFERENCES `professores` (`ID_Professor`),
+  ADD CONSTRAINT `professores_materia_ibfk_2` FOREIGN KEY (`ID_Materia`) REFERENCES `materias` (`ID_Materia`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

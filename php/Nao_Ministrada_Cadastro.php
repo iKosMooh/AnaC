@@ -1,64 +1,53 @@
 <?php
 session_start();
 
-// Verificar se o usuário está logado
+// Verifica se o usuário está logado
 if (!isset($_SESSION['tipo'])) {
     header('Location: login.php');
     exit();
 }
 
-// Pegar o ID do professor da sessão
-$id_professor = $_SESSION['id'];
+require '../PHP/connect.php'; // Incluindo a conexão com o banco
 
-// Conexão ao banco de dados
-require '../PHP/connect.php';
-
-// Captura de dados do formulário
+// Verifica se a requisição é do tipo POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $dataAula = $_POST['dataAula'];
-    $id_aula = $_POST['id_aula'];
-    $observacaoAula = $_POST['observacaoAula'];
+    // Coleta os dados do formulário
+    $dataAula = isset($_POST['dataAula']) ? $_POST['dataAula'] : [];
+    $idAula = isset($_POST['idAula']) ? $_POST['idAula'] : [];
+    $idProfessor = isset($_POST['id_professor']) ? $_POST['id_professor'] : null;
+
+    // Verifica se os dados são válidos
+    if (empty($dataAula) || empty($idAula)) {
+        echo json_encode(['status' => 'error', 'message' => 'Os dados não foram enviados corretamente.']);
+        exit();
+    }
 
     try {
-        $pdo->beginTransaction(); // Inicia uma transação
+        // Prepara a query para inserir as aulas não ministradas
+        $sql = "INSERT INTO aula_nao_ministrada (ID_Professor, ID_Aula, Date_Time) VALUES (:id_professor, :id_aula, :data_aula)";
+        $stmt = $pdo->prepare($sql);
 
-        // Loop para inserir cada aula não ministrada
+        // Inicia a transação
+        $pdo->beginTransaction();
+
+        // Insere os dados
         foreach ($dataAula as $index => $data) {
-            if (!empty($id_aula[$index])) { // Verifica se a aula foi selecionada
-                // Obtendo o ID_Materia a partir da tabela Aula
-                $sqlMateria = "SELECT ID_Materia FROM Aula WHERE ID_Aula = :id_aula";
-                $stmtMateria = $pdo->prepare($sqlMateria);
-                $stmtMateria->bindParam(':id_aula', $id_aula[$index]);
-                $stmtMateria->execute();
-                $materia = $stmtMateria->fetch(PDO::FETCH_ASSOC);
-
-                if ($materia) {
-                    $id_materia = $materia['ID_Materia'];
-
-                    // Inserindo na tabela AulasNaoMinistradas
-                    $sqlInsert = "INSERT INTO aula_nao_ministrada (Date_Time, Observacao, ID_Aula, ID_Professor, ID_Materia) 
-                                  VALUES (:data, :observacao, :id_aula, :id_professor, :id_materia)";
-
-                    $stmtInsert = $pdo->prepare($sqlInsert);
-                    $stmtInsert->bindParam(':data', $data);
-                    $stmtInsert->bindParam(':observacao', $observacaoAula[$index]);
-                    $stmtInsert->bindParam(':id_aula', $id_aula[$index]);
-                    $stmtInsert->bindParam(':id_professor', $id_professor);
-                    $stmtInsert->bindParam(':id_materia', $id_materia);
-                    
-                    $stmtInsert->execute();
-                }
-            }
+            $stmt->bindParam(':id_professor', $idProfessor, PDO::PARAM_INT);
+            $stmt->bindParam(':id_aula', $idAula[$index], PDO::PARAM_INT);
+            $stmt->bindParam(':data_aula', $data, PDO::PARAM_STR);
+            $stmt->execute();
         }
 
-        $pdo->commit(); // Comita a transação
-        echo json_encode(['status' => 'success', 'message' => 'Aulas não ministradas registradas com sucesso!']);
+        // Commit da transação
+        $pdo->commit();
+
+        // Retorna sucesso
+        echo json_encode(['status' => 'success', 'message' => 'Aulas não ministradas registradas com sucesso.']);
 
     } catch (PDOException $e) {
-        $pdo->rollBack(); // Desfaz a transação em caso de erro
-        echo json_encode(['status' => 'error', 'message' => 'Erro ao registrar aulas: ' . $e->getMessage()]);
+        // Em caso de erro, faz rollback
+        $pdo->rollBack();
+        echo json_encode(['status' => 'error', 'message' => 'Erro ao registrar as aulas: ' . $e->getMessage()]);
     }
-} else {
-    echo json_encode(['status' => 'error', 'message' => 'Método de requisição inválido.']);
 }
 ?>

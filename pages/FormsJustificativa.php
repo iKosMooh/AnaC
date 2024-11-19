@@ -18,25 +18,22 @@
     {
         $sql = "
             SELECT 
-                A.ID_Aula_Nao_Ministrada, 
-                A.Date_Time AS Date_Aula_Nao_Ministrada, 
-                M.Nome AS Nome_Materia, 
-                C.Nome AS Nome_Curso, 
-                A.Observacao, 
-                A.Justificado 
+                A.ID_Aula_Nao_Ministrada,
+                A.ID_Aula,
+                M.Nome AS Nome_Materia,
+                C.Nome AS Nome_Curso,
+                A.Date_Time AS Date_Aula_Nao_Ministrada
             FROM 
                 aula_nao_ministrada A
             INNER JOIN 
                 Aula Au ON A.ID_Aula = Au.ID_Aula
             INNER JOIN 
-                Materias M ON A.ID_Materia = M.ID_Materia
+                Materias M ON Au.ID_Materia = M.ID_Materia
             INNER JOIN 
                 CursoAtivo C ON M.ID_Curso = C.ID_Curso
-            INNER JOIN 
-                Professores_Cursos PC ON C.ID_Curso = PC.ID_Curso
             WHERE 
-                PC.ID_Professor = :id_professor
-                AND A.Justificado != 'Justificado'";
+                A.ID_Professor = :id_professor
+                AND A.Justificado != 'Justificado';";
 
         try {
             $stmt = $pdo->prepare($sql);
@@ -107,10 +104,10 @@
                                                     <option value="">Selecione a aula</option>
                                                     <?php foreach ($aulas as $aula): ?>
                                                         <option value="<?php echo $aula['ID_Aula_Nao_Ministrada']; ?>"
-                                                        data-nome-curso="<?php echo $aula['Nome_Curso']; ?>"
+                                                            data-nome-curso="<?php echo $aula['Nome_Curso']; ?>"
                                                             data-nome-disciplina="<?php echo $aula['Nome_Materia']; ?>"
                                                             data-date-aula="<?php echo $aula['Date_Aula_Nao_Ministrada']; ?>">
-                                                            <?php echo $aula['Nome_Curso'] . ' - ' . $aula['Nome_Materia'] . ' - ' . $aula['Date_Aula_Nao_Ministrada'];?>
+                                                            <?php echo $aula['Date_Aula_Nao_Ministrada'] . $aula['Nome_Curso'] . ' - ' . $aula['Nome_Materia']; ?>
                                                         </option>
                                                     <?php endforeach; ?>
                                                 </select>

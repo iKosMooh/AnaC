@@ -67,7 +67,7 @@ $nenhumaAula = empty($aulas);
                     <option value="">-- Selecione uma aula --</option>
                     <?php foreach ($aulas as $aula): ?>
                         <option value="<?php echo htmlspecialchars($aula['ID_Aula_Nao_Ministrada']); ?>">
-                            Aula em <?php echo htmlspecialchars($aula['Date_Time']); ?>: <?php echo htmlspecialchars($aula['Observacao']); ?>
+                            Aula perdida em <?php echo htmlspecialchars($aula['Date_Time']); ?>: <?php echo htmlspecialchars($aula['Observacao']); ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
