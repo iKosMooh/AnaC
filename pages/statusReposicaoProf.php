@@ -63,31 +63,32 @@ $pedidos = buscarPedidosReposicao($pdo, $id_professor);
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($pedidos as $pedido): ?>
-                        <tr>
-                            <td><?php echo $pedido['ID_Reposicao']; ?></td>
-                            <td><?php echo $pedido['Date_Time']; ?></td>
-                            <td><?php echo $pedido['DataReposicao']; ?></td>
-                            <td><?php echo htmlspecialchars($pedido['Observacao']); ?></td>
-                            <td>
-                                <?php if ($pedido['docs_plano_aula']): ?>
-                                    <a href="../uploads/<?php echo htmlspecialchars($pedido['docs_plano_aula']); ?>" target="_blank">Ver Documento</a>
-                                <?php else: ?>
-                                    Nenhum documento anexado
-                                <?php endif; ?>
-                            </td>
-                            <td><?php echo htmlspecialchars($pedido['Status_Pedido']); ?></td>
-                            <td><?php echo htmlspecialchars($pedido['Resposta_Coordenador']); ?></td>
-                            <td>
-                                <?php if ($pedido['Status_Pedido'] == 'Rejeitado'): ?>
-                                    <button onclick="openModal(<?php echo $pedido['ID_Reposicao']; ?>, '<?php echo htmlspecialchars($pedido['Observacao']); ?>', '<?php echo $pedido['DataReposicao']; ?>', '<?php echo htmlspecialchars($pedido['docs_plano_aula']); ?>','<?php echo htmlspecialchars($pedido['ID_Aula_Nao_Ministrada']); ?>')">Editar</button>
-                                <?php else: ?>
-                                    <button disabled>Ação não permitida</button>
-                                <?php endif; ?>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
+    <?php foreach ($pedidos as $pedido): ?>
+        <tr>
+            <td data-label="ID"><?php echo $pedido['ID_Reposicao']; ?></td>
+            <td data-label="Aula Não Ministrada"><?php echo $pedido['Date_Time']; ?></td>
+            <td data-label="Data da Reposição"><?php echo $pedido['DataReposicao']; ?></td>
+            <td data-label="Observação Prof."><?php echo htmlspecialchars($pedido['Observacao']); ?></td>
+            <td data-label="Documento do Plano de Aula">
+                <?php if ($pedido['docs_plano_aula']): ?>
+                    <a href="../uploads/<?php echo htmlspecialchars($pedido['docs_plano_aula']); ?>" target="_blank">Ver Documento</a>
+                <?php else: ?>
+                    Nenhum documento anexado
+                <?php endif; ?>
+            </td>
+            <td data-label="Status"><?php echo htmlspecialchars($pedido['Status_Pedido']); ?></td>
+            <td data-label="Resposta Coordenador"><?php echo htmlspecialchars($pedido['Resposta_Coordenador']); ?></td>
+            <td data-label="Ação">
+                <?php if ($pedido['Status_Pedido'] == 'Rejeitado'): ?>
+                    <button onclick="openModal(<?php echo $pedido['ID_Reposicao']; ?>, '<?php echo htmlspecialchars($pedido['Observacao']); ?>', '<?php echo $pedido['DataReposicao']; ?>', '<?php echo htmlspecialchars($pedido['docs_plano_aula']); ?>','<?php echo htmlspecialchars($pedido['ID_Aula_Nao_Ministrada']); ?>')">Editar</button>
+                <?php else: ?>
+                    <button disabled>Ação não permitida</button>
+                <?php endif; ?>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</tbody>
+
             </table>
         <?php endif; ?>
     </div>
