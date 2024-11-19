@@ -113,6 +113,7 @@ if ($is_coordenador) {
                                 <th>Horário Início</th>
                                 <th>Horário Término</th>
                                 <th>Disciplina</th>
+                                <th>Observação</th>
                             </tr>
                         </thead>
                         <tbody>
