@@ -5,7 +5,7 @@ body {
 }
 
 .container {
-    max-width: 800px;
+    max-width: 850px;
     margin: 0 auto;
     background: white;
     border-radius: 10px;
@@ -131,68 +131,48 @@ button[disabled] {
     cursor: pointer;
 }
 
-/* Estilo para o container de edição */
-.edit-container {
-    padding: 20px;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.edit-container h2 {
-    text-align: center;
-    color: #a31e22; /* Mesma cor do h1 */
-    margin-bottom: 20px;
-}
-
-form label {
-    font-weight: bold;
-    color: #333;
-}
-
-form input[type="date"],
-form textarea,
-form input[type="file"] {
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0 15px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.submit-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-.submit-container input[type="submit"] {
-    background-color: #a31e22;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 15px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    width: 50%;
-}
-
-.submit-container input[type="submit"]:hover {
-    background-color: #414141;
-}
-
 /* Responsividade */
-@media (max-width: 800px) {
-    body {
-        padding: 10px;
+@media (max-width: 835px) {
+    /* Esconder cabeçalhos */
+    thead {
+        display: none;
     }
 
     .container {
-        padding: 15px;
+        width: 80%;
     }
 
-    input[type="submit"],
-    .submit-container input[type="submit"] {
-        width: 100%; 
+    table, tbody, tr, td {
+        display: block;
+        width: 100%;
+    }
+
+    tbody tr {
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px;
+    }
+
+    tbody td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border: none;
+        border-bottom: 1px solid #ddd;
+    }
+
+    tbody td:before {
+        content: attr(data-label); /* Mostra o cabeçalho antes do valor */
+        font-weight: bold;
+        color: #333;
+        flex-basis: 40%;
+        text-align: left;
+        padding-right: 10px;
+    }
+
+    tbody td:last-child {
+        border-bottom: none;
     }
 }
