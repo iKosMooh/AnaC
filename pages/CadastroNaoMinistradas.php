@@ -112,6 +112,11 @@ if ($is_coordenador) {
                                 <th>Disciplina</th>
                                 <th>Horário Início</th>
                                 <th>Horário Término</th>
+<<<<<<< HEAD
+=======
+                                <th>Disciplina</th>
+                                <th>Observação</th>
+>>>>>>> d2b3e5860a39109e4d00b415d42a74c40f1c0333
                             </tr>
                         </thead>
                         <tbody>

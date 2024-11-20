@@ -1,7 +1,7 @@
 .container {
     display: flex;
     background: rgba(255, 255, 255, 0.9);
-    margin: 150px auto 0; 
+    margin: 100px auto 100px; /* Ajuste a margem inferior */
     width: 90%; 
     max-width: 1300px; 
     border-radius: 10px;

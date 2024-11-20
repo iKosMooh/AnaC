@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 20/11/2024 às 00:08
+-- Tempo de geração: 20/11/2024 às 00:13
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -73,13 +73,6 @@ CREATE TABLE `aula_nao_ministrada` (
   `docs` varchar(255) NOT NULL,
   `Aula_Reposta` varchar(30) NOT NULL DEFAULT 'Não'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `aula_nao_ministrada`
---
-
-INSERT INTO `aula_nao_ministrada` (`ID_Aula_Nao_Ministrada`, `Date_Time`, `Observacao`, `ID_Aula`, `ID_Professor`, `ID_Materia`, `Justificado`, `docs`, `Aula_Reposta`) VALUES
-(1, '0001-01-01', 'teste', 2, 1, NULL, 'Justificado', '', 'Não');
 
 -- --------------------------------------------------------
 
@@ -336,13 +329,6 @@ CREATE TABLE `reposicao` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `reposicao`
---
-
-INSERT INTO `reposicao` (`ID_Reposicao`, `ID_Aula_Nao_Ministrada`, `DataReposicao`, `docs_plano_aula`, `Status_Pedido`, `Resposta_Coordenador`) VALUES
-(2, 18, '2005-01-01', NULL, 'Pendente', NULL);
-
---
 -- Índices para tabelas despejadas
 --
 
@@ -450,7 +436,7 @@ ALTER TABLE `aula`
 -- AUTO_INCREMENT de tabela `aula_nao_ministrada`
 --
 ALTER TABLE `aula_nao_ministrada`
-  MODIFY `ID_Aula_Nao_Ministrada` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID_Aula_Nao_Ministrada` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `coordenadores`
@@ -492,7 +478,7 @@ ALTER TABLE `professores`
 -- AUTO_INCREMENT de tabela `reposicao`
 --
 ALTER TABLE `reposicao`
-  MODIFY `ID_Reposicao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID_Reposicao` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restrições para tabelas despejadas
