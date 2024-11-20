@@ -58,22 +58,6 @@ if ($_SESSION['tipo'] === 'professor') {
             echo '</a>';
             echo '<p>Visualize todas as reposições de aulas enviadas e aprove ou as reprove.</p>';
         echo '</div>';
-
-        echo '<div class="option bottom">';
-            echo '<a href="/pages/AprovProf.html">';
-                echo '<img src="../img/aprov.png" alt="Aprovação de Documentos">';
-                echo '<span>Aprovação e Reprovação Declarações de Falta</span>';
-            echo '</a>';
-            echo '<p>Selecionar e visualizar documentos de professores e aprovar ou reprovar suas declarações ou atestados.</p>';
-        echo '</div>';
-
-        echo '<div class="option bottom">';
-            echo '<a href="/pages/VerDocs.php">';
-                echo '<img src="../img/atestado.png" alt="Atestados emitidos">';
-                echo '<span>Visualizar Atestados Emitidos</span>';
-            echo '</a>';
-            echo '<p>Visualize os atestados emitidos pelos professores.</p>';
-        echo '</div>';
     echo '</div>';
 }
 echo '</div>';
