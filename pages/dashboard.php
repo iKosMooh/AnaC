@@ -58,9 +58,18 @@ if ($_SESSION['tipo'] === 'professor') {
             echo '</a>';
             echo '<p>Visualize todas as reposições de aulas enviadas e aprove ou as reprove.</p>';
         echo '</div>';
+
+        echo '<div class="option bottom">';
+            echo '<a href="/pages/VerDocs.php">';
+                echo '<img src="../img/atestado.png" alt="Atestados emitidos">';
+                echo '<span>Visualizar Justificativa de Faltas</span>';
+            echo '</a>';
+            echo '<p>Visualize as justificativas enviadas pelos professores.</p>';
+        echo '</div>';
     echo '</div>';
 }
 echo '</div>';
 
 include_once 'footer.php';
 
+?>

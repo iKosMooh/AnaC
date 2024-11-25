@@ -2,6 +2,8 @@
 session_start();
 require_once '../php/connect.php';
 
+$response = array('success' => false, 'message' => '');
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id_aula_nao_ministrada = $_POST['id_aula_nao_ministrada'];
     $data_reposicao = $_POST['data_reposicao'];
@@ -14,7 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmtVerificaAula->execute();
 
     if ($stmtVerificaAula->fetchColumn() == 0) {
-        echo "Erro: ID de aula não ministrada não existe.";
+        $response['message'] = "Erro: ID de aula não ministrada não existe.";
+        echo json_encode($response);
         exit();
     }
 
@@ -28,17 +31,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         $pedidoExistente = $stmtVerifica->fetch(PDO::FETCH_ASSOC);
 
-        // Se já existe um pedido
         if ($pedidoExistente) {
             if ($pedidoExistente['Status_Pedido'] == 'Pendente') {
-                // Retornar mensagem se já houver um pedido pendente
-                echo "Pedido já feito e está com status: " . $pedidoExistente['Status_Pedido'];
-                exit(); // Interrompe a execução do script
+                $response['message'] = "Pedido já feito e está com status: " . $pedidoExistente['Status_Pedido'];
+                echo json_encode($response);
+                exit();
             } elseif ($pedidoExistente['Status_Pedido'] == 'Rejeitado') {
-                // Se o status for 'Rejeitado', atualizamos o pedido
                 $id_reposicao = $pedidoExistente['ID_Reposicao'];
 
-                // Verifica se o arquivo foi enviado
                 $docs_plano_aula = null; // Inicializa como null
                 if (isset($_FILES['docs_plano_aula']) && $_FILES['docs_plano_aula']['error'] == UPLOAD_ERR_OK) {
                     $docs_plano_aula = $_FILES['docs_plano_aula']['name'];
@@ -56,14 +56,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $stmtUpdate->bindParam(':id_reposicao', $id_reposicao, PDO::PARAM_INT);
 
                 if ($stmtUpdate->execute()) {
-                    echo "Pedido de reposição atualizado com sucesso!";
+                    $response['success'] = true;
+                    $response['message'] = "Pedido de reposição atualizado com sucesso!";
                 } else {
-                    echo "Erro ao atualizar o pedido de reposição.";
+                    $response['message'] = "Erro ao atualizar o pedido de reposição.";
                 }
             }
         } else {
             // Se não houver pedidos existentes, insere um novo
-            // Verifica se o arquivo foi enviado
             if (isset($_FILES['docs_plano_aula']) && $_FILES['docs_plano_aula']['error'] == UPLOAD_ERR_OK) {
                 $docs_plano_aula = $_FILES['docs_plano_aula']['name'];
                 move_uploaded_file($_FILES['docs_plano_aula']['tmp_name'], "../uploads/$docs_plano_aula");
@@ -81,13 +81,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $stmtInsert->bindParam(':docs_plano_aula', $docs_plano_aula, PDO::PARAM_STR | PDO::PARAM_NULL); // Permite null
 
             if ($stmtInsert->execute()) {
-                echo "Pedido de reposição criado com sucesso!";
+                $response['success'] = true;
+                $response['message'] = "Pedido de reposição criado com sucesso!";
             } else {
-                echo "Erro ao enviar o pedido de reposição.";
+                $response['message'] = "Erro ao enviar o pedido de reposição.";
             }
         }
     } catch (PDOException $e) {
-        echo "Erro ao inserir dados: " . $e->getMessage();
+        $response['message'] = "Erro ao inserir dados: " . $e->getMessage();
     }
 }
+
+echo json_encode($response);
 ?>

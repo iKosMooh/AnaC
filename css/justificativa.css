@@ -3,6 +3,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
 }
 
 body {
@@ -163,17 +164,18 @@ td {
     padding: 15px 20px;
     /* Aumentado para mais conforto e visibilidade */
     text-align: left;
-    border-bottom: 1px solid #ddd;
+    border: 1px solid #000000;
     /* Linha de separação */
     line-height: 1.5;
     /* Aumentando a altura das linhas */
 }
 
 th {
-    background-color: #f2f2f2;
+    background-color: #a31e22;
     /* Cor de fundo para cabeçalho */
     font-weight: bold;
     /* Negrito para o cabeçalho */
+    color: white;
 }
 
 td {

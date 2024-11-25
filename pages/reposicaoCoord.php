@@ -8,13 +8,16 @@ if ($_SESSION['tipo'] != 'coordenador') {
     exit();
 }
 
-// Recuperar pedidos de reposição com matéria e nome do professor
-$sql = "SELECT r.ID_Reposicao, r.DataReposicao, a.Observacao , r.docs_plano_aula, r.Status_Pedido,r.Resposta_Coordenador, 
-               a.ID_Aula_Nao_Ministrada, m.Nome AS Materia, p.Nome AS Professor
-        FROM reposicao r 
-        JOIN aula_nao_ministrada a ON r.ID_Aula_Nao_Ministrada = a.ID_Aula_Nao_Ministrada
-        JOIN materias m ON a.ID_Materia = m.ID_Materia
-        JOIN professores p ON a.ID_Professor = p.ID_Professor";
+$sql = "SELECT r.*, 
+a.*, 
+m.Nome AS Materia, 
+p.Nome AS Professor
+FROM reposicao r 
+JOIN aula_nao_ministrada a ON r.ID_Aula_Nao_Ministrada = a.ID_Aula_Nao_Ministrada
+JOIN aula al ON a.ID_Aula = al.ID_Aula  -- Relacionando a aula que não foi ministrada
+JOIN materias m ON al.ID_Materia = m.ID_Materia  -- Encontrando a matéria pela aula
+JOIN professores p ON a.ID_Professor = p.ID_Professor";
+
 
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
@@ -36,7 +39,7 @@ $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', 'Helvetica', sans-serif;
+            font-family: 'Roboto', sans-serif;
         }
 
         body {
@@ -44,6 +47,13 @@ $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             color: #333;
             background-image: url("../img/formBG.jpg");
             background-repeat: repeat;
+        }
+
+        h1 {
+            text-align: center;
+            color: #a31e22;
+            font-size: 28px; 
+            margin-bottom: 2rem;
         }
 
         .wrapper {
@@ -62,19 +72,23 @@ $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         /* Estilos gerais */
         table {
             width: 100%;
-            border-collapse: collapse;
             margin-bottom: 20px;
+            border-collapse: collapse;
+        }
+        
+        table, th, td {
+            border: 1px solid #000000;
         }
 
         table th,
         table td {
             padding: 10px;
             text-align: left;
-            border: 1px solid #ddd;
         }
 
         table th {
-            background-color: #f2f2f2;
+            background-color: #a31e22;
+            color: #ffffff;
         }
 
         /* Estilo para o modal */
@@ -95,7 +109,6 @@ $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         .modal-content {
             background-color: #fefefe;
             padding: 20px;
-            border: 1px solid #888;
             width: 80%;
             max-width: 500px;
             border-radius: 8px;
@@ -117,7 +130,8 @@ $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             cursor: pointer;
         }
 
-        @media (max-width: 768px) {
+
+        @media (max-width: 965px) {
 
             /* Ocultar cabeçalho da tabela */
             thead,
@@ -271,7 +285,7 @@ $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <th>Observação</th>
                         <th>Arquivo</th>
                         <th>Status</th>
-                        <th>Resposta_Coordenador</th>
+                        <th>Resposta do Coordenador</th>
                         <th>Matéria</th>
                         <th>Professor</th>
                         <th>Ações</th>
@@ -307,7 +321,7 @@ $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <b class="<?php echo $statusClass; ?>"><?php echo $status; ?></b>
                             </td>
 
-                            <td data-label="Matéria"><?php echo htmlspecialchars($pedido['Resposta_Coordenador']); ?></td>
+                            <td data-label="Resposta do Coordenador"><?php echo htmlspecialchars($pedido['Resposta_Coordenador']); ?></td>
                             <td data-label="Matéria"><?php echo htmlspecialchars($pedido['Materia']); ?></td>
                             <td data-label="Professor"><?php echo htmlspecialchars($pedido['Professor']); ?></td>
                             <td data-label="Ações">

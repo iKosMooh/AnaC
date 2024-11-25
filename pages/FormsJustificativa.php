@@ -93,7 +93,6 @@
                                             <th>Aula Não Ministrada</th>
                                             <th>Justificativa</th>
                                             <th>Upload PDF</th> <!-- Nova coluna -->
-                                            <th>Ação</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -135,17 +134,13 @@
                                                 <input type="file" name="upload_pdf[]" class="upload-pdf hidden"
                                                     accept=".pdf, .doc, .docx, .jpg, .png">
                                             </td>
-                                            <td>
-                                                <button type="button" class="removerAulaBtn">Remover</button>
-                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
-                                <button type="button" id="adicionarAulaBtn">Adicionar Aula</button>
                             </div>
 
                             <div class="inputlabel">
-                                <label for="observacao">Justificativa (Opcional)</label>
+                                <label for="observacao">Observação</label>
                                 <textarea name="observacao" id="observacao" rows="4"></textarea>
                             </div>
 
@@ -178,9 +173,6 @@
                             </option>
                         <?php endforeach; ?>
                     </select>
-                </td>
-                <td>
-                    <input type="datetime-local" name="date-aula[]" required readonly>
                 </td>
                 <td>
                     <input type="text" class="nome-disciplina" disabled>
@@ -271,27 +263,27 @@
                     $(this).text(index + 1); // Atualiza a numeração
                 });
             });
-
             function enviarJustificativa() {
-                const form = $('#reposicaoForm')[0];
-                const formData = new FormData(form); // Cria um FormData com o formulário
+        const form = $('#reposicaoForm')[0];
+        const formData = new FormData(form); // Cria um FormData com o formulário
 
-                $.ajax({
-                    url: '../php/justificar.php', // arquivo que processará o envio do formulário
-                    type: 'POST',
-                    data: formData,
-                    contentType: false, // Necessário para o envio de arquivos
-                    processData: false,
-                    success: function(response) {
-                        alert(response); // Exibe a resposta em um alerta
-                        console.log(response);
-                    },
-                    error: function(xhr, status, error) {
-                        alert('Erro ao enviar o formulário: ' + xhr.responseText);
-                        console.error(xhr.responseText);
-                    }
-                });
-            }
+    $.ajax({
+        url: '../php/justificar.php', // arquivo que processará o envio do formulário
+        type: 'POST',
+        data: formData,
+        contentType: false, // Necessário para o envio de arquivos
+        processData: false,
+        success: function(response) {
+            alert(response); // Exibe a resposta em um alerta
+            console.log(response);
+            location.reload(); // Recarrega a página após clicar em "OK" no alerta
+        },
+        error: function(xhr, status, error) {
+            alert('Erro ao enviar o formulário: ' + xhr.responseText);
+            console.error(xhr.responseText);
+        }
+    });
+}
 
             // Captura o envio do formulário e previne o envio padrão
             $('#reposicaoForm').submit(function(e) {

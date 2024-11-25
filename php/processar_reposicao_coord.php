@@ -11,10 +11,10 @@ if (!isset($_SESSION['id'])) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id_reposicao = $_POST['id_reposicao'];
     $status = $_POST['status'];
-    $motivo = isset($_POST['motivo']) ? $_POST['motivo'] : null;
+    $motivo = isset($_POST['Resposta_Coordenador']) ? $_POST['Resposta_Coordenador'] : null;
 
     // Atualiza o status e o motivo (se houver) do pedido de reposição
-    $sqlUpdate = "UPDATE reposicao SET Status_Pedido = :status, motivo = :motivo WHERE ID_Reposicao = :id_reposicao";
+    $sqlUpdate = "UPDATE reposicao SET Status_Pedido = :status, Resposta_Coordenador = :motivo WHERE ID_Reposicao = :id_reposicao";
     
     try {
         $stmtUpdate = $pdo->prepare($sqlUpdate);

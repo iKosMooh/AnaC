@@ -2,6 +2,7 @@
     margin: 0; /* Remove as margens padrão de todos os elementos */
     padding: 0; /* Remove o padding padrão de todos os elementos */
     box-sizing: border-box; /* Inclui padding e bordas no tamanho total dos elementos */
+    font-family: 'Roboto', sans-serif;
 }
 
 body {
@@ -158,7 +159,7 @@ button[type="submit"]:hover {
         height: auto; /* Mantém a altura do container automática */
         margin: 0 30px; /* Reduz as margens laterais para evitar que fique grudado */
         padding: 5px 10px; /* Adiciona padding para o conteúdo dentro do container */
-        margin-top: 5px; /* Diminui o espaço acima do container */
+        margin-top: 0rem; /* Diminui o espaço acima do container */
     }
 
     h1 {
@@ -166,15 +167,68 @@ button[type="submit"]:hover {
     }
 }
 
-@media (max-width: 1064px) {
+@media (max-width: 768px) {
     .container {
-        width: 500px; /* Mantém a largura do container automática */
-        height: auto; /* Mantém a altura do container automática */
-        margin: 0 20px; /* Diminui as margens laterais */
-        margin-top: 100px; /* Ajusta a margem superior para um valor menor */
-        padding: 5px 10px; /* Padding para um espaçamento extra */
+        margin-top: 14rem;
+        margin-bottom: 1rem;
     }
+}
+
+@media (max-width: 614px) {
+    .container {
+        width: 20rem; /* O container ocupa toda a largura da tela */
+        margin: 0 auto; /* Pequena margem lateral para evitar que o conteúdo fique grudado */
+        padding: 10px; /* Ajuste no padding para espaçamento interno */
+        height: auto; /* Garantir altura automática */
+        margin-top: 230px; /* Ajustar a margem superior */
+        margin-bottom: 32px; /* Espaço inferior */
+    }
+
     h1 {
-        padding-left: 15px; /* Ajusta o padding à esquerda do título */
+        font-size: 20px; /* Reduz o tamanho do título para telas pequenas */
+        padding-left: 5px; /* Ajusta o padding para um alinhamento proporcional */
+        text-align: center; /* Centraliza o texto para uma aparência melhor */
+    }
+
+    .imagem {
+        display: none; /* Continua escondendo imagens em telas menores */
+    }
+
+    table {
+        font-size: 12px; /* Reduz o tamanho da fonte para caber na tela */
+    }
+
+    tbody td {
+        padding: 8px 5px; /* Ajuste nos espaçamentos internos da tabela */
+    }
+}
+
+@media (max-width: 320px) {
+    .container {
+        width: 90%; /* Usa uma porcentagem para adaptar ao tamanho da tela */
+        margin: 0 auto; /* Centraliza o container */
+        padding: 5px; /* Reduz o padding interno */
+        height: auto; /* Mantém a altura automática */
+        margin-top: 245px; /* Ajusta a margem superior */
+        margin-bottom: 20px; /* Reduz a margem inferior */
+    }
+
+    h1 {
+        font-size: 16px; /* Reduz o tamanho do título para caber */
+        padding-left: 0; /* Remove padding à esquerda */
+        text-align: center; /* Centraliza o texto */
+    }
+
+    table {
+        font-size: 10px; /* Fonte menor para caber na tela */
+        width: 100%; /* Garante que a tabela ocupe o container */
+    }
+
+    tbody td {
+        padding: 5px; /* Reduz os espaçamentos internos */
+    }
+
+    .imagem {
+        display: none; /* Garante que a imagem continue escondida */
     }
 }

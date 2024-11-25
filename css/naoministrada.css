@@ -1,3 +1,7 @@
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
 .container {
     display: flex;
     background: rgba(255, 255, 255, 0.9);
@@ -112,19 +116,49 @@ button:hover {
     background-color: #414141;
 }
 
-@media (max-width: 1700px) {
+/* Responsividade */
+@media (max-width: 1075px) {
+    /* Esconder cabeçalhos */
+    thead {
+        display: none;
+    }
+
     .container {
-        width: 90%;
-        margin-left: auto;
-        margin-right: auto;
-
-    }
-    table, th, td {
-        flex-direction: column;
+        width: 80%;
     }
 
-    .pa {
-        padding-right: 15rem;
+    table, tbody, tr, td {
+        display: block;
+        width: 100%;
+    }
+
+    tbody tr {
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px;
+    }
+
+    tbody td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border: none;
+        border-bottom: 1px solid #ddd;
+    }
+
+    tbody td:before {
+        content: attr(data-label); /* Mostra o cabeçalho antes do valor */
+        font-weight: bold;
+        color: #333;
+        flex-basis: 40%;
+        text-align: left;
+        padding-right: 10px;
+    }
+
+    tbody td:last-child {
+        border-bottom: none;
     }
 }
 

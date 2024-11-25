@@ -3,6 +3,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box; /* Para um box-sizing mais previsível */
+    font-family: 'Roboto', sans-serif;
 }
 
 body {

@@ -18,24 +18,25 @@ require '../PHP/connect.php';
 function buscarAulas($pdo, $id_professor)
 {
     $sql = "
-SELECT 
-    Au.ID_Aula,
-    Au.ID_Materia,
-    M.Nome AS Nome_Materia, 
-    C.Nome AS Nome_Curso, 
-    C.ID_Curso,  -- Adicionando o ID_Curso
-    Au.Horario_Inicio, 
-    Au.Horario_Termino 
-FROM 
-    Aula Au
-INNER JOIN 
-    Materias M ON Au.ID_Materia = M.ID_Materia
-INNER JOIN 
-    CursoAtivo C ON M.ID_Curso = C.ID_Curso
-INNER JOIN 
-    Professores_Cursos PC ON C.ID_Curso = PC.ID_Curso
-WHERE 
-    PC.ID_Professor = :id_professor";
+    SELECT 
+        Au.ID_Aula,
+        Au.ID_Materia,
+        M.Nome AS Nome_Materia, 
+        C.Nome AS Nome_Curso, 
+        C.ID_Curso,  -- Adicionando o ID_Curso
+        Au.Horario_Inicio, 
+        Au.Horario_Termino 
+    FROM 
+        Aula Au
+    INNER JOIN 
+        Materias M ON Au.ID_Materia = M.ID_Materia
+    INNER JOIN 
+        CursoAtivo C ON M.ID_Curso = C.ID_Curso
+    INNER JOIN 
+        Professores_Cursos PC ON C.ID_Curso = PC.ID_Curso
+    WHERE 
+        PC.ID_Professor = :id_professor
+        AND C.Nome = 'DSM 1º semestre 2024'";  // Filtro para o curso DSM 1º semestre 2024
 
     try {
         $stmt = $pdo->prepare($sql);
@@ -68,7 +69,51 @@ if ($is_coordenador) {
 } else {
     $aulas = buscarAulas($pdo, $id_professor);
 }
+
+// Verifica se os dados da aula são válidos
+function verificarAulaExistente($pdo, $id_aula)
+{
+    $sql = "SELECT COUNT(*) FROM Aula WHERE ID_Aula = :id_aula";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':id_aula', $id_aula, PDO::PARAM_INT);
+    $stmt->execute();
+    $count = $stmt->fetchColumn();
+    return $count > 0;
+}
+
+// Caso o formulário seja enviado
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Coletar os dados enviados pelo formulário
+    $dataAula = $_POST['dataAula'] ?? [];
+    $idAula = $_POST['idAula'] ?? [];
+
+    // Verificar se todas as aulas selecionadas existem
+    foreach ($idAula as $aulaId) {
+        if (!verificarAulaExistente($pdo, $aulaId)) {
+            echo "<script>alert('Erro: A aula selecionada com ID $aulaId não existe no banco de dados.');</script>";
+            exit;
+        }
+    }
+
+    // Se todos os dados forem válidos, prosseguir com a inserção
+    try {
+        foreach ($dataAula as $index => $data) {
+            // Inserir na tabela 'aula_nao_ministrada'
+            $sql_insert = "INSERT INTO aula_nao_ministrada (ID_Aula, Data_Aula, ID_Professor) VALUES (:id_aula, :data_aula, :id_professor)";
+            $stmt_insert = $pdo->prepare($sql_insert);
+            $stmt_insert->bindParam(':id_aula', $idAula[$index], PDO::PARAM_INT);
+            $stmt_insert->bindParam(':data_aula', $data, PDO::PARAM_STR);
+            $stmt_insert->bindParam(':id_professor', $id_professor, PDO::PARAM_INT);
+            $stmt_insert->execute();
+        }
+
+        echo "<script>alert('Aulas não ministradas registradas com sucesso!');</script>";
+    } catch (PDOException $e) {
+        echo "<script>alert('Erro ao registrar as aulas: " . $e->getMessage() . "');</script>";
+    }
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -112,11 +157,6 @@ if ($is_coordenador) {
                                 <th>Disciplina</th>
                                 <th>Horário Início</th>
                                 <th>Horário Término</th>
-<<<<<<< HEAD
-=======
-                                <th>Disciplina</th>
-                                <th>Observação</th>
->>>>>>> d2b3e5860a39109e4d00b415d42a74c40f1c0333
                             </tr>
                         </thead>
                         <tbody>
@@ -150,6 +190,9 @@ if ($is_coordenador) {
                                 </td>
                                 <td data-label="Horário Início"><input type="text" class="horario-inicio" disabled></td>
                                 <td data-label="Horário Término"><input type="text" class="horario-termino" disabled></td>
+                                <td>
+                                    <button type="button" class="removerAulaBtn">Remover</button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -167,38 +210,51 @@ if ($is_coordenador) {
 
         // Adicionar nova linha com dados de aula
         $('#adicionarAulaBtn').click(function() {
-            ordem++;
-            const novaLinha = `
-            <tr class="aulaRow">
-                <td class="ordem">${ordem}</td>
-                <td><input type="date" name="dataAula[]"></td>
-                <td>
-                    <select name="id_curso[]" class="select-curso">
-                        <option value="">Selecione o curso</option>
-                        <?php
-                        // Array para armazenar os cursos já exibidos
-                        $exibidos = [];
-                        foreach ($aulas as $aula):
-                            if (!in_array($aula['ID_Curso'], $exibidos)):
-                                $exibidos[] = $aula['ID_Curso']; ?>
-                                <option value="<?php echo $aula['ID_Curso']; ?>"
-                                        data-nome-curso="<?php echo $aula['Nome_Curso']; ?>"
-                                        data-id-materia="<?php echo $aula['ID_Materia']; ?>"
-                                        data-horario-inicio="<?php echo $aula['Horario_Inicio']; ?>"
-                                        data-horario-termino="<?php echo $aula['Horario_Termino']; ?>">
-                                    <?php echo $aula['Nome_Curso']; ?>
-                                </option>
-                        <?php endif;
-                        endforeach; ?>
-                    </select>
-                </td>
-                <td><input type="text" class="horario-inicio" disabled></td>
-                <td><input type="text" class="horario-termino" disabled></td>
-                <td><select name="id_materia[]" class="select-materia">
-                        <option value="">Selecione a disciplina</option>
-                    </select></td>
-            </tr>`;
-            $('tbody').append(novaLinha);
+    ordem++;
+    const novaLinha = `
+    <tr class="aulaRow">
+        <td class="ordem">${ordem}</td>
+        <td><input type="date" name="dataAula[]"></td>
+        <td>
+            <select name="id_curso[]" class="select-curso">
+                <option value="">Selecione o curso</option>
+                <?php
+                // Array para armazenar os cursos já exibidos
+                $exibidos = [];
+                foreach ($aulas as $aula):
+                    if (!in_array($aula['ID_Curso'], $exibidos)):
+                        $exibidos[] = $aula['ID_Curso']; ?>
+                        <option value="<?php echo $aula['ID_Curso']; ?>"
+                                data-nome-curso="<?php echo $aula['Nome_Curso']; ?>"
+                                data-id-materia="<?php echo $aula['ID_Materia']; ?>"
+                                data-horario-inicio="<?php echo $aula['Horario_Inicio']; ?>"
+                                data-horario-termino="<?php echo $aula['Horario_Termino']; ?>">
+                            <?php echo $aula['Nome_Curso']; ?>
+                        </option>
+                <?php endif;
+                endforeach; ?>
+            </select>
+        </td>
+        <td><select name="id_materia[]" class="select-materia">
+                <option value="">Selecione a disciplina</option>
+            </select></td>
+        <td><input type="text" class="horario-inicio" disabled></td>
+        <td><input type="text" class="horario-termino" disabled></td>
+        <td><button type="button" class="removerAulaBtn">Remover</button></td>
+    </tr>`;
+    $('tbody').append(novaLinha);
+});
+
+
+        // Função para remover uma linha
+        $(document).on('click', '.removerAulaBtn', function(event) {
+            event.preventDefault(); // Evita comportamento padrão, como submit acidental
+            $(this).closest('tr').remove(); // Remove a linha correspondente
+
+            // Atualiza a numeração das linhas restantes
+            $('.aulaRow').each(function(index) {
+                $(this).find('.ordem').text(index + 1);
+            });
         });
 
         // Atualizar o select de disciplinas ao selecionar o curso

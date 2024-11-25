@@ -1,7 +1,15 @@
 /* Estilo geral */
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
 body { 
     background-color: #f5f5f5;
     color: #333;
+    background-image: url("../img/formBG.jpg");
+    background-size: auto; 
+    background-repeat: repeat;
+    background-position: center;
 }
 
 .container {
@@ -68,13 +76,14 @@ table {
 
 th, td {
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #000000;
     text-align: left;
 }
 
 th {
     background-color: #a31e22;
     color: #fff;
+    font-size: 0.8rem;
 }
 
 /* Botões */

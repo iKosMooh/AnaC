@@ -37,6 +37,9 @@ function buscarAulasNaoMinistradas($pdo, $id_professor) {
 
 $aulas = buscarAulasNaoMinistradas($pdo, $id_professor);
 $nenhumaAula = empty($aulas);
+
+date_default_timezone_set('America/Sao_Paulo');
+$datahoje = date('Y-m-d', time());
 ?>
 
 <!DOCTYPE html>
@@ -55,7 +58,7 @@ $nenhumaAula = empty($aulas);
     <?php include_once 'header.php'; ?>
 
     <div class="container">
-        <h1>Solicitar Reposição de Aula</h1>
+        <h1>Apresentar Reposição de Aula</h1>
         <?php if ($nenhumaAula): ?>
             <p id="mensagemNenhumaAula">Nenhuma aula não ministrada encontrada para justificar.</p>
         <?php else: ?>
@@ -73,11 +76,7 @@ $nenhumaAula = empty($aulas);
                 </select>
 
                 <label for="data_reposicao">Data da Reposição:</label>
-                <input type="date" id="data_reposicao" name="data_reposicao" required>
-
-                <label for="docs_plano_aula">Documento do Plano de Aula:</label>
-                <input type="file" id="docs_plano_aula" name="docs_plano_aula" accept=".pdf,.doc,.docx">
-
+                <input  min="<?php echo $datahoje; ?>" type="date" id="agend" value="">
                 <input type="submit" value="Enviar Pedido de Reposição">
             </form>
             <div id="resultado"></div>
@@ -85,28 +84,29 @@ $nenhumaAula = empty($aulas);
     </div>
 
     <script>
-        $(document).ready(function() {
-            $('#form-reposicao').on('submit', function(e) {
-                e.preventDefault(); // Impede o envio padrão do formulário
+    $(document).ready(function() {
+        $('#form-reposicao').on('submit', function(e) {
+            e.preventDefault(); // Impede o envio padrão do formulário
 
-                var formData = new FormData(this); // Coleta todos os dados do formulário
+            var formData = new FormData(this); // Coleta todos os dados do formulário
 
-                $.ajax({
-                    url: '../php/processar_reposicao.php',
-                    type: 'POST',
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(response) {
-                        alert(response); // Exibe a resposta na div
-                    },
-                    error: function() {
-                        alert('Ocorreu um erro ao processar seu pedido.');
-                    }
-                });
+            $.ajax({
+                url: '../php/processar_reposicao.php',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    alert(response); // Exibe a resposta no alerta
+                    location.reload(); // Recarrega a página após clicar em "OK" no alerta
+                },
+                error: function() {
+                    alert('Ocorreu um erro ao processar seu pedido.');
+                }
             });
         });
-    </script>
+    });
+</script>
     <?php include_once 'footer.php'; ?>
 
 </body>
