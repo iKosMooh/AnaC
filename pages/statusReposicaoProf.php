@@ -41,7 +41,7 @@ $pedidos = buscarPedidosReposicao($pdo, $id_professor);
 </head>
 
 <body>
-<?php include_once 'header.php'; ?>
+<?php include_once 'header2.php'; ?>
 
     <div class="container">
         <h1>Pedidos de Reposição</h1>

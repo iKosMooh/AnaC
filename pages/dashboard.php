@@ -16,7 +16,7 @@ if ($_SESSION['tipo'] === 'professor') {
     echo "<h2>Acesso aos Formulários</h2>";
     echo '<div class="form-options">';
         echo '<div class="option">';
-            echo '<a href="/pages/CadastroNaoMinistradas.php">';
+            echo '<a href="CadastroNaoMinistradas.php">';
                 echo '<img src="../img/81088.png" alt="Formulário de Cadastro de Faltas">';
                 echo '<span>Cadastro de Faltas</span>';
             echo '</a>';
@@ -24,7 +24,7 @@ if ($_SESSION['tipo'] === 'professor') {
         echo '</div>';
 
         echo '<div class="option">';
-            echo '<a href="/pages/FormsJustificativa.php">';
+            echo '<a href="FormsJustificativa.php">';
                 echo '<img src="../img/1570754.png" alt="Formulário de Justificativa">';
                 echo '<span>Formulário de Justificativa</span>';
             echo '</a>';
@@ -32,7 +32,7 @@ if ($_SESSION['tipo'] === 'professor') {
         echo '</div>';
 
         echo '<div class="option">';
-            echo '<a href="/pages/ReposicaoForm.php">';
+            echo '<a href="ReposicaoForm.php">';
                 echo '<img src="../img/repos.png" alt="Formulário de Reposição">';
                 echo '<span>Formulário de Reposição</span>';
             echo '</a>';
@@ -40,7 +40,7 @@ if ($_SESSION['tipo'] === 'professor') {
         echo '</div>';
 
         echo '<div class="option">';
-            echo '<a href="/pages/statusReposicaoProf.php">';
+            echo '<a href="statusReposicaoProf.php">';
                 echo '<img src="../img/status.png" alt="Ver Status dos pedidos de Reposições">';
                 echo '<span>Ver Status dos pedidos de Reposições</span>';
             echo '</a>';
@@ -52,7 +52,7 @@ if ($_SESSION['tipo'] === 'professor') {
     echo "<h2>Acesso aos Formulários</h2>";
     echo '<div class="form-options">'; 
         echo '<div class="option top">'; 
-            echo '<a href="/pages/reposicaoCoord.php">';
+            echo '<a href="reposicaoCoord.php">';
                 echo '<img src="../img/81088.png" alt="Painel do Coordenador">';
                 echo '<span>Painel do Coordenador</span>';
             echo '</a>';
@@ -60,7 +60,7 @@ if ($_SESSION['tipo'] === 'professor') {
         echo '</div>';
 
         echo '<div class="option bottom">';
-            echo '<a href="/pages/VerDocs.php">';
+            echo '<a href="VerDocs.php">';
                 echo '<img src="../img/atestado.png" alt="Atestados emitidos">';
                 echo '<span>Visualizar Justificativa de Faltas</span>';
             echo '</a>';

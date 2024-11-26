@@ -73,7 +73,7 @@
     </head>
 
     <body>
-        <?php include_once 'header.php'; ?>
+        <?php include_once 'header2.php'; ?>
         <div class="wrapper">
             <div class="container">
                 <div class="formContainer">

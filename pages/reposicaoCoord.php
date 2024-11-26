@@ -31,6 +31,7 @@ $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <title>Gerenciar Pedidos de Reposição</title>
     <link rel="stylesheet" href="../css/reposicao.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <style>
@@ -52,7 +53,7 @@ $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         h1 {
             text-align: center;
             color: #a31e22;
-            font-size: 28px; 
+            font-size: 28px;
             margin-bottom: 2rem;
         }
 
@@ -75,8 +76,10 @@ $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             margin-bottom: 20px;
             border-collapse: collapse;
         }
-        
-        table, th, td {
+
+        table,
+        th,
+        td {
             border: 1px solid #000000;
         }
 
@@ -256,22 +259,22 @@ $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
         }
 
-        .status-aprovado{
+        .status-aprovado {
             color: green;
         }
 
-        .status-rejeitado{
+        .status-rejeitado {
             color: red;
         }
 
-        .status-pendente{
+        .status-pendente {
             color: orange;
         }
     </style>
 </head>
 
 <body>
-    <?php include_once 'header.php'; ?>
+    <?php include_once 'header2.php'; ?>
 
     <div class="wrapper">
         <div class="container">
@@ -325,7 +328,7 @@ $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <td data-label="Matéria"><?php echo htmlspecialchars($pedido['Materia']); ?></td>
                             <td data-label="Professor"><?php echo htmlspecialchars($pedido['Professor']); ?></td>
                             <td data-label="Ações">
-                                <button class="abrir-modal" data-id="<?php echo $pedido['ID_Reposicao']; ?>" data-status="<?php echo htmlspecialchars($pedido['Status_Pedido']); ?>">Alterar Status</button>
+                                <button class="abrir-modal btn" style="background-color:#b20000; color:white" type="button" data-id="<?php echo $pedido['ID_Reposicao']; ?>" data-status="<?php echo htmlspecialchars($pedido['Status_Pedido']); ?>">Alterar Status</button>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -352,9 +355,11 @@ $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <!-- Campo para o motivo da reprovação -->
                         <div id="motivo-container" style="display: none;">
                             <label for="Resposta_Coordenador">Motivo da Rejeição:</label>
-                            <textarea name="Resposta_Coordenador" id="Resposta_Coordenador" rows="4"></textarea>
+                            <div style="padding-top:5px; padding-bottom:5px; display:flex; justify-content:center">
+                                <textarea style="width: 99%;" name="Resposta_Coordenador" id="Resposta_Coordenador" rows="5"></textarea>
+                            </div>
                         </div>
-                        <button type="submit">Atualizar</button>
+                        <button type="submit" class="btn btn-danger">Atualizar</button>
                     </form>
                 </div>
             </div>
@@ -423,5 +428,6 @@ $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         });
     </script>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 </html>

@@ -108,6 +108,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         echo "<script>alert('Aulas não ministradas registradas com sucesso!');</script>";
+        header('Location: FormsJustificativa.php');
+        exit;
     } catch (PDOException $e) {
         echo "<script>alert('Erro ao registrar as aulas: " . $e->getMessage() . "');</script>";
     }
@@ -126,8 +128,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
-    <?php include_once 'header.php'; ?>
+    <?php include_once 'header2.php'; ?>
+
     <div class="container">
+        
         <div class="formContainer">
             <h1>Cadastro de Aulas Não Ministradas</h1><br>
 
@@ -210,8 +214,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Adicionar nova linha com dados de aula
         $('#adicionarAulaBtn').click(function() {
-    ordem++;
-    const novaLinha = `
+            ordem++;
+            const novaLinha = `
     <tr class="aulaRow">
         <td class="ordem">${ordem}</td>
         <td><input type="date" name="dataAula[]"></td>
@@ -242,8 +246,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <td><input type="text" class="horario-termino" disabled></td>
         <td><button type="button" class="removerAulaBtn">Remover</button></td>
     </tr>`;
-    $('tbody').append(novaLinha);
-});
+            $('tbody').append(novaLinha);
+        });
 
 
         // Função para remover uma linha
@@ -383,5 +387,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         });
     </script>
 </body>
+
+
 
 </html>

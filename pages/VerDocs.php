@@ -49,11 +49,9 @@ try {
             background-repeat: repeat;
             background-position: center;
             margin: 0;
-            padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
         }
 
         .container {
@@ -68,13 +66,12 @@ try {
         h1 {
             color: #a31e22;
             text-align: center;
-            margin-bottom: 20px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
+       
         }
 
         th,
@@ -106,13 +103,11 @@ try {
             overflow: auto;
             background-color: rgb(0, 0, 0);
             background-color: rgba(0, 0, 0, 0.4);
-            padding-top: 60px;
         }
 
         .modal-content {
             background-color: #fefefe;
             margin: 5% auto;
-            padding: 20px;
             border: 1px solid #888;
             width: 80%;
             max-width: 500px;
@@ -244,7 +239,7 @@ try {
 </head>
 
 <body>
-    <?php include_once 'header.php'; ?>
+    <?php include_once 'header2.php'; ?>
     <div class="container">
         <h1>Justificativas Enviadas</h1>
         

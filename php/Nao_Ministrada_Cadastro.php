@@ -38,16 +38,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->execute();
         }
 
+
         // Commit da transação
         $pdo->commit();
 
         // Retorna sucesso
         echo json_encode(['status' => 'success', 'message' => 'Aulas não ministradas registradas com sucesso.']);
-
     } catch (PDOException $e) {
         // Em caso de erro, faz rollback
         $pdo->rollBack();
         echo json_encode(['status' => 'error', 'message' => 'Erro ao registrar as aulas: ' . $e->getMessage()]);
     }
 }
-?>

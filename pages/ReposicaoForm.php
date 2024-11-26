@@ -55,7 +55,7 @@ $datahoje = date('Y-m-d', time());
 </head>
 
 <body>
-    <?php include_once 'header.php'; ?>
+    <?php include_once 'header2.php'; ?>
 
     <div class="container">
         <h1>Apresentar Reposição de Aula</h1>

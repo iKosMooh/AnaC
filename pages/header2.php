@@ -60,7 +60,7 @@ if (isset($_SESSION['accessibility'])) {
 <body>
     <header class="header">
         <nav class="navbar">
-            <a href="dashboard.php" class="logo"><img src="../img/Logo-Fatec-1200x800-1-removebg-preview.png" alt="Logo"></a>
+            <a href="dashboard.php"><div style="padding:25px"><img width="70px" src="../img/voltar.svg" alt="Logo"></div></a>
             <ul class="nav-menu nav-menu-border">
                 <li class="titulo">
                     <?php if (isset($_SESSION['tipo'])): ?>
