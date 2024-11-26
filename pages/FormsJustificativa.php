@@ -70,11 +70,23 @@
         <title>Formulário de Justificativa</title>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <link rel="stylesheet" href="../css/justificativa.css">
+        <link rel="stylesheet" href="../css/progressBar.css">
     </head>
 
     <body>
         <?php include_once 'header2.php'; ?>
+
         <div class="wrapper">
+
+            <div class="containerBar">
+                <h1>2ª Etapa</h1>
+                <div class="wrapperBar">
+                    <div class="progress-bar">
+                        <span class="progress-bar-fill" style="width: 50%;"></span>
+                    </div>
+                </div>
+            </div>
+
             <div class="container">
                 <div class="formContainer">
                     <h1>Formulário de Justificativa</h1>
@@ -86,6 +98,7 @@
 
                             <div class="inputlabel">
                                 <label for="aulasNaoMinistradas">Dados da(s) aula(s) não ministrada(s)</label>
+                                <label for="restante" class="restante">Aulas a justificar restantes: <b class="red"><?php echo count($aulas); ?></b></label>
                                 <table>
                                     <thead>
                                         <tr>
@@ -263,27 +276,28 @@
                     $(this).text(index + 1); // Atualiza a numeração
                 });
             });
-            function enviarJustificativa() {
-        const form = $('#reposicaoForm')[0];
-        const formData = new FormData(form); // Cria um FormData com o formulário
 
-    $.ajax({
-        url: '../php/justificar.php', // arquivo que processará o envio do formulário
-        type: 'POST',
-        data: formData,
-        contentType: false, // Necessário para o envio de arquivos
-        processData: false,
-        success: function(response) {
-            alert(response); // Exibe a resposta em um alerta
-            console.log(response);
-            location.reload(); // Recarrega a página após clicar em "OK" no alerta
-        },
-        error: function(xhr, status, error) {
-            alert('Erro ao enviar o formulário: ' + xhr.responseText);
-            console.error(xhr.responseText);
-        }
-    });
-}
+            function enviarJustificativa() {
+                const form = $('#reposicaoForm')[0];
+                const formData = new FormData(form); // Cria um FormData com o formulário
+
+                $.ajax({
+                    url: '../php/justificar.php', // arquivo que processará o envio do formulário
+                    type: 'POST',
+                    data: formData,
+                    contentType: false, // Necessário para o envio de arquivos
+                    processData: false,
+                    success: function(response) {
+                        alert(response); // Exibe a resposta em um alerta
+                        console.log(response);
+                        window.location.replace('ReposicaoForm.php');
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Erro ao enviar o formulário: ' + xhr.responseText);
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
 
             // Captura o envio do formulário e previne o envio padrão
             $('#reposicaoForm').submit(function(e) {

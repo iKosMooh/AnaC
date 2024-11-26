@@ -39,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             } elseif ($pedidoExistente['Status_Pedido'] == 'Rejeitado') {
                 $id_reposicao = $pedidoExistente['ID_Reposicao'];
 
+                // Processar o upload do plano de aula, se houver
                 $docs_plano_aula = null; // Inicializa como null
                 if (isset($_FILES['docs_plano_aula']) && $_FILES['docs_plano_aula']['error'] == UPLOAD_ERR_OK) {
                     $docs_plano_aula = $_FILES['docs_plano_aula']['name'];
@@ -64,11 +65,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         } else {
             // Se não houver pedidos existentes, insere um novo
+            // Processar o upload do plano de aula, se houver
+            $docs_plano_aula = null; // Inicializa como null
             if (isset($_FILES['docs_plano_aula']) && $_FILES['docs_plano_aula']['error'] == UPLOAD_ERR_OK) {
                 $docs_plano_aula = $_FILES['docs_plano_aula']['name'];
                 move_uploaded_file($_FILES['docs_plano_aula']['tmp_name'], "../uploads/$docs_plano_aula");
-            } else {
-                $docs_plano_aula = null; // Se não houver arquivo, manter como null
             }
 
             // Inserção no banco de dados

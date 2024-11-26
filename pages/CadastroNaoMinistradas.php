@@ -94,25 +94,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
     }
-
-    // Se todos os dados forem válidos, prosseguir com a inserção
-    try {
-        foreach ($dataAula as $index => $data) {
-            // Inserir na tabela 'aula_nao_ministrada'
-            $sql_insert = "INSERT INTO aula_nao_ministrada (ID_Aula, Data_Aula, ID_Professor) VALUES (:id_aula, :data_aula, :id_professor)";
-            $stmt_insert = $pdo->prepare($sql_insert);
-            $stmt_insert->bindParam(':id_aula', $idAula[$index], PDO::PARAM_INT);
-            $stmt_insert->bindParam(':data_aula', $data, PDO::PARAM_STR);
-            $stmt_insert->bindParam(':id_professor', $id_professor, PDO::PARAM_INT);
-            $stmt_insert->execute();
-        }
-
-        echo "<script>alert('Aulas não ministradas registradas com sucesso!');</script>";
-        header('Location: FormsJustificativa.php');
-        exit;
-    } catch (PDOException $e) {
-        echo "<script>alert('Erro ao registrar as aulas: " . $e->getMessage() . "');</script>";
-    }
 }
 ?>
 
@@ -124,14 +105,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Aula Não Ministrada</title>
     <link rel="stylesheet" href="../css/naoministrada.css">
+    <link rel="stylesheet" href="../css/progressBar.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
     <?php include_once 'header2.php'; ?>
 
+    <div class="containerBar">
+        <h1>1ª Etapa</h1>
+        <div class="wrapperBar">
+            <div class="progress-bar">
+                <span class="progress-bar-fill" style="width: 25%;"></span>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
-        
+
         <div class="formContainer">
             <h1>Cadastro de Aulas Não Ministradas</h1><br>
 
@@ -161,6 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <th>Disciplina</th>
                                 <th>Horário Início</th>
                                 <th>Horário Término</th>
+                                <th>Ação</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -192,9 +184,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <option value="">Selecione a disciplina</option>
                                     </select>
                                 </td>
-                                <td data-label="Horário Início"><input type="text" class="horario-inicio" disabled></td>
-                                <td data-label="Horário Término"><input type="text" class="horario-termino" disabled></td>
-                                <td>
+                                <td><input type="text" name="Horario_Inicio[]" class="horario-inicio"></td>
+                                <td><input type="text" name="Horario_Termino[]" class="horario-termino"></td>
+                                <td data-label="Ação">
                                     <button type="button" class="removerAulaBtn">Remover</button>
                                 </td>
                             </tr>
@@ -210,13 +202,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php include_once 'footer.php'; ?>
 
     <script>
+        $(document).ready(function() {
+            // Define a data de hoje no formato yyyy-mm-dd
+            const hoje = new Date();
+            const ano = hoje.getFullYear();
+            const mes = String(hoje.getMonth() + 1).padStart(2, '0'); // Mes é zero-indexado, por isso soma-se 1
+            const dia = String(hoje.getDate()).padStart(2, '0'); // Preenche o dia com 0 à esquerda, se necessário
+            const dataHoje = `${ano}-${mes}-${dia}`;
+
+            // Aplica a data máxima em todos os campos de data
+            $("input[type='date']").attr("max", dataHoje);
+
+            // Define a data mínima (6 meses atrás)
+            hoje.setMonth(hoje.getMonth() - 6);
+            const anoPassado = hoje.getFullYear();
+            const mesPassado = String(hoje.getMonth() + 1).padStart(2, '0');
+            const diaPassado = String(hoje.getDate()).padStart(2, '0');
+            const dataPassada = `${anoPassado}-${mesPassado}-${diaPassado}`;
+
+            // Aplica a data mínima nos campos de data
+            $("input[type='date']").attr("min", dataPassada);
+        });
+
+        function validarDatas() {
+            const hoje = new Date();
+            const maxDate = hoje.toISOString().split('T')[0]; // Data de hoje
+            hoje.setMonth(hoje.getMonth() - 6);
+            const minDate = hoje.toISOString().split('T')[0]; // Data de 6 meses atrás
+
+            let isValid = true;
+            $("input[type='date']").each(function() {
+                const data = $(this).val();
+
+                if (data) {
+                    if (data > maxDate || data < minDate) {
+                        isValid = false;
+                        alert("A data inserida deve estar dentro do intervalo de 6 meses atrás até hoje.");
+                        return false; // Interrompe o loop
+                    }
+                }
+            });
+            return isValid;
+        }
+
         let ordem = 1;
 
         // Adicionar nova linha com dados de aula
         $('#adicionarAulaBtn').click(function() {
             ordem++;
             const novaLinha = `
-    <tr class="aulaRow">
+        <tr class="aulaRow">
         <td class="ordem">${ordem}</td>
         <td><input type="date" name="dataAula[]"></td>
         <td>
@@ -242,10 +277,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <td><select name="id_materia[]" class="select-materia">
                 <option value="">Selecione a disciplina</option>
             </select></td>
-        <td><input type="text" class="horario-inicio" disabled></td>
-        <td><input type="text" class="horario-termino" disabled></td>
+        <td><input type="text" name="Horario_Inicio[]" class="horario-inicio"></td>
+        <td><input type="text" name="Horario_Termino[]" class="horario-termino"></td>
         <td><button type="button" class="removerAulaBtn">Remover</button></td>
-    </tr>`;
+        </tr>`;
             $('tbody').append(novaLinha);
         });
 
@@ -292,25 +327,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Função de validação do formulário
         function validarFormulario() {
             let isValid = true;
-            const dataAulas = $("input[name='dataAula[]']");
-            const idAulas = $("select[name='id_aula[]']");
+            let dataAulas = $("input[name='dataAula[]']");
+            let cursos = $("select[name='id_curso[]']");
+            let materias = $("select[name='id_materia[]']");
 
-            // Validar se todas as linhas têm a data da aula e a aula selecionada
             dataAulas.each(function(index) {
                 const data = $(this).val();
-                const idAula = idAulas.eq(index).val();
+                const curso = cursos.eq(index).val();
+                const materia = materias.eq(index).val();
 
-                // Verificar se a data está vazia
-                if (!data) {
-                    alert("Por favor, preencha a data da aula na linha " + (index + 1));
-                    isValid = false;
-                    return false; // Interrompe o loop
-                }
-
-                // Validar formato da data (não permitir datas no futuro)
-                const today = new Date().toISOString().split('T')[0];
-                if (data > today) {
-                    alert("A data não pode ser no futuro (linha " + (index + 1) + ")");
+                if (!data || !curso || !materia) {
+                    alert(`Preencha todos os campos na linha ${index + 1}.`);
                     isValid = false;
                     return false; // Interrompe o loop
                 }
@@ -319,69 +346,62 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             return isValid;
         }
 
-        $('#reposicaoForm').on('submit', function(e) {
-            e.preventDefault(); // Impede o envio normal do formulário
 
-            if (!validarFormulario()) {
-                return; // Se a validação falhar, não envia os dados
+        $('#reposicaoForm').on('submit', function(e) {
+            e.preventDefault(); // Evitar envio padrão
+
+            if (!validarFormulario() && !validarDatas()) {
+                return; // Não prosseguir se o formulário for inválido
             }
 
-            let dataAula = [];
-            let idAula = [];
+            const dataAula = [];
+            const idAula = [];
+            const horarioInicio = [];
+            const horarioTermino = [];
 
-            // Coletar apenas os dados de ID_Aula e Data
-            $('input[name="dataAula[]"]').each(function(index) {
-                const data = $(this).val();
-                const idCurso = $('select[name="id_curso[]"]').eq(index).val(); // ID_Curso
-                const idMateria = $('select[name="id_materia[]"]').eq(index).val(); // ID_Materia
+            // Iterar pelas linhas e coletar os valores
+            $('tr.aulaRow').each(function() {
+                const data = $(this).find('input[name="dataAula[]"]').val();
+                const idMateria = $(this).find('select[name="id_materia[]"]').val();
+                const horarioIni = $(this).find('input[name="Horario_Inicio[]"]').val();
+                const horarioTer = $(this).find('input[name="Horario_Termino[]"]').val();
 
-                // Verificar se a data está preenchida antes de enviar
-                if (data && idCurso && idMateria) {
-                    dataAula.push(data); // Adiciona a data ao array
-                    idAula.push(idMateria); // Adiciona o ID da matéria ao array
+                if (data && idMateria && horarioIni && horarioTer) {
+                    dataAula.push(data);
+                    idAula.push(idMateria);
+                    horarioInicio.push(horarioIni);
+                    horarioTermino.push(horarioTer);
                 }
             });
 
-            // Validar se temos dados para enviar
-            if (dataAula.length === 0 || idAula.length === 0) {
-                alert("Por favor, preencha todos os campos antes de enviar.");
+            if (dataAula.length === 0) {
+                alert("Preencha todas as linhas antes de enviar.");
                 return;
             }
 
-            // Preparar dados para envio
             const formData = {
-                dataAula: dataAula,
-                idAula: idAula,
-                id_professor: $('#id_professor').val() // Enviar também o ID do professor
+                dataAula,
+                idAula,
+                Horario_Inicio: horarioInicio,
+                Horario_Termino: horarioTermino,
+                id_professor: $('#id_professor').val(),
             };
 
-            // Enviar via AJAX
             $.ajax({
-                url: '../php/Nao_Ministrada_Cadastro.php', // URL do arquivo que processa o formulário
+                url: '../php/Nao_Ministrada_Cadastro.php',
                 type: 'POST',
                 data: formData,
                 dataType: 'json',
                 success: function(response) {
-                    console.log('Resposta do servidor:', response);
+                    alert(response.message);
                     if (response.status === 'success') {
-                        alert(response.message);
-                        $('#reposicaoForm')[0].reset(); // Limpa o formulário
-                    } else {
-                        alert(response.message); // Exibe mensagem de erro
+                        $('#reposicaoForm')[0].reset();
                     }
+                    window.location.replace('FormsJustificativa.php');
                 },
-                error: function(xhr, status, error) {
-                    console.error('Erro de AJAX:', error);
-                    var errorMessage = "Erro desconhecido.";
-                    try {
-                        var response = JSON.parse(xhr.responseText);
-                        if (response.message) {
-                            errorMessage = response.message;
-                        }
-                    } catch (e) {
-                        errorMessage = "O servidor não retornou uma mensagem JSON válida.";
-                    }
-                    alert('Erro ao processar a solicitação: ' + errorMessage);
+                error: function(xhr) {
+                    console.error(xhr.responseText);
+                    alert('Erro ao enviar os dados.');
                 }
             });
         });

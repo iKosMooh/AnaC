@@ -15,7 +15,8 @@ $id_professor = $_SESSION['id'];
 
 require_once '../php/connect.php';
 
-function buscarAulasNaoMinistradas($pdo, $id_professor) {
+function buscarAulasNaoMinistradas($pdo, $id_professor)
+{
     $sql = "
         SELECT a.* 
         FROM aula_nao_ministrada a
@@ -49,7 +50,8 @@ $datahoje = date('Y-m-d', time());
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pedido de Reposição</title>
-    <link rel="stylesheet" href="../css/reposi.css"> 
+    <link rel="stylesheet" href="../css/reposi.css">
+    <link rel="stylesheet" href="../css/progressBar.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </head>
@@ -57,10 +59,20 @@ $datahoje = date('Y-m-d', time());
 <body>
     <?php include_once 'header2.php'; ?>
 
+    <div class="containerBar">
+        <h1>3ª Etapa</h1>
+        <div class="wrapperBar">
+            <div class="progress-bar">
+                <span class="progress-bar-fill" style="width: 75%;"></span>
+            </div>
+        </div>
+    </div>
+    <br>
+
     <div class="container">
         <h1>Apresentar Reposição de Aula</h1>
         <?php if ($nenhumaAula): ?>
-            <p id="mensagemNenhumaAula">Nenhuma aula não ministrada encontrada para justificar.</p>
+            <p id="mensagemNenhumaAula">Nenhuma aula não ministrada, justificada para criar uma reposição .</p>
         <?php else: ?>
             <form id="form-reposicao" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="id_professor" value="<?php echo htmlspecialchars($id_professor); ?>">
@@ -76,7 +88,8 @@ $datahoje = date('Y-m-d', time());
                 </select>
 
                 <label for="data_reposicao">Data da Reposição:</label>
-                <input  min="<?php echo $datahoje; ?>" type="date" id="agend" value="">
+                <input type="date" id="agend" name="data_reposicao" value="<?php echo $datahoje; ?>" min="<?php echo $datahoje; ?>" required>
+
                 <input type="submit" value="Enviar Pedido de Reposição">
             </form>
             <div id="resultado"></div>
@@ -84,29 +97,35 @@ $datahoje = date('Y-m-d', time());
     </div>
 
     <script>
-    $(document).ready(function() {
-        $('#form-reposicao').on('submit', function(e) {
-            e.preventDefault(); // Impede o envio padrão do formulário
+        $(document).ready(function() {
+            $('#form-reposicao').on('submit', function(e) {
+                e.preventDefault(); // Impede o envio padrão do formulário
 
-            var formData = new FormData(this); // Coleta todos os dados do formulário
+                var formData = new FormData(this); // Coleta todos os dados do formulário
 
-            $.ajax({
-                url: '../php/processar_reposicao.php',
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    alert(response); // Exibe a resposta no alerta
-                    location.reload(); // Recarrega a página após clicar em "OK" no alerta
-                },
-                error: function() {
-                    alert('Ocorreu um erro ao processar seu pedido.');
-                }
+                $.ajax({
+                    url: '../php/processar_reposicao.php',
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    dataType: 'json', // Declara que espera um JSON como resposta
+                    success: function(response) {
+                        if (response && response.message) {
+                            alert(response.message); // Exibe apenas a mensagem
+                        } else {
+                            alert('Resposta inesperada do servidor.');
+                        }
+                        window.location.replace('statusReposicaoProf.php');
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Erro no AJAX:', error);
+                        alert('Ocorreu um erro ao processar seu pedido. Tente novamente mais tarde.');
+                    }
+                });
             });
         });
-    });
-</script>
+    </script>
     <?php include_once 'footer.php'; ?>
 
 </body>

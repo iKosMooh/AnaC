@@ -9,7 +9,8 @@ if (!isset($_SESSION['id'])) {
 $id_professor = $_SESSION['id'];
 require_once '../php/connect.php';
 
-function buscarPedidosReposicao($pdo, $id_professor) {
+function buscarPedidosReposicao($pdo, $id_professor)
+{
     $sql = "
         SELECT r.ID_Reposicao, a.Date_Time, r.DataReposicao, a.Observacao, r.docs_plano_aula, r.Status_Pedido, r.Resposta_Coordenador, a.ID_Aula_Nao_Ministrada
         FROM reposicao r
@@ -38,10 +39,21 @@ $pedidos = buscarPedidosReposicao($pdo, $id_professor);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visualizar Pedidos de Reposição</title>
     <link rel="stylesheet" href="../css/status.css">
+    <link rel="stylesheet" href="../css/progressBar.css">
 </head>
 
 <body>
-<?php include_once 'header2.php'; ?>
+    <?php include_once 'header2.php'; ?>
+
+    <div class="containerBar">
+        <h1>Ultima Etapa</h1>
+        <div class="wrapperBar">
+            <div class="progress-bar">
+                <span class="progress-bar-fill" style="width: 100%;"></span>
+            </div>
+        </div>
+    </div>
+    <br>
 
     <div class="container">
         <h1>Pedidos de Reposição</h1>
@@ -56,7 +68,7 @@ $pedidos = buscarPedidosReposicao($pdo, $id_professor);
                         <th>Aula Não Ministrada</th>
                         <th>Data da Reposição</th>
                         <th>Observação Prof.</th>
-                        <th>Documento do Plano de Aula</th>
+                        <th>Documento</th>
                         <th>Status</th>
                         <th>Resposta Coordenador</th>
                         <th>Ação</th>
@@ -109,7 +121,7 @@ $pedidos = buscarPedidosReposicao($pdo, $id_professor);
                 <textarea id="Observacao" name="Observacao" required></textarea>
                 <br><br>
 
-                <label for="docs_plano_aula">Documento do Plano de Aula:</label>
+                <label for="docs_plano_aula">Adicionar documentos:</label>
                 <input type="file" id="docs_plano_aula" name="docs_plano_aula" accept=".pdf,.doc,.docx">
                 <br><br>
 
@@ -144,17 +156,17 @@ $pedidos = buscarPedidosReposicao($pdo, $id_professor);
 
             // Envia os dados via fetch (AJAX)
             fetch('../php/processar_reposicao.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.text())
-            .then(result => {
-                // Recarrega a página após o sucesso do envio
-                location.reload(); // Recarrega a página para mostrar as atualizações
-            })
-            .catch(error => {
-                console.error('Erro ao atualizar o pedido:', error);
-            });
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(result => {
+                    // Recarrega a página após o sucesso do envio
+                    location.reload(); // Recarrega a página para mostrar as atualizações
+                })
+                .catch(error => {
+                    console.error('Erro ao atualizar o pedido:', error);
+                });
         }
 
         // Fecha o modal se o usuário clicar fora dele
@@ -166,7 +178,7 @@ $pedidos = buscarPedidosReposicao($pdo, $id_professor);
         }
     </script>
 
-<?php include_once 'footer.php'; ?>
+    <?php include_once 'footer.php'; ?>
 
 </body>
 

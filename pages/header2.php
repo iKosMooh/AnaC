@@ -70,7 +70,7 @@ if (isset($_SESSION['accessibility'])) {
                 </li>
                 <li class="titulo1  saudacao">
                     <?php if (isset($_SESSION['nome'])): ?>
-                        <h3><a href="dashboard.php">Olá, <?= htmlspecialchars($_SESSION['nome']); ?></a></h3>
+                        <h3><a href="#">Olá, <?= htmlspecialchars($_SESSION['nome']); ?></a></h3>
                     <?php endif; ?>
                 </li>
                 <!-- Exibir botão com base no estado de sessão -->

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 21-Nov-2024 às 20:40
+-- Tempo de geração: 26-Nov-2024 às 19:22
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -79,7 +79,8 @@ CREATE TABLE `aula_nao_ministrada` (
 --
 
 INSERT INTO `aula_nao_ministrada` (`ID_Aula_Nao_Ministrada`, `Date_Time`, `Observacao`, `ID_Aula`, `ID_Professor`, `ID_Materia`, `Justificado`, `docs`, `Aula_Reposta`) VALUES
-(4, '2024-10-28', 'teste', 1, 1, NULL, 'Justificado', 'Tutorial - Cadastro de Cliente com Upload-imagens-0-mesclado.pdf', 'Não');
+(5, '2024-11-05', 'Eu estava doente', 2, 1, NULL, 'Justificado', 'atestado_medico.pdf', 'Não'),
+(6, '2024-11-07', 'Meu carro quebrou', 1, 1, NULL, 'Justificado', '', 'Não');
 
 -- --------------------------------------------------------
 
@@ -341,7 +342,9 @@ CREATE TABLE `reposicao` (
 
 INSERT INTO `reposicao` (`ID_Reposicao`, `ID_Aula_Nao_Ministrada`, `DataReposicao`, `docs_plano_aula`, `Status_Pedido`, `Resposta_Coordenador`) VALUES
 (3, 3, '2024-11-30', 'sprint iii (1) (1).docx', 'Aprovado', NULL),
-(4, 4, '2024-11-30', 'Aula 05 - Comando SELECT.pdf', 'Aprovado', NULL);
+(4, 4, '2024-11-30', 'Aula 05 - Comando SELECT.pdf', 'Aprovado', NULL),
+(5, 5, '2024-11-30', NULL, 'Pendente', NULL),
+(6, 6, '2024-12-05', NULL, 'Pendente', NULL);
 
 --
 -- Índices para tabelas despejadas
@@ -451,7 +454,7 @@ ALTER TABLE `aula`
 -- AUTO_INCREMENT de tabela `aula_nao_ministrada`
 --
 ALTER TABLE `aula_nao_ministrada`
-  MODIFY `ID_Aula_Nao_Ministrada` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ID_Aula_Nao_Ministrada` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `coordenadores`
@@ -493,7 +496,7 @@ ALTER TABLE `professores`
 -- AUTO_INCREMENT de tabela `reposicao`
 --
 ALTER TABLE `reposicao`
-  MODIFY `ID_Reposicao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ID_Reposicao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Restrições para despejos de tabelas
