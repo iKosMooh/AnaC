@@ -301,8 +301,8 @@ $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <td data-label="Data de Reposição"><?php echo htmlspecialchars($pedido['DataReposicao']); ?></td>
                             <td data-label="Observacao"><?php echo htmlspecialchars($pedido['Observacao']); ?></td>
                             <td data-label="Arquivo">
-                                <?php if ($pedido['docs_plano_aula']): ?>
-                                    <a href="../uploads/<?php echo htmlspecialchars($pedido['docs_plano_aula']); ?>" target="_blank">Ver Arquivo</a>
+                                <?php if ($pedido['docs']): ?>
+                                    <a href="../uploads/<?php echo htmlspecialchars($pedido['docs']); ?>" target="_blank">Ver Arquivo</a>
                                 <?php else: ?>
                                     Nenhum arquivo
                                 <?php endif; ?>
