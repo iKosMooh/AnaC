@@ -184,8 +184,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <option value="">Selecione a disciplina</option>
                                     </select>
                                 </td>
-                                <td><input type="text" name="Horario_Inicio[]" class="horario-inicio"></td>
-                                <td><input type="text" name="Horario_Termino[]" class="horario-termino"></td>
+                                <td><input type="time" name="Horario_Inicio[]" class="horario-inicio"></td>
+                                <td><input type="time" name="Horario_Termino[]" class="horario-termino"></td>
                                 <td data-label="Ação">
                                     <button type="button" class="removerAulaBtn">Remover</button>
                                 </td>
@@ -202,26 +202,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php include_once 'footer.php'; ?>
 
     <script>
+        function dataLimite() {
+                // Define a data de hoje no formato yyyy-mm-dd
+                const hoje = new Date();
+                const ano = hoje.getFullYear();
+                const mes = String(hoje.getMonth() + 1).padStart(2, '0'); // Mes é zero-indexado, por isso soma-se 1
+                const dia = String(hoje.getDate()).padStart(2, '0'); // Preenche o dia com 0 à esquerda, se necessário
+                const dataHoje = `${ano}-${mes}-${dia}`;
+
+                // Aplica a data máxima em todos os campos de data
+                $("input[type='date']").attr("max", dataHoje);
+
+                // Define a data mínima (6 meses atrás)
+                hoje.setMonth(hoje.getMonth() - 6);
+                const anoPassado = hoje.getFullYear();
+                const mesPassado = String(hoje.getMonth() + 1).padStart(2, '0');
+                const diaPassado = String(hoje.getDate()).padStart(2, '0');
+                const dataPassada = `${anoPassado}-${mesPassado}-${diaPassado}`;
+
+                // Aplica a data mínima nos campos de data
+                $("input[type='date']").attr("min", dataPassada);
+            }
         $(document).ready(function() {
-            // Define a data de hoje no formato yyyy-mm-dd
-            const hoje = new Date();
-            const ano = hoje.getFullYear();
-            const mes = String(hoje.getMonth() + 1).padStart(2, '0'); // Mes é zero-indexado, por isso soma-se 1
-            const dia = String(hoje.getDate()).padStart(2, '0'); // Preenche o dia com 0 à esquerda, se necessário
-            const dataHoje = `${ano}-${mes}-${dia}`;
-
-            // Aplica a data máxima em todos os campos de data
-            $("input[type='date']").attr("max", dataHoje);
-
-            // Define a data mínima (6 meses atrás)
-            hoje.setMonth(hoje.getMonth() - 6);
-            const anoPassado = hoje.getFullYear();
-            const mesPassado = String(hoje.getMonth() + 1).padStart(2, '0');
-            const diaPassado = String(hoje.getDate()).padStart(2, '0');
-            const dataPassada = `${anoPassado}-${mesPassado}-${diaPassado}`;
-
-            // Aplica a data mínima nos campos de data
-            $("input[type='date']").attr("min", dataPassada);
+            dataLimite();
         });
 
         function validarDatas() {
@@ -277,11 +280,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <td><select name="id_materia[]" class="select-materia">
                 <option value="">Selecione a disciplina</option>
             </select></td>
-        <td><input type="text" name="Horario_Inicio[]" class="horario-inicio"></td>
-        <td><input type="text" name="Horario_Termino[]" class="horario-termino"></td>
+        <td><input type="time" name="Horario_Inicio[]" class="horario-inicio"></td>
+        <td><input type="time" name="Horario_Termino[]" class="horario-termino"></td>
         <td><button type="button" class="removerAulaBtn">Remover</button></td>
         </tr>`;
             $('tbody').append(novaLinha);
+            dataLimite();
         });
 
 

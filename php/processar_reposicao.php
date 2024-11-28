@@ -39,21 +39,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             } elseif ($pedidoExistente['Status_Pedido'] == 'Rejeitado') {
                 $id_reposicao = $pedidoExistente['ID_Reposicao'];
 
-                // Processar o upload do plano de aula, se houver
-                $docs_plano_aula = null; // Inicializa como null
-                if (isset($_FILES['docs_plano_aula']) && $_FILES['docs_plano_aula']['error'] == UPLOAD_ERR_OK) {
-                    $docs_plano_aula = $_FILES['docs_plano_aula']['name'];
-                    move_uploaded_file($_FILES['docs_plano_aula']['tmp_name'], "../uploads/$docs_plano_aula");
-                }
-
                 // Atualização do pedido no banco de dados
                 $sqlUpdate = "UPDATE reposicao SET DataReposicao = :data_reposicao, 
-                              docs_plano_aula = COALESCE(:docs_plano_aula, docs_plano_aula), Status_Pedido = 'Pendente' 
+                              Status_Pedido = 'Pendente' 
                               WHERE ID_Reposicao = :id_reposicao";
 
                 $stmtUpdate = $pdo->prepare($sqlUpdate);
                 $stmtUpdate->bindParam(':data_reposicao', $data_reposicao);
-                $stmtUpdate->bindParam(':docs_plano_aula', $docs_plano_aula, PDO::PARAM_STR | PDO::PARAM_NULL); // Permite null
                 $stmtUpdate->bindParam(':id_reposicao', $id_reposicao, PDO::PARAM_INT);
 
                 if ($stmtUpdate->execute()) {
@@ -65,21 +57,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         } else {
             // Se não houver pedidos existentes, insere um novo
-            // Processar o upload do plano de aula, se houver
-            $docs_plano_aula = null; // Inicializa como null
-            if (isset($_FILES['docs_plano_aula']) && $_FILES['docs_plano_aula']['error'] == UPLOAD_ERR_OK) {
-                $docs_plano_aula = $_FILES['docs_plano_aula']['name'];
-                move_uploaded_file($_FILES['docs_plano_aula']['tmp_name'], "../uploads/$docs_plano_aula");
-            }
+
 
             // Inserção no banco de dados
-            $sqlInsert = "INSERT INTO reposicao (ID_Aula_Nao_Ministrada, DataReposicao, docs_plano_aula, Status_Pedido) 
-                          VALUES (:id_aula_nao_ministrada, :data_reposicao, :docs_plano_aula, 'Pendente')";
+            $sqlInsert = "INSERT INTO reposicao (ID_Aula_Nao_Ministrada, DataReposicao, Status_Pedido) 
+                          VALUES (:id_aula_nao_ministrada, :data_reposicao, 'Pendente')";
 
             $stmtInsert = $pdo->prepare($sqlInsert);
             $stmtInsert->bindParam(':id_aula_nao_ministrada', $id_aula_nao_ministrada, PDO::PARAM_INT);
             $stmtInsert->bindParam(':data_reposicao', $data_reposicao);
-            $stmtInsert->bindParam(':docs_plano_aula', $docs_plano_aula, PDO::PARAM_STR | PDO::PARAM_NULL); // Permite null
 
             if ($stmtInsert->execute()) {
                 $response['success'] = true;

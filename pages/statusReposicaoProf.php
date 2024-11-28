@@ -12,7 +12,7 @@ require_once '../php/connect.php';
 function buscarPedidosReposicao($pdo, $id_professor)
 {
     $sql = "
-        SELECT r.ID_Reposicao, a.Date_Time, r.DataReposicao, a.Observacao, r.docs_plano_aula, r.Status_Pedido, r.Resposta_Coordenador, a.ID_Aula_Nao_Ministrada
+        SELECT r.ID_Reposicao, a.Date_Time, r.DataReposicao, a.Observacao, a.docs, r.Status_Pedido, r.Resposta_Coordenador, a.ID_Aula_Nao_Ministrada
         FROM reposicao r
         JOIN aula_nao_ministrada a ON r.ID_Aula_Nao_Ministrada = a.ID_Aula_Nao_Ministrada
         WHERE a.ID_Professor = :id_professor";
@@ -82,17 +82,17 @@ $pedidos = buscarPedidosReposicao($pdo, $id_professor);
                             <td data-label="Data da Reposição"><?php echo $pedido['DataReposicao']; ?></td>
                             <td data-label="Observação Prof."><?php echo htmlspecialchars($pedido['Observacao']); ?></td>
                             <td data-label="Documento do Plano de Aula">
-                                <?php if ($pedido['docs_plano_aula']): ?>
-                                    <a href="../uploads/<?php echo htmlspecialchars($pedido['docs_plano_aula']); ?>" target="_blank">Ver Documento</a>
+                                <?php if ($pedido['docs']): ?>
+                                    <a href="../uploads/<?php echo htmlspecialchars($pedido['docs']); ?>" target="_blank">Ver Documento</a>
                                 <?php else: ?>
-                                    Nenhum documento anexado
-                                <?php endif; ?>
-                            </td>
+                                        Nenhum documento anexado
+                                    <?php endif; ?>
+                                </td>
                             <td data-label="Status"><?php echo htmlspecialchars($pedido['Status_Pedido']); ?></td>
                             <td data-label="Resposta Coordenador"><?php echo htmlspecialchars($pedido['Resposta_Coordenador']); ?></td>
                             <td data-label="Ação">
                                 <?php if ($pedido['Status_Pedido'] == 'Rejeitado'): ?>
-                                    <button onclick="openModal(<?php echo $pedido['ID_Reposicao']; ?>, '<?php echo htmlspecialchars($pedido['Observacao']); ?>', '<?php echo $pedido['DataReposicao']; ?>', '<?php echo htmlspecialchars($pedido['docs_plano_aula']); ?>', '<?php echo htmlspecialchars($pedido['ID_Aula_Nao_Ministrada']); ?>')">Editar</button>
+                                    <button onclick="openModal(<?php echo $pedido['ID_Reposicao']; ?>, '<?php echo htmlspecialchars($pedido['Observacao']); ?>', '<?php echo $pedido['DataReposicao']; ?>', '<?php echo htmlspecialchars($pedido['docs']); ?>', '<?php echo htmlspecialchars($pedido['ID_Aula_Nao_Ministrada']); ?>')">Editar</button>
                                 <?php else: ?>
                                     <button disabled>Ação não permitida</button>
                                 <?php endif; ?>
@@ -119,10 +119,6 @@ $pedidos = buscarPedidosReposicao($pdo, $id_professor);
 
                 <label for="Observacao">Observação:</label>
                 <textarea id="Observacao" name="Observacao" required></textarea>
-                <br><br>
-
-                <label for="docs_plano_aula">Adicionar documentos:</label>
-                <input type="file" id="docs_plano_aula" name="docs_plano_aula" accept=".pdf,.doc,.docx">
                 <br><br>
 
                 <input type="hidden" name="id_professor" id="id_professor" value="<?php echo $_SESSION['id']; ?>">

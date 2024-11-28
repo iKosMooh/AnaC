@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 26-Nov-2024 às 19:22
+-- Tempo de geração: 27/11/2024 às 23:48
 -- Versão do servidor: 10.4.32-MariaDB
--- versão do PHP: 8.2.12
+-- Versão do PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `aula`
+-- Estrutura para tabela `aula`
 --
 
 CREATE TABLE `aula` (
@@ -36,30 +36,30 @@ CREATE TABLE `aula` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `aula`
+-- Despejando dados para a tabela `aula`
 --
 
 INSERT INTO `aula` (`ID_Aula`, `ID_Materia`, `Horario_Inicio`, `ID_Curso`, `Horario_Termino`) VALUES
-(1, 1, '19:00:00', 1, '22:30:00'),
-(2, 2, '19:00:00', 1, '22:30:00'),
-(3, 3, '19:00:00', 1, '22:30:00'),
-(4, 4, '19:00:00', 1, '22:30:00'),
-(5, 5, '19:00:00', 1, '22:30:00'),
-(6, 16, '19:00:00', 1, '22:30:00'),
-(7, 17, '19:00:00', 1, '22:30:00'),
-(8, 18, '19:00:00', 1, '22:30:00'),
-(9, 19, '19:00:00', 1, '22:30:00'),
-(10, 20, '19:00:00', 1, '22:30:00'),
-(11, 11, '19:00:00', 3, '22:30:00'),
-(12, 12, '19:00:00', 3, '22:30:00'),
-(13, 13, '19:00:00', 3, '22:30:00'),
-(14, 14, '19:00:00', 3, '22:30:00'),
-(15, 15, '19:00:00', 3, '22:30:00');
+(1, 1, '08:00:00', 1, '10:00:00'),
+(2, 2, '10:00:00', 1, '12:00:00'),
+(3, 3, '12:00:00', 1, '14:00:00'),
+(4, 4, '14:00:00', 1, '16:00:00'),
+(5, 5, '16:00:00', 1, '18:00:00'),
+(6, 16, '08:00:00', 1, '10:00:00'),
+(7, 17, '10:00:00', 1, '12:00:00'),
+(8, 18, '12:00:00', 1, '14:00:00'),
+(9, 19, '14:00:00', 1, '16:00:00'),
+(10, 20, '16:00:00', 1, '18:00:00'),
+(11, 11, '08:00:00', 3, '10:00:00'),
+(12, 12, '10:00:00', 3, '12:00:00'),
+(13, 13, '12:00:00', 3, '14:00:00'),
+(14, 14, '14:00:00', 3, '16:00:00'),
+(15, 15, '16:00:00', 3, '18:00:00');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `aula_nao_ministrada`
+-- Estrutura para tabela `aula_nao_ministrada`
 --
 
 CREATE TABLE `aula_nao_ministrada` (
@@ -71,21 +71,24 @@ CREATE TABLE `aula_nao_ministrada` (
   `ID_Materia` int(11) DEFAULT NULL,
   `Justificado` varchar(50) NOT NULL DEFAULT 'Não Justificado',
   `docs` varchar(255) NOT NULL,
-  `Aula_Reposta` varchar(30) NOT NULL DEFAULT 'Não'
+  `Aula_Reposta` varchar(30) NOT NULL DEFAULT 'Não',
+  `Horario_Inicio` varchar(50) NOT NULL,
+  `Horario_Termino` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `aula_nao_ministrada`
+-- Despejando dados para a tabela `aula_nao_ministrada`
 --
 
-INSERT INTO `aula_nao_ministrada` (`ID_Aula_Nao_Ministrada`, `Date_Time`, `Observacao`, `ID_Aula`, `ID_Professor`, `ID_Materia`, `Justificado`, `docs`, `Aula_Reposta`) VALUES
-(5, '2024-11-05', 'Eu estava doente', 2, 1, NULL, 'Justificado', 'atestado_medico.pdf', 'Não'),
-(6, '2024-11-07', 'Meu carro quebrou', 1, 1, NULL, 'Justificado', '', 'Não');
+INSERT INTO `aula_nao_ministrada` (`ID_Aula_Nao_Ministrada`, `Date_Time`, `Observacao`, `ID_Aula`, `ID_Professor`, `ID_Materia`, `Justificado`, `docs`, `Aula_Reposta`, `Horario_Inicio`, `Horario_Termino`) VALUES
+(1, '2024-01-01', 'teste', 2, 1, NULL, 'Justificado', '', 'Não', '10:00:00', '12:00:00'),
+(2, '0001-01-01', NULL, 2, 1, NULL, 'Não Justificado', '', 'Não', '10:00:00', '12:00:00'),
+(3, '2024-05-26', NULL, 2, 1, NULL, 'Não Justificado', '', 'Não', '10:00:00', '12:00:00');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `coordenadores`
+-- Estrutura para tabela `coordenadores`
 --
 
 CREATE TABLE `coordenadores` (
@@ -101,7 +104,7 @@ CREATE TABLE `coordenadores` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `coordenadores`
+-- Despejando dados para a tabela `coordenadores`
 --
 
 INSERT INTO `coordenadores` (`ID_Coordenador`, `Nome`, `DataN`, `EmailInstitucional`, `Curso`, `Email`, `Usuario`, `Senha`, `Telefone`) VALUES
@@ -114,7 +117,7 @@ INSERT INTO `coordenadores` (`ID_Coordenador`, `Nome`, `DataN`, `EmailInstitucio
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `curso`
+-- Estrutura para tabela `curso`
 --
 
 CREATE TABLE `curso` (
@@ -128,7 +131,7 @@ CREATE TABLE `curso` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `curso`
+-- Despejando dados para a tabela `curso`
 --
 
 INSERT INTO `curso` (`ID_Curso`, `Nome`, `Turno`, `CargaHR`, `Grade`, `ID_Coordenador`, `ID_Instituicao`) VALUES
@@ -140,7 +143,7 @@ INSERT INTO `curso` (`ID_Curso`, `Nome`, `Turno`, `CargaHR`, `Grade`, `ID_Coorde
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `cursoativo`
+-- Estrutura para tabela `cursoativo`
 --
 
 CREATE TABLE `cursoativo` (
@@ -152,7 +155,7 @@ CREATE TABLE `cursoativo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `cursoativo`
+-- Despejando dados para a tabela `cursoativo`
 --
 
 INSERT INTO `cursoativo` (`ID_CursoA`, `ID_Curso`, `Nome`, `DataInicio`, `DataFim`) VALUES
@@ -164,7 +167,7 @@ INSERT INTO `cursoativo` (`ID_CursoA`, `ID_Curso`, `Nome`, `DataInicio`, `DataFi
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `curso_materia`
+-- Estrutura para tabela `curso_materia`
 --
 
 CREATE TABLE `curso_materia` (
@@ -175,7 +178,7 @@ CREATE TABLE `curso_materia` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `instituicao`
+-- Estrutura para tabela `instituicao`
 --
 
 CREATE TABLE `instituicao` (
@@ -186,7 +189,7 @@ CREATE TABLE `instituicao` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `instituicao`
+-- Despejando dados para a tabela `instituicao`
 --
 
 INSERT INTO `instituicao` (`ID_Instituicao`, `Nome`, `Endereco`, `Complemento`) VALUES
@@ -195,7 +198,7 @@ INSERT INTO `instituicao` (`ID_Instituicao`, `Nome`, `Endereco`, `Complemento`) 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `materias`
+-- Estrutura para tabela `materias`
 --
 
 CREATE TABLE `materias` (
@@ -207,7 +210,7 @@ CREATE TABLE `materias` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `materias`
+-- Despejando dados para a tabela `materias`
 --
 
 INSERT INTO `materias` (`ID_Materia`, `Nome`, `CargaHR`, `ID_Curso`, `ID_Professor`) VALUES
@@ -235,7 +238,7 @@ INSERT INTO `materias` (`ID_Materia`, `Nome`, `CargaHR`, `ID_Curso`, `ID_Profess
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `professores`
+-- Estrutura para tabela `professores`
 --
 
 CREATE TABLE `professores` (
@@ -255,7 +258,7 @@ CREATE TABLE `professores` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `professores`
+-- Despejando dados para a tabela `professores`
 --
 
 INSERT INTO `professores` (`ID_Professor`, `RG`, `Nome`, `DataN`, `Telefone`, `Email`, `Usuario`, `Senha`, `Endereco`, `Complemento`, `EmailInstitucional`, `Curso`, `Turno`) VALUES
@@ -268,7 +271,7 @@ INSERT INTO `professores` (`ID_Professor`, `RG`, `Nome`, `DataN`, `Telefone`, `E
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `professores_cursos`
+-- Estrutura para tabela `professores_cursos`
 --
 
 CREATE TABLE `professores_cursos` (
@@ -277,7 +280,7 @@ CREATE TABLE `professores_cursos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `professores_cursos`
+-- Despejando dados para a tabela `professores_cursos`
 --
 
 INSERT INTO `professores_cursos` (`ID_Professor`, `ID_Curso`) VALUES
@@ -291,7 +294,7 @@ INSERT INTO `professores_cursos` (`ID_Professor`, `ID_Curso`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `professores_materia`
+-- Estrutura para tabela `professores_materia`
 --
 
 CREATE TABLE `professores_materia` (
@@ -300,7 +303,7 @@ CREATE TABLE `professores_materia` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `professores_materia`
+-- Despejando dados para a tabela `professores_materia`
 --
 
 INSERT INTO `professores_materia` (`ID_Professor`, `ID_Materia`) VALUES
@@ -324,7 +327,7 @@ INSERT INTO `professores_materia` (`ID_Professor`, `ID_Materia`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `reposicao`
+-- Estrutura para tabela `reposicao`
 --
 
 CREATE TABLE `reposicao` (
@@ -337,21 +340,18 @@ CREATE TABLE `reposicao` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `reposicao`
+-- Despejando dados para a tabela `reposicao`
 --
 
 INSERT INTO `reposicao` (`ID_Reposicao`, `ID_Aula_Nao_Ministrada`, `DataReposicao`, `docs_plano_aula`, `Status_Pedido`, `Resposta_Coordenador`) VALUES
-(3, 3, '2024-11-30', 'sprint iii (1) (1).docx', 'Aprovado', NULL),
-(4, 4, '2024-11-30', 'Aula 05 - Comando SELECT.pdf', 'Aprovado', NULL),
-(5, 5, '2024-11-30', NULL, 'Pendente', NULL),
-(6, 6, '2024-12-05', NULL, 'Pendente', NULL);
+(1, 1, '2024-11-26', NULL, 'Pendente', NULL);
 
 --
 -- Índices para tabelas despejadas
 --
 
 --
--- Índices para tabela `aula`
+-- Índices de tabela `aula`
 --
 ALTER TABLE `aula`
   ADD PRIMARY KEY (`ID_Aula`),
@@ -359,7 +359,7 @@ ALTER TABLE `aula`
   ADD KEY `ID_Curso` (`ID_Curso`);
 
 --
--- Índices para tabela `aula_nao_ministrada`
+-- Índices de tabela `aula_nao_ministrada`
 --
 ALTER TABLE `aula_nao_ministrada`
   ADD PRIMARY KEY (`ID_Aula_Nao_Ministrada`),
@@ -368,14 +368,14 @@ ALTER TABLE `aula_nao_ministrada`
   ADD KEY `fk_materias` (`ID_Materia`);
 
 --
--- Índices para tabela `coordenadores`
+-- Índices de tabela `coordenadores`
 --
 ALTER TABLE `coordenadores`
   ADD PRIMARY KEY (`ID_Coordenador`),
   ADD UNIQUE KEY `Usuario` (`Usuario`);
 
 --
--- Índices para tabela `curso`
+-- Índices de tabela `curso`
 --
 ALTER TABLE `curso`
   ADD PRIMARY KEY (`ID_Curso`),
@@ -383,27 +383,27 @@ ALTER TABLE `curso`
   ADD KEY `ID_Instituicao` (`ID_Instituicao`);
 
 --
--- Índices para tabela `cursoativo`
+-- Índices de tabela `cursoativo`
 --
 ALTER TABLE `cursoativo`
   ADD PRIMARY KEY (`ID_CursoA`),
   ADD KEY `ID_Curso` (`ID_Curso`);
 
 --
--- Índices para tabela `curso_materia`
+-- Índices de tabela `curso_materia`
 --
 ALTER TABLE `curso_materia`
   ADD PRIMARY KEY (`ID_Curso`,`ID_Materia`),
   ADD KEY `ID_Materia` (`ID_Materia`);
 
 --
--- Índices para tabela `instituicao`
+-- Índices de tabela `instituicao`
 --
 ALTER TABLE `instituicao`
   ADD PRIMARY KEY (`ID_Instituicao`);
 
 --
--- Índices para tabela `materias`
+-- Índices de tabela `materias`
 --
 ALTER TABLE `materias`
   ADD PRIMARY KEY (`ID_Materia`),
@@ -411,7 +411,7 @@ ALTER TABLE `materias`
   ADD KEY `ID_Professor` (`ID_Professor`);
 
 --
--- Índices para tabela `professores`
+-- Índices de tabela `professores`
 --
 ALTER TABLE `professores`
   ADD PRIMARY KEY (`ID_Professor`),
@@ -420,28 +420,28 @@ ALTER TABLE `professores`
   ADD UNIQUE KEY `RG` (`RG`);
 
 --
--- Índices para tabela `professores_cursos`
+-- Índices de tabela `professores_cursos`
 --
 ALTER TABLE `professores_cursos`
   ADD KEY `ID_Professor` (`ID_Professor`),
   ADD KEY `ID_Curso` (`ID_Curso`);
 
 --
--- Índices para tabela `professores_materia`
+-- Índices de tabela `professores_materia`
 --
 ALTER TABLE `professores_materia`
   ADD PRIMARY KEY (`ID_Professor`,`ID_Materia`),
   ADD KEY `ID_Materia` (`ID_Materia`);
 
 --
--- Índices para tabela `reposicao`
+-- Índices de tabela `reposicao`
 --
 ALTER TABLE `reposicao`
   ADD PRIMARY KEY (`ID_Reposicao`),
   ADD KEY `ID_Aula_Nao_Ministrada` (`ID_Aula_Nao_Ministrada`);
 
 --
--- AUTO_INCREMENT de tabelas despejadas
+-- AUTO_INCREMENT para tabelas despejadas
 --
 
 --
@@ -454,7 +454,7 @@ ALTER TABLE `aula`
 -- AUTO_INCREMENT de tabela `aula_nao_ministrada`
 --
 ALTER TABLE `aula_nao_ministrada`
-  MODIFY `ID_Aula_Nao_Ministrada` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `ID_Aula_Nao_Ministrada` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `coordenadores`
@@ -496,21 +496,21 @@ ALTER TABLE `professores`
 -- AUTO_INCREMENT de tabela `reposicao`
 --
 ALTER TABLE `reposicao`
-  MODIFY `ID_Reposicao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `ID_Reposicao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- Restrições para despejos de tabelas
+-- Restrições para tabelas despejadas
 --
 
 --
--- Limitadores para a tabela `aula`
+-- Restrições para tabelas `aula`
 --
 ALTER TABLE `aula`
   ADD CONSTRAINT `aula_ibfk_1` FOREIGN KEY (`ID_Materia`) REFERENCES `materias` (`ID_Materia`) ON DELETE CASCADE,
   ADD CONSTRAINT `aula_ibfk_2` FOREIGN KEY (`ID_Curso`) REFERENCES `curso` (`ID_Curso`) ON DELETE CASCADE;
 
 --
--- Limitadores para a tabela `aula_nao_ministrada`
+-- Restrições para tabelas `aula_nao_ministrada`
 --
 ALTER TABLE `aula_nao_ministrada`
   ADD CONSTRAINT `aula_nao_ministrada_ibfk_1` FOREIGN KEY (`ID_Aula`) REFERENCES `aula` (`ID_Aula`) ON DELETE CASCADE,
@@ -518,41 +518,41 @@ ALTER TABLE `aula_nao_ministrada`
   ADD CONSTRAINT `fk_professor` FOREIGN KEY (`ID_Professor`) REFERENCES `professores` (`ID_Professor`) ON DELETE CASCADE;
 
 --
--- Limitadores para a tabela `curso`
+-- Restrições para tabelas `curso`
 --
 ALTER TABLE `curso`
   ADD CONSTRAINT `curso_ibfk_1` FOREIGN KEY (`ID_Coordenador`) REFERENCES `coordenadores` (`ID_Coordenador`) ON DELETE CASCADE,
   ADD CONSTRAINT `curso_ibfk_2` FOREIGN KEY (`ID_Instituicao`) REFERENCES `instituicao` (`ID_Instituicao`) ON DELETE CASCADE;
 
 --
--- Limitadores para a tabela `cursoativo`
+-- Restrições para tabelas `cursoativo`
 --
 ALTER TABLE `cursoativo`
   ADD CONSTRAINT `cursoativo_ibfk_1` FOREIGN KEY (`ID_Curso`) REFERENCES `curso` (`ID_Curso`) ON DELETE CASCADE;
 
 --
--- Limitadores para a tabela `curso_materia`
+-- Restrições para tabelas `curso_materia`
 --
 ALTER TABLE `curso_materia`
   ADD CONSTRAINT `curso_materia_ibfk_1` FOREIGN KEY (`ID_Curso`) REFERENCES `curso` (`ID_Curso`),
   ADD CONSTRAINT `curso_materia_ibfk_2` FOREIGN KEY (`ID_Materia`) REFERENCES `materias` (`ID_Materia`);
 
 --
--- Limitadores para a tabela `materias`
+-- Restrições para tabelas `materias`
 --
 ALTER TABLE `materias`
   ADD CONSTRAINT `materias_ibfk_1` FOREIGN KEY (`ID_Curso`) REFERENCES `curso` (`ID_Curso`) ON DELETE CASCADE,
   ADD CONSTRAINT `materias_ibfk_2` FOREIGN KEY (`ID_Professor`) REFERENCES `professores` (`ID_Professor`) ON DELETE CASCADE;
 
 --
--- Limitadores para a tabela `professores_cursos`
+-- Restrições para tabelas `professores_cursos`
 --
 ALTER TABLE `professores_cursos`
   ADD CONSTRAINT `professores_cursos_ibfk_1` FOREIGN KEY (`ID_Professor`) REFERENCES `professores` (`ID_Professor`) ON DELETE CASCADE,
   ADD CONSTRAINT `professores_cursos_ibfk_2` FOREIGN KEY (`ID_Curso`) REFERENCES `curso` (`ID_Curso`) ON DELETE CASCADE;
 
 --
--- Limitadores para a tabela `professores_materia`
+-- Restrições para tabelas `professores_materia`
 --
 ALTER TABLE `professores_materia`
   ADD CONSTRAINT `professores_materia_ibfk_1` FOREIGN KEY (`ID_Professor`) REFERENCES `professores` (`ID_Professor`),

@@ -2,7 +2,6 @@
     margin: 0; /* Remove as margens padrão de todos os elementos */
     padding: 0; /* Remove o padding padrão de todos os elementos */
     box-sizing: border-box; /* Inclui padding e bordas no tamanho total dos elementos */
-    font-family: 'Roboto', sans-serif;
 }
 
 body {

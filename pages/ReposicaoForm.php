@@ -23,7 +23,8 @@ function buscarAulasNaoMinistradas($pdo, $id_professor)
         LEFT JOIN reposicao r ON a.ID_Aula_Nao_Ministrada = r.ID_Aula_Nao_Ministrada 
         WHERE a.ID_Professor = :id_professor 
         AND a.Aula_Reposta = 'Não'
-        AND (r.Status_Pedido IS NULL OR r.Status_Pedido IN ('Aprovado', 'Reprovado'))";
+        AND (r.Status_Pedido IS NULL OR r.Status_Pedido IN ('Aprovado', 'Reprovado')) 
+        AND a.Justificado = 'Justificado'";
 
     try {
         $stmt = $pdo->prepare($sql);
@@ -72,7 +73,7 @@ $datahoje = date('Y-m-d', time());
     <div class="container">
         <h1>Apresentar Reposição de Aula</h1>
         <?php if ($nenhumaAula): ?>
-            <p id="mensagemNenhumaAula">Nenhuma aula não ministrada, justificada para criar uma reposição .</p>
+            <p id="mensagemNenhumaAula">Nenhuma aula não ministrada, JUSTIFICADA para criar uma reposição .</p>
         <?php else: ?>
             <form id="form-reposicao" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="id_professor" value="<?php echo htmlspecialchars($id_professor); ?>">

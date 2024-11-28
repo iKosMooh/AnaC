@@ -182,6 +182,7 @@ if (isset($_SESSION['accessibility'])) {
             $('#dislexiaFont').click(function() {
                 $('body').css('font-family', 'OpenDyslexic');
                 saveAccessibilitySettings('fontFamily', 'OpenDyslexic');
+                location.reload();
             });
 
             $('#daltonismoType').change(function() {
